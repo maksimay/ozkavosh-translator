@@ -11,8 +11,10 @@ e_file = 'EnglishWords.csv'
 
 demon = []
 eng = []
+alatho = "alatho.mp3"
+ozkavosh = "ozkavosh.mp3"
 
-mp3files = ['alatho.mp3', 'ozkavosh.mp3']
+#whats up git
 
 #List to Tuple Function
 def convert(list): 
@@ -57,17 +59,19 @@ with sr.Microphone() as source:
         print("i couldn't understand you human creature... ")
 
 #Request the voice_input from dictionary 
-translated_text = dict_oz.get(voice_input)
+if voice_input != None: 
+    translated_text = dict_oz.get(voice_input)
 
 if translated_text != None:
     print(translated_text)
+
 #Play sound when we have the sound 
 if translated_text == "alatho":
     os.system("mpg123 " + alatho)
-if translated_text == "thok":
-    os.system("mpg123 " + thok)
-if translated_text != None and translated_text  == "ozkavosh":
-    os.system("mpg123 " + ozkavosh)
+
+if translated_text != None and translated_text == "ozkavosh":
+    os.system("mpg123 " + ozkavosh )
+    
 else:
     print("We couldnt translate your silly humanish!")
 

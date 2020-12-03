@@ -1,4 +1,4 @@
-import random, os,
+import random, os
 
 import csv
 
@@ -45,9 +45,9 @@ dict_oz = dict(zipObj)
 r = sr.Recognizer()
 
 with sr.Microphone() as source: 
-    print("SPEAK NOW…")
+    print("SPEAK NOW...")
     r.adjust_for_ambient_noise(source)
-    data = r.record(source, duration=1.5)
+    data = r.record(source, duration=3)
     text = r.recognize_google(data)
     print(text)
 

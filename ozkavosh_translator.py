@@ -12,6 +12,8 @@ e_file = 'EnglishWords.csv'
 demon = []
 eng = []
 alatho = "alatho.mp3"
+thok = "thok.wav"
+ozkavosh = "ozkavosh.mp3"
 
 #List to Tuple Function
 def convert(list): 
@@ -48,7 +50,7 @@ with sr.Microphone() as source:
     try:
         print("SPEAK NOW...")
         r.adjust_for_ambient_noise(source)
-        data = r.record(source, duration=3)
+        data = r.record(source, duration=2)
         voice_input = r.recognize_google(data)
         print(voice_input)
 
@@ -60,14 +62,16 @@ translated_text = dict_oz.get(voice_input)
 
 if translated_text != None:
     print(translated_text)
-else:
-    print("We couldnt translate your silly humanish!")
-
 #Play sound when we have the sound 
 if translated_text == "alatho":
     os.system("mpg123 " + alatho)
-
+if translated_text == "thok":
+    os.system("mpg123 " + thok)
+if translated_text != None and translated_text  == "ozkavosh":
+    os.system("mpg123 " + ozkavosh)
 else:
-    print("sound not found on disk")
+    print("We couldnt translate your silly humanish!")
+
+
 
 

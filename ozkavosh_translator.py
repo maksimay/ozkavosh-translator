@@ -11,9 +11,8 @@ e_file = 'EnglishWords.csv'
 
 demon = []
 eng = []
-alatho = "alatho.mp3"
-thok = "thok.wav"
-ozkavosh = "ozkavosh.mp3"
+
+mp3files = ['alatho.mp3', 'ozkavosh.mp3']
 
 #List to Tuple Function
 def convert(list): 

@@ -4,8 +4,6 @@ import csv
 
 import speech_recognition as sr 
 
-#app = Flask(__name__)
-
 print("Translator initializing...")
 
 d_file = 'DemonWords.csv'

@@ -1,10 +1,7 @@
-import random, os, glob, pprint
+import random, os,
 
 import csv
 
-from flask import Flask, request, render_template
-
-from playsound import playsound
 import speech_recognition as sr 
 
 #app = Flask(__name__)

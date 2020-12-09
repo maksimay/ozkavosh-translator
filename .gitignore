@@ -2,7 +2,6 @@
 *.wav
 sound.py
 synonyms.py
-*.txt
 audio.zip
 combined_new.zip
 engozk_translator_08_12_20.py

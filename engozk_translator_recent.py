@@ -189,11 +189,11 @@ for i in pathlist:
         src_audio = AudioSegment.from_wav(wav_filepath)
         print("Trimming Audiofiles..")
         duration = len(src_audio)
-        end = src_audio[-400:]
         start_trim = detect_silence(src_audio)
         end_trim = detect_silence(src_audio.reverse())
         trimmed_audio = src_audio[start_trim:duration - end_trim]
-        combined_audio += trimmed_audio.append(end,crossfade=200)
+        end = trimmed_audio[-100:]
+        combined_audio += trimmed_audio.append(end,crossfade=100)
 
     else: 
         audioisvalid = False

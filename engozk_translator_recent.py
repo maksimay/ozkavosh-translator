@@ -189,19 +189,18 @@ for i in pathlist:
         src_audio = AudioSegment.from_wav(wav_filepath)
         print("Trimming Audiofiles..")
         duration = len(src_audio)
+        end = src_audio[-400:]
         start_trim = detect_silence(src_audio)
         end_trim = detect_silence(src_audio.reverse())
         trimmed_audio = src_audio[start_trim:duration - end_trim]
-        combined_audio += trimmed_audio
-        # combined_audio += src_audio
-    else:
-        audioisvalid = False
-        print(audioname + "Not found in Audiofiles")
+        combined_audio += trimmed_audio.append(end,crossfade=200)
 
+    else: 
+        audioisvalid = False
+        print(audioname , "Not found in Audiofiles")
+        break
 
 ###### REPLACEMENT END #############
-
-
 
 
 ### Make Directory for Combined audios if it doesnt exist yet ###
@@ -213,6 +212,3 @@ if audioisvalid == True:
     print("Exporting audio to disk ...")
     combined_audio.export("./combined/_" + ozword + "_" + Current_Word + "_combined.wav", format="wav")
     print("Exported succesfully!")
-
-
-

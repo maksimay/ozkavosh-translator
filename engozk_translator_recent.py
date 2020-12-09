@@ -4,11 +4,13 @@ import math
 from random import choice
 import re
 from pydub import AudioSegment
+from pydub.playback import play
 import os
 # currently not used, might use later
 import pyphen
 from hyphenate import hyphenate_word
-
+import scipy
+from scipy import stats
 
 FILEPATH_ENG = "commonwords.txt"
 FILEPATH_OZK = "DemonWords.txt"
@@ -22,6 +24,7 @@ ozklist = [i.strip().split() for i in open(FILEPATH_OZK).readlines()]
 # 3000 most common english words (INCOMPLETE, UNTAGGED)
 BigList = [i.strip().split() for i in open(FILEPATH_ENG).readlines()]
 # get random word from list
+Current_Word = []
 sequence = [i for i in range(len(BigList))]
 for words in range(len(BigList)):
     selection = choice(sequence)
@@ -78,6 +81,24 @@ dict_charpairs = {'a': ["as", "ath", "ah", "al", "ar", "af"], 'c': ["ch"], 'd': 
                   'q': ["qo"], 'r': ["ro", "ra", "re", "rk"], 's': ["sas", "ath", "sah", "sal", "sar", "saf"],
                   't': ["th", "tho", "ta"], 'u': ["uch", "ul", "ush", "uth"], 'v': ["vo", "vu"], 'w': ["wr"],
                   'y': ["ye", "yi"], 'z': ["zh", "zk", "zo"]}
+
+
+
+
+X = stats.binom(10, 0.2) # Declare X to be a binomial random variable
+print(X.pmf(3))          # P(X = 3)
+print(X.cdf(4))          # P(X <= 4)
+print(X.mean())          # E[X]
+print(X.var())           # Var(X)
+print(X.std())           # Std(X)
+print(X.rvs())           # Get a random sample from X
+print(X.rvs(10))         # Get 10 random samples form X
+
+print(X)
+
+
+
+
 weights_dict = {"a": [0.35, 0.25, 0.1, 0.1, 0.1, 0.1], "c": [1], "d": [1], "e": [0.5, 0.5],
                 "f": [0.25, 0.25, 0.25, 0.25], "g": [0.5, 0.5], "h": [0.45, 0.45, 0.1],
                 "i": [0.3, 0.125, 0.125, 0.125, 0.125, 0.12], "k": [0.5, 0.25, 0.25], "l": [0.6, 0.15, 0.15, 0.1],
@@ -98,7 +119,6 @@ with open(oz_sample_file) as csvfile:
 
 ################## TABLES END #########################
 
-##########ASDASDASDASDASDASDASDASD#######################################################
 
 
 ####### REPLACEMENT START #########

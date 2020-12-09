@@ -194,6 +194,9 @@ for i in pathlist:
         trimmed_audio = src_audio[start_trim:duration - end_trim]
         combined_audio += trimmed_audio
         # combined_audio += src_audio
+    else:
+        audioisvalid = False
+        print(audioname + "Not found in Audiofiles")
 
 
 ###### REPLACEMENT END #############

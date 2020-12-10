@@ -1,2 +1,3 @@
 python -m pip install PyAudio
 python -m pip install SpeechRecognition
+python -m pip install pydub

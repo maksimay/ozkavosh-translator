@@ -1,7 +1,6 @@
 
 *.wav
 sound.py
-synonyms.py
 audio.zip
 combined_new.zip
 engozk_translator_08_12_20.py
@@ -11,3 +10,4 @@ random_word_sounds.py
 .DS_Store
 venv
 .idea
+out.csv

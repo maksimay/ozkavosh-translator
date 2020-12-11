@@ -2,31 +2,35 @@ from nltk.corpus import wordnet
 import csv, time 
 
 
-e_file = "EnglishWords.csv"
+e_file = "synonyms_wiki.csv"
 
 englist = []
 synonyms = []
 dict_en = {}
 newlist = []
 eng_new = []
-
+list2 = []
 #convert function
 def convert(list): 
     return tuple(list)
 
+
 #CREATE LIST FROM ENGLISHWORDS CSV
 with open(e_file) as csvfile:
-    dictionary = csv.reader(csvfile, delimiter=' ')
-    for row in dictionary:
-      englist.append(','.join(row))
-
+    dictionary = csv.DictReader(csvfile, delimiter=',')
+    for i,row in enumerate(dictionary):
+        englist.append(','.join(row))
+        if(i >= 9):
+            break
 
 for words in englist:
         eng_new.append(words)
-        for words in eng_new:    
+        for words in eng_new:
+            #print(words)
             for syn in wordnet.synsets(words): 
                 for l in syn.lemmas(): 
                     newlist.append(l.name())
+                    print(newlist)
                     list2 = newlist
                 #newlist = []
 

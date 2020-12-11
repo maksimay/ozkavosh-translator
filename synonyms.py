@@ -1,51 +1,84 @@
 from nltk.corpus import wordnet
-import csv, time
+import csv
+import collections
+from collections import defaultdict
+import time
+# key ############ value #####
+dict_syndLUL = {"Ozh":["Self","I","me","my","mine"],
+"Izh":["you","him","her"],
+"Izhai":["group"],
+"Ozkavosh":["demons","spirits"],
+"sa":["this"],
+"vu":["that"],
+"doq":["upon","ontop","above"],
+"roq":["far","distant"],
+"doz":["below","beneath","underneath"],
+"ahm'":["very","super"],
+"ashm":["more","additional"],
+"vo'":["not"],
+"Vom":["less"],
+"acha":["am","be","now"],
+"icha":["could","will","possibility"],
+"ucha":["was","existed"],
+"hollom":["without","nothing","hollow"],
+"tak":["take","have","own"],
+"wroth":["again","repeated", "iterative"],
+"lash":["part","segment","share"],
+"alatho":["forward","ahead"],
+"ulatho":["Back","backwards"],
+"tho":["at","local"],
+"sek":["introspection"],
+"thok":["move","go","walk","run"],
+"fek":["stop","cease"],
+"ses":["hide","unseen"],
+"hahsh":["feel","touch"],
+"eyik":["look,at","witness","behold"],
+"zomfa":["leisure","happiness"],
+"domosh":["reign","domination","dominion","kingship"],
+"Arkosh":["master","king"],
+"voth":["war","battle","fight","slaughter"],
+"hedoq":["desirable","delicious","wanted"],
+"nith":["land","earth","ground","kingdom"],
+"gluth":["eat","devour","consume"],
+"omoz":["darkness","abyss","blackness","hell"],
+"nesh":["home","sanctuary","safety"],
+"safras":["pain","suffer","wound"],
+"poz":["power","ability","skill","action"],
+"irush":["Illness","common,cold","plague"],
+"sol":["hope","light","brightness","sun","fire"],
+"groth":["spread","widen","open","welcome"],
+"greesh":["debt","lack"],
+"lieyev":["payment","gift","tithe","taxes","tax"],
+"chron":["time","duration"],
+"rast":["toys","puppets","amusement","entertainment"],
+"miskath":["failure","incomplete","unfinished"],
+"fol":["weakling","whelp","peasant","fool"],
+"ensh":["know","learn"],
+"ov":["one","once","singular"],
+"sav":["seven","seventh"],
+"kish":["excrement","waste"],
+}
 
-e_file = "EnglishWords.csv"
+#temporary list#
+templist=[]
 
-englist = []
-synonyms = []
-dict_en = {}
-newlist = []
-eng_new = []
+for key, value in dict_syndLUL.items():
+            for i in value:
+                #Get synonyms for every value in dict and append it to temporary list
+                for syn in wordnet.synsets(i):
+                    for l in syn.lemmas():
+                        templist.append(l.name())
+            #append the elements of the templist to the values of our dictionary
+            for i in templist
+                value.append(i)
+            templist = []
 
+#Get some values for testing
+print("HERE COMES THE IRUSH SYNONYM LIST::::::::::::::::::")
+print(dict_syndLUL.get("irush"))
 
-# convert function
-def convert(list):
-    return tuple(list)
+#Safe our dict elements into csv file
+with open("synonym_dict.csv", "w") as f:
+    wr = csv.writer(f, delimiter="\n")
+    wr.writerow(dict_syndLUL.items()) 
 
-
-# CREATE LIST FROM ENGLISHWORDS CSV
-with open(e_file) as csvfile:
-    dictionary = csv.reader(csvfile, delimiter=' ')
-    for row in dictionary:
-        englist.append(','.join(row))
-
-for words in englist:
-    eng_new.append(words)
-    for words in eng_new:
-        for syn in wordnet.synsets(words):
-            for l in syn.lemmas():
-                newlist.append(l.name())
-                list2 = newlist
-            # newlist = []
-
-    print(eng_new)
-    print(list2)
-    time.sleep(2)
-    with open("out.csv", "w") as f:
-        wr = csv.writer(f, delimiter="\n")
-        wr.writerow(newlist)
-        print("save complete")
-        newlist = []
-# print(newlist)
-# print(list2)
-
-
-# new_tuple = convert(newlist)
-# eng_tuple = convert(eng_new)
-# zipObj = zip(eng_tuple, new_tuple)
-# dict_en = dict(zipObj)
-# dict_en = dict.update(dict_en)
-# newlist = []
-# print(dict_en)

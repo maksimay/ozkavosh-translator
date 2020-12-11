@@ -2,10 +2,11 @@ from nltk.corpus import wordnet
 import csv
 import collections
 from collections import defaultdict
+import time
 
 
 # key ############ value #####
-dict_syndLUL = collections.defaultdict(lambda:{"Ozh":["Self","I","me","my","mine"],
+dict_syndLUL = {"Ozh":["Self","I","me","my","mine"],
 "Izh":["you","him","her"],
 "Izhai":["group"],
 "Ozkavosh":["demons","spirits"],
@@ -58,65 +59,34 @@ dict_syndLUL = collections.defaultdict(lambda:{"Ozh":["Self","I","me","my","mine
 "ov":["one","once","singular"],
 "sav":["seven","seventh"],
 "kish":["excrement","waste"],
-})
+}
 ###################
 
 
-#print("LOOP1 start")
+#temporary list#
+templist=[]
 
-
-print("LOOP OVER DICT")
-for key, value in dict_syndLUL.items(): # arkosh: ["king", "master"]
-    print(key, "is", value)
-    for words in value: # string in list
-        print(words) # below, above#
-            #for syn in wordnet.synsets(words):
-            #for l in syn.lemmas():
-                #dict_syndLUL["stashed key here].append("synonym value here")
-
-
-print("print2")
 for key, value in dict_syndLUL.items():
-    print(key, "is", value)
+            for i in value:
+                #Get synonyms for every value in dict and append it to temporary list
+                for syn in wordnet.synsets(i):
+                    for l in syn.lemmas():
+                        templist.append(l.name())
+            #append the elemnts of the templist to the values of our dictionary
+            for i in templist
+                value.append(i)
+            templist = []
+
+#Get some key for testing
+print("HERE COMES THE IRUSH SYNONYM LIST::::::::::::::::::")
+print(dict_syndLUL.get("irush"))
+
+#Safe our dict elements into csv file
+with open("synonym_dict.csv", "w") as f:
+    wr = csv.writer(f, delimiter="\n")
+    wr.writerow(dict_syndLUL.items()) 
 
 
 
-'''
-a_dict = collections.defaultdict(list)
-a_dict["a"].append("hello")
-print(a_dict)
-# OUTPUT
-# defaultdict(<class 'list'>, {'a': ['hello']})
 
 
-
-syn_list = []
-valuelist = []
-
-#list of value entries from dict
-for key, value in dict_syndLUL.items():
-    #print(value)
-    syn_list.append(value)
-
-#print(syn_list)
-
-for words in syn_list:
-    for words in words:
-        #print("word is", words)
-        valuelist.append(words)
-    #for syn in wordnet.synsets(words):
-     #   for l in syn.lemmas():
-      #      newlist.append(l.name())
-       #     print(newlist)
-
-#for list in syn_list:
- #   for words in list:
-  #     print(words) #this gets to each word
-
-
-    #for syn in wordnet.synsets(value):
-
-
-#total_keys = len(list(dict_syndLUL))
-#print("dict has", total_keys, "keys")
-'''

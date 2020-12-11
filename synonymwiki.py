@@ -67,16 +67,18 @@ dict_syndLUL = collections.defaultdict(lambda:{"Ozh":["Self","I","me","my","mine
 
 print("LOOP OVER DICT")
 for key, value in dict_syndLUL.items(): # arkosh: ["king", "master"]
+    print(key, "is", value)
     for words in value: # string in list
-        print(words) # below, above
-        for syn in wordnet.synsets(words):
-            for l in syn.lemmas():
-                dict_syndLUL["a"].append("hello")
+        print(words) # below, above#
+            #for syn in wordnet.synsets(words):
+            #for l in syn.lemmas():
+                #dict_syndLUL["stashed key here].append("synonym value here")
 
 
-
+print("print2")
 for key, value in dict_syndLUL.items():
     print(key, "is", value)
+
 
 
 '''
@@ -86,18 +88,8 @@ print(a_dict)
 # OUTPUT
 # defaultdict(<class 'list'>, {'a': ['hello']})
 
-'''
 
 
-
-
-
-
-
-
-
-
-'''
 syn_list = []
 valuelist = []
 

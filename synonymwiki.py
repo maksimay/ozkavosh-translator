@@ -1,11 +1,9 @@
 from nltk.corpus import wordnet
 import csv
-import collections
-from collections import defaultdict
-import time
+# import time
+import numpy as np
 
 
-# key ############ value #####
 dict_syndLUL = {"Ozh":["Self","I","me","my","mine"],
 "Izh":["you","him","her"],
 "Izhai":["group"],
@@ -60,33 +58,36 @@ dict_syndLUL = {"Ozh":["Self","I","me","my","mine"],
 "sav":["seven","seventh"],
 "kish":["excrement","waste"],
 }
-###################
 
 
-#temporary list#
-templist=[]
+templist = []
+for key, value in dict_syndLUL.items():                             # for each key value pair item:
+            for i in value:                                         # for each element in the value list:
+                for syn in wordnet.synsets(i):                      # for each synonyms in wordnet:
+                    for k in syn.lemmas():                          # for each lemma (synonym list word element):
+                        templist.append(k.name())                   # stash the synonym into a temp list!
 
-for key, value in dict_syndLUL.items():
-            for i in value:
-                #Get synonyms for every value in dict and append it to temporary list
-                for syn in wordnet.synsets(i):
-                    for l in syn.lemmas():
-                        templist.append(l.name())
-            #append the elemnts of the templist to the values of our dictionary
-            for i in templist
-                value.append(i)
-            templist = []
+            templist = np.unique(templist).tolist()                 # remove duplicates from templist!
+            for i in templist:                                      # for each element in the stashed synonym list:
+                #print(templist, "i")                               # for each word in list, print the list (lul)
+                value.append(i)                                     # append each temp element to value list in the dict!
+            #print(templist)
 
-#Get some key for testing
-print("HERE COMES THE IRUSH SYNONYM LIST::::::::::::::::::")
-print(dict_syndLUL.get("irush"))
+            templist = []                                           # clear the stash for the next iteration!
+                                                                    # profit?
 
-#Safe our dict elements into csv file
+
+# PRINT RESULT
+
+# retrieve synonyms for ozk word
+retrieve_key = "irush"
+print("HERE COMES THE", retrieve_key, "SYNONYM DIRECT TRANSLATIONS LIST:")
+print(dict_syndLUL.get(retrieve_key))
+
+#Save our dict elements into csv file
 with open("synonym_dict.csv", "w") as f:
     wr = csv.writer(f, delimiter="\n")
     wr.writerow(dict_syndLUL.items()) 
-
-
 
 
 

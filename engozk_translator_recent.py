@@ -41,13 +41,9 @@ is it an adjective? adverb? verb? subjective?
 is it a superlative? if it is a verb, what tense does it have? 
 '''
 
-
-
-
-
 Current_Word = []
 break_loop = 10
-looprange = range(len(BigList))
+looprange = range(len(BigList))  
 for words in looprange:         # pretty sure this be shit code
     if words >= break_loop:
         break
@@ -177,37 +173,24 @@ for words in looprange:         # pretty sure this be shit code
     pathlist = []
     audionamelist = []
     potential_audios = []
+    rdm_audiopick_list = []
+    randompick = ''
     for i in start_chars:
         character_mapping = dict_charpairs.get(i)
         weightlist_mapping = weights_dict.get(i)
         ozk_audio_result = str(random.choices(population=character_mapping, weights=weightlist_mapping, k=1)) # returns randomly weighted pick from ozk syllables
-
-        # num_files = len(fnmatch.filter(os.listdir(your_dir), str(ozk_audio_result) + '*')) # trying to check how many files there are containing the string
-        potential_audios.append(fnmatch.filter(os.listdir(your_dir), str(ozk_audio_result) + '*.wav'))
-        print(potential_audios, "is potential audio strings in list")
-        #num_files = len(glob.glob('[0-9].*'))
-        num_files = len(potential_audios)
-        print("POSSIBLE MATCHING AUDIO NUMBER:", num_files)
-        audiopr = []
-
-
         ozwordlist.append(ozk_audio_result)
 
         ################## A U D I O ####################
-
         #append = random.randrange(0,num_files)
         audioname = str(re.sub(r'\W+', '', ozk_audio_result))
+        #print(randompick)
         print(audioname, "is audioname")
-        audio_filepath = './audio/' + audioname + '.wav' # check how many files audioname(n) there are, pick random number in range, append to name
+        audio_filepath = './audio/' + audioname + '.wav' #
         print("searching for", audioname, "in", audio_filepath)
         pathlist.append(audio_filepath)
 
-
-
-
-
-
-
+    
     # print the new ozk word
     ozwordlist = str(ozwordlist)
     ozword = [character for character in ozwordlist if character.isalnum()]
@@ -243,11 +226,23 @@ for words in looprange:         # pretty sure this be shit code
         wav_filepath = i
         print(i)
         audioname = wav_filepath.replace('.wav', '').replace('./audio/', '')
-        print(audioname)
+        # if condition can be replaced because we have all syllables 
         if audioname in oz_audiolist:
+            ### IF we have the audioname make the randompick ''logic' ### 
+            for filename in glob.glob('./audio/'+ audioname +'.wav'):
+                print('FILENAME IS' + filename)
+                rdm_audiopick_list.append(filename)
+            for filename in glob.glob('./audio/'+ audioname +'*[0-9]'+'.wav'):
+                rdm_audiopick_list.append(filename)
+            print(rdm_audiopick_list)
+            randompick = str(random.choices(rdm_audiopick_list)).replace('[','').replace(']','').replace("'",'')
+            print("random pick is",randompick)
+            rdm_audiopick_list = []
+            
+            
             print("Samples found! Creating combined Audiosnippet...")
-            audioisvalid = True
-            src_audio = AudioSegment.from_wav(wav_filepath)
+            audioisvalid = True 
+            src_audio = AudioSegment.from_wav(randompick)
             print("Trimming Audiofiles..")
             duration = len(src_audio)
             start_trim = detect_silence(src_audio)

@@ -57,6 +57,7 @@ dict_syndLUL = {"Ozh":["Self","I","me","my","mine"],
 "ov":["one","once","singular"],
 "sav":["seven","seventh"],
 "kish":["excrement","waste"],
+"sovoz":["french dip sandwich"]
 }
 
 

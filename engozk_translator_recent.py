@@ -3,10 +3,12 @@ import random
 import math
 import re
 from pydub import AudioSegment
+from random import choice
 import os
+import glob
+import fnmatch
 '''
 currently not used
-from random import choice
 import pyphen
 from hyphenate import hyphenate_word
 import scipy
@@ -16,34 +18,39 @@ from scipy import stats
 FILEPATH_ENG = "commonwords.txt"
 FILEPATH_OZK = "DemonWords.txt"
 FILEPATH_TRL = "EnglishWords.txt"
+# to do
+# FILEPATH_DIR_TRL = "synonym_dict.csv" # exported from synonymwiki.py
 
 # direct translations from dotawiki (INCOMPLETE)
+
 '''
 englist = [i.strip().split() for i in open(FILEPATH_TRL).readlines()]
 ozklist = [i.strip().split() for i in open(FILEPATH_OZK).readlines()]
 '''
 
-
-# 3000 most common english words (INCOMPLETE, UNTAGGED)
+# 3000 most common english words (INCOMPLETE, UNTAGGED) -> REPLACE WITH PARSED LIST
 
 BigList = [i.strip().split() for i in open(FILEPATH_ENG).readlines()]
 
-###### TO DO: PARSE DBNARY.MORPHO.TTL FOR CATEGORIZED WORDZ
-###### TO DO: SYNONYM BUNDLING USING DIRECT WIKI TRANSLATIONS ##########
-###### TO DO: WORD CLASS AND TAG CHECK #########
+###### TO DO: WORD CLASS AND TAG CHECK ######### (WIP) -> SUFFIX, PREFIX
+###### TO DO: PARSE DBNARY.MORPHO.TTL FOR CATEGORIZED WORDZ (WIP)
+###### TO DO: REPLACE TRANSLATION IN FINAL DICT IF IT IS FOUND IN SYNONYM_DICT.CSV
+
 '''
 is it an adjective? adverb? verb? subjective?
 is it a superlative? if it is a verb, what tense does it have? 
 '''
-# sequence = [i for i in range(len(BigList))] #rand
+
+
+
+
+
 Current_Word = []
-break_loop = 5
+break_loop = 10
 looprange = range(len(BigList))
-for words in looprange:
+for words in looprange:         # pretty sure this be shit code
     if words >= break_loop:
         break
-    # selection = choice(sequence) #rand
-    # Current_Word = str(BigList[selection]) #rand
     Current_Word = str(BigList[words])
     Current_Word = str.lower(Current_Word)
     Current_Word = [character for character in Current_Word if character.isalnum()]
@@ -88,7 +95,7 @@ for words in looprange:
     print(X)
     '''
 
-    # ! missing audio TO DO: EXTRACT MORE SYLLABLES FROM WIKI AUDIO (about 10% done PepeHands)
+    # ! = missing audio TO DO: EXTRACT MORE SYLLABLES FROM WIKI AUDIO (about 10% done PepeHands)
     dict_charpairs = {'a': ["ac", "ach", "ah", "ahm", "ahmi", "al", "ala", "ark", "as", "ash", "ath", "atho"],
                       'c': ["ch", "cha"],
                       'd': ["do", "dom", "doq"],
@@ -138,15 +145,21 @@ for words in looprange:
     oz_sample_file = "./oz_audiolist.csv"
     oz_audiolist = []
 
+
+    your_dir = "audio"
+
+
+
+
     with open(oz_sample_file) as csvfile:
         dictionary = csv.reader(csvfile, delimiter=' ')
         for row in dictionary:
             oz_audiolist.append(','.join(row))
-    ########### MAPPING TABLES END #########################
+    # ########## MAPPING TABLES END #########################
 
-    ####### REPLACEMENT START #############################
-    ## could do many things here instead
-
+    # ###### REPLACEMENT/TRANSLATION START ##################
+    # # could do many other things here instead!
+    # print(oz_audiolist)
     # get number of characters in each hyphen, append to list
     # get start character for each hyphen, append to list
     char_amt = []
@@ -156,23 +169,44 @@ for words in looprange:
         char_amt.append(len(hyphens[i]))
         start_chars.append(hyphens[i][:1])
 
-    # weighted random pick to replace hyphen depending on english start character, look for matching audio
-    # TO DO: also randomly pick from audio, e.g: ash, ash1, ash2, ash3 (maybe tag syllables for start-mid-end word use?)
+    # weighted random pick to replace hyphen depending on english start character
+    # TO DO: also randomly pick from audio, e.g: ash, ash1, ash2, ash3 (WIP)
+    # (maybe tag syllables for start-mid-end word use?)
     # currently only one audio file per syllable is used
     ozwordlist = []
     pathlist = []
     audionamelist = []
-
+    potential_audios = []
     for i in start_chars:
-
         character_mapping = dict_charpairs.get(i)
         weightlist_mapping = weights_dict.get(i)
-        result = str(random.choices(population=character_mapping, weights=weightlist_mapping, k=1))
-        ozwordlist.append(result)
-        audioname = str(re.sub(r'\W+', '', result))
-        audio_filepath = './audio/' + audioname + '.wav'
-        print("searching for oz_audio in", audio_filepath)
+        ozk_audio_result = str(random.choices(population=character_mapping, weights=weightlist_mapping, k=1)) # returns randomly weighted pick from ozk syllables
+
+        # num_files = len(fnmatch.filter(os.listdir(your_dir), str(ozk_audio_result) + '*')) # trying to check how many files there are containing the string
+        potential_audios.append(fnmatch.filter(os.listdir(your_dir), str(ozk_audio_result) + '*.wav'))
+        print(potential_audios, "is potential audio strings in list")
+        #num_files = len(glob.glob('[0-9].*'))
+        num_files = len(potential_audios)
+        print("POSSIBLE MATCHING AUDIO NUMBER:", num_files)
+        audiopr = []
+
+
+        ozwordlist.append(ozk_audio_result)
+
+        ################## A U D I O ####################
+
+        #append = random.randrange(0,num_files)
+        audioname = str(re.sub(r'\W+', '', ozk_audio_result))
+        print(audioname, "is audioname")
+        audio_filepath = './audio/' + audioname + '.wav' # check how many files audioname(n) there are, pick random number in range, append to name
+        print("searching for", audioname, "in", audio_filepath)
         pathlist.append(audio_filepath)
+
+
+
+
+
+
 
     # print the new ozk word
     ozwordlist = str(ozwordlist)

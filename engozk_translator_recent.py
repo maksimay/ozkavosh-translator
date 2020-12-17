@@ -39,7 +39,7 @@ BigList = [i.strip().split() for i in open(FILEPATH_ENG).readlines()]
 
 
 Current_Word = []
-words_to_process = 50# amount of words to pick from list
+words_to_process = 5# amount of words to pick from list
 looprange = range(len(BigList))  
 for words in looprange:
     if words >= words_to_process:
@@ -162,8 +162,7 @@ for words in looprange:
     ozwordlist = []
     pathlist = []
     audionamelist = []
-    potential_audios = []
-    rdm_audiopick_list = []
+    #rdm_audiopick_list = []
     randompick = ''
     for i in start_chars:
         character_mapping = dict_charpairs.get(i)
@@ -207,47 +206,52 @@ for words in looprange:
 
         return trim_ms
 
-    ########## AUDIO TRIMMING / APPENDING ##########
-
-    audioisvalid = False
     combined_audio = AudioSegment.empty()
+    rdm_audiopick_list = []
+    randompick = ""
+    audioisvalid = False
+    ########## Random Pick function##########
+    
+    def random_pick():
+        global rdm_audiopick_list
+        global randompick
+        rdm_audiopick_list = []
+        for filename in glob.glob('./audio/'+ audioname +'.wav'):
+            print('FILENAME IS' + filename)
+            rdm_audiopick_list.append(filename)
+        for filename in glob.glob('./audio/'+ audioname +'[0-9]'+'.wav'):
+            rdm_audiopick_list.append(filename)
+            print(rdm_audiopick_list)
+        randompick = str(random.choices(rdm_audiopick_list)).replace('[','').replace(']','').replace("'",'')
+        #rdm_audiopick_list = []
 
+    ########## Combine and trim audio function##########
+    def combine_audios():
+        global combined_audio
+        src_audio = AudioSegment.from_wav(randompick)
+        print("Trimming Audiofiles..")
+        duration = len(src_audio)
+        start_trim = detect_silence(src_audio)
+        end_trim = detect_silence(src_audio.reverse())
+        trimmed_audio = src_audio[start_trim:duration - end_trim]
+        end = trimmed_audio[-100:]
+        combined_audio += trimmed_audio.append(end, crossfade=100)
+    
+    ######### Check our list of filepaths #########
     for i in pathlist:
         wav_filepath = i
         print(i)
         audioname = wav_filepath.replace('.wav', '').replace('./audio/', '')
-        # if condition can be replaced because we have all syllables 
+        # if condition cannot be replaced because we dont have all syllables yet
         if audioname in oz_audiolist:
-            ### IF we have the audioname make the randompick ''logic' ### 
-            for filename in glob.glob('./audio/'+ audioname +'.wav'):
-                print('FILENAME IS' + filename)
-                rdm_audiopick_list.append(filename)
-            for filename in glob.glob('./audio/'+ audioname +'*[0-9]'+'.wav'):
-                rdm_audiopick_list.append(filename)
-            print(rdm_audiopick_list)
-            randompick = str(random.choices(rdm_audiopick_list)).replace('[','').replace(']','').replace("'",'')
-            print("random pick is",randompick)
-            rdm_audiopick_list = []
-            
-            
-            print("Samples found! Creating combined Audiosnippet...")
             audioisvalid = True 
-            src_audio = AudioSegment.from_wav(randompick)
-            print("Trimming Audiofiles..")
-            duration = len(src_audio)
-            start_trim = detect_silence(src_audio)
-            end_trim = detect_silence(src_audio.reverse())
-            trimmed_audio = src_audio[start_trim:duration - end_trim]
-            end = trimmed_audio[-100:]
-            combined_audio += trimmed_audio.append(end, crossfade=100)
-
+            random_pick()
+            print("random pick is",randompick)
+            print("Samples found! Creating combined Audiosnippet...")
+            combine_audios()
         else:
+            print("Syllable not found!!")
             audioisvalid = False
-            print(audioname, "Not found in Audiofiles")
-            break
-
-    ###### REPLACEMENT END #############
-
     ### Make Directory for Combined audios if it doesnt exist yet ###
     if not os.path.exists('./combined'):
         os.makedirs('./combined')

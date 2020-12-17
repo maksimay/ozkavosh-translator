@@ -11,3 +11,4 @@ random_word_sounds.py
 venv
 .idea
 out.csv
+.DS_Store

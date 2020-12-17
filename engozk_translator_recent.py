@@ -32,29 +32,26 @@ ozklist = [i.strip().split() for i in open(FILEPATH_OZK).readlines()]
 
 BigList = [i.strip().split() for i in open(FILEPATH_ENG).readlines()]
 
-###### TO DO: WORD CLASS AND TAG CHECK ######### (WIP) -> SUFFIX, PREFIX
-###### TO DO: PARSE DBNARY.MORPHO.TTL FOR CATEGORIZED WORDZ (WIP)
-###### TO DO: REPLACE TRANSLATION IN FINAL DICT IF IT IS FOUND IN SYNONYM_DICT.CSV
 
-'''
-is it an adjective? adverb? verb? subjective?
-is it a superlative? if it is a verb, what tense does it have? 
-'''
+# TO DO: PARSE DBNARY.MORPHO.TTL FOR CATEGORIZED WORDZ (WIP)
+# TO DO: WORD CLASS AND TAG CHECK (WIP) simple suffix prefix rules for vu'gluth combinations -> audio effect? 2.0?
+# TO DO: REPLACE TRANSLATION IN FINAL DICT IF IT IS FOUND IN SYNONYM_DICT.CSV
+
 
 Current_Word = []
-break_loop = 10
+words_to_process = 50# amount of words to pick from list
 looprange = range(len(BigList))  
-for words in looprange:         # pretty sure this be shit code
-    if words >= break_loop:
+for words in looprange:
+    if words >= words_to_process:
         break
     Current_Word = str(BigList[words])
     Current_Word = str.lower(Current_Word)
-    Current_Word = [character for character in Current_Word if character.isalnum()]
+    Current_Word = [character for character in Current_Word if character.isalnum()] #clean string
     Current_Word = "".join(Current_Word)
     print("en word is", Current_Word)
 
     ### FORBIDDEN LETTERS ####
-    # TO DO: maybe fix the export naming at some point =)
+    # TO DO: maybe fix the export naming at some point aka asap (->jannis) =)
     # (english part of the filename is unintentionally modified by this currently)
 
     forbiddenletters = {'b': 'q', 'j': 'ia', 'x': 'ks'}
@@ -64,7 +61,7 @@ for words in looprange:         # pretty sure this be shit code
     ##### cheap equal chunks hyphenation ########
     ##### to do maybe: replace this with english hyphenation ######
     '''
-    ########## HYPHENATION ############# (correct english hyphenation - use this later to make stuff better)
+    ########## HYPHENATION ############# (correct english hyphenation - use this later to make stuff better v2.0)
     hyphens = hyphenate_word(Current_Word)
     print(hyphens)
     '''
@@ -138,15 +135,17 @@ for words in looprange:         # pretty sure this be shit code
                     "y": [1],
                     "z": [1, 2]}
 
+    char_amt = []
+    start_chars = []
+    iterations = len(hyphens)
+    for i in range(iterations):
+        char_amt.append(len(hyphens[i]))
+        start_chars.append(hyphens[i][:1])
+
+
     oz_sample_file = "./oz_audiolist.csv"
     oz_audiolist = []
-
-
     your_dir = "audio"
-
-
-
-
     with open(oz_sample_file) as csvfile:
         dictionary = csv.reader(csvfile, delimiter=' ')
         for row in dictionary:
@@ -155,20 +154,11 @@ for words in looprange:         # pretty sure this be shit code
 
     # ###### REPLACEMENT/TRANSLATION START ##################
     # # could do many other things here instead!
-    # print(oz_audiolist)
     # get number of characters in each hyphen, append to list
     # get start character for each hyphen, append to list
-    char_amt = []
-    start_chars = []
-    iterations = len(hyphens)
-    for i in range(iterations):
-        char_amt.append(len(hyphens[i]))
-        start_chars.append(hyphens[i][:1])
+
 
     # weighted random pick to replace hyphen depending on english start character
-    # TO DO: also randomly pick from audio, e.g: ash, ash1, ash2, ash3 (WIP)
-    # (maybe tag syllables for start-mid-end word use?)
-    # currently only one audio file per syllable is used
     ozwordlist = []
     pathlist = []
     audionamelist = []

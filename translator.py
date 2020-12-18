@@ -1,6 +1,7 @@
 import csv
 import random
 import math
+import csv
 import numpy as np
 from nltk.corpus import wordnet
 
@@ -36,7 +37,7 @@ dict_charpairs = {
     'q': ["oq", "ok"],  # !
     'r': ["ro", "ros", "rush"],
     's': ["se", "sek", "sh", "shk", "so", "sof", "sol", "sov", "sovo"],
-    't': ["ta", "tak", "th", "tho"],
+    't': ["ta", "tak", "th", "tho"], # thu do
     'u': ["uch", "uth"],
     'v': ["vo", "vot", "voth", "vr", "vro", "vroshk"],
     'w': ["wr"],  # !
@@ -72,7 +73,7 @@ dict_syndLUL = {
     "Izhai": ["group"],
     "Ozkavosh": ["demons", "spirits"],
     "sa": ["this"],
-    "vu": ["that"],
+    "vu": ["that", "the"],
     "doq": ["upon", "ontop", "above"],
     "roq": ["far", "distant"],
     "doz": ["below", "beneath", "underneath"],
@@ -142,7 +143,7 @@ for key, value in dict_syndLUL.items():                     # for each key value
     temp_list = []                                           # clear the stash for the next iteration!
 
 
-words_to_process = 40
+words_to_process = 1337
 loop_range = range(len(BigList))
 for i in loop_range:
     if i >= words_to_process:
@@ -160,9 +161,6 @@ for i in loop_range:
             print("jop da gibts schon ne übersetzung für", English_Word, ":)")
             # have to do it the other way around because original dict is ozk -> eng but we want eng -> ozk
             Translations_Dictionary[English_Word] = get_key(English_Word)
-            print(Translations_Dictionary)
-
-
         else:
 
             forbiddenletters = {'b': 'q', 'j': 'i', 'x': 'k'}
@@ -198,10 +196,12 @@ for i in loop_range:
             print("ozkavosh word is", ozk_word)
 
             Translations_Dictionary.update({English_Word: ozk_word})
-            print(Translations_Dictionary)
 
+print(Translations_Dictionary)
 
-
+with open('Translation_Dictionary.csv', 'a+') as f:
+    for key in Translations_Dictionary.keys():
+        f.write("%s,%s\n" % (key, Translations_Dictionary[key]))
 
 
 

@@ -143,7 +143,7 @@ for key, value in dict_syndLUL.items():                     # for each key value
     temp_list = []                                           # clear the stash for the next iteration!
 
 
-words_to_process = 1337
+words_to_process = 3000
 loop_range = range(len(BigList))
 for i in loop_range:
     if i >= words_to_process:
@@ -202,6 +202,7 @@ print(Translations_Dictionary)
 with open('Translation_Dictionary.csv', 'a+') as f:
     for key in Translations_Dictionary.keys():
         f.write("%s,%s\n" % (key, Translations_Dictionary[key]))
+
 
 
 

@@ -162,7 +162,6 @@ for words in looprange:
     ozwordlist = []
     pathlist = []
     audionamelist = []
-    #rdm_audiopick_list = []
     randompick = ''
     for i in start_chars:
         character_mapping = dict_charpairs.get(i)
@@ -246,7 +245,7 @@ for words in looprange:
         if audioname in oz_audiolist:
             audioisvalid = True 
             random_pick()
-            print("random pick is",randompick)
+            print("random pick is", randompick)
             print("Samples found! Creating combined Audiosnippet...")
             combine_audios()
         else:

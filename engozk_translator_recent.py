@@ -229,7 +229,7 @@ for words in looprange:
         """
         Takes audiopath trims the silence and appends the audios
         """
-        #global combined_audio
+        global combined_audio
         src_audio = AudioSegment.from_wav(audiopath)
         print("Trimming Audiofiles..")
         duration = len(src_audio)

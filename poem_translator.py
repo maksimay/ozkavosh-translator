@@ -118,6 +118,7 @@ if not os.path.exists('./combined'):
     os.makedirs('./combined')
 
 for lines in poem:
+    audio_pathlist = []
     lines = lines.lower()
     #print("sentence is: ", lines)
     print(lines)
@@ -125,6 +126,11 @@ for lines in poem:
     sentence = lines.split()
     for words in sentence: # for each of the words in sentence
         print(words)
+
+        ozk_syllables = []  # list of new Ozkavosh syllables
+
+        randompick = ''
+
         if words not in Translation_Dictionary.keys():
             # translator.py loop:
             print("no translation key for", words, "found in dict")
@@ -141,15 +147,10 @@ for lines in poem:
             Hyphens_Rounded = int(Hyphens_Length)
             if Hyphens_Rounded == 0:
                 Hyphens_Rounded += 1
-            hyphens = [Translation_Word[i:i + Hyphens_Rounded] for i in range(0, len(Translation_Word), Hyphens_Rounded)]
+            hyphens = [Translation_Word[i:i + Hyphens_Rounded] for i in range(0, Translation_Word_Length, Hyphens_Rounded)]
 
             char_amt = []  # how many characters each syllable will have
             start_chars = []  # list of English syllable start characters for Ozkavosh lookup replacement
-            ozk_syllables = []  # list of new Ozkavosh syllables
-            audio_pathlist = []
-            audionamelist = []
-            randompick = ''
-
 
             iterations = len(hyphens)
             for i in range(iterations):
@@ -197,11 +198,12 @@ for lines in poem:
                     print("random pick is", randompick)
                     print("Samples found! Creating combined Audiosnippet...")
                     combine_audios()
+
                 else:
                     print("Syllable not found!!")
                     audioisvalid = False
 
-
+            audio_pathlist = []
             ozk_word = str(ozk_syllables)
             ozk_word = [character for character in ozk_word if character.isalnum()]
             ozk_word = "".join(ozk_word)  # get a clean Ozkavosh string for printing
@@ -209,7 +211,6 @@ for lines in poem:
 
             Translation_Dictionary.update({words: ozk_word})
             print("translation for", words, "added to dict")
-
 
         else:
             ozk_word = Translation_Dictionary.get(words)
@@ -221,7 +222,7 @@ for lines in poem:
         combined_audio.export("./combined/_" + ozk_word + "_combined.wav", format="wav")
         print("Exported succesfully!")
 
-
+    audio_pathlist = []
 
 
     print(audio_filepath , words)

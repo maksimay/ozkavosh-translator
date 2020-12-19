@@ -210,8 +210,8 @@ for words in looprange:
     rdm_audiopick_list = []
     randompick = ""
     audioisvalid = False
-    ########## Random Pick function##########
     
+    ########## Random Pick function##########    
     def random_pick():
         global rdm_audiopick_list
         global randompick
@@ -223,12 +223,15 @@ for words in looprange:
             rdm_audiopick_list.append(filename)
             print(rdm_audiopick_list)
         randompick = str(random.choices(rdm_audiopick_list)).replace('[','').replace(']','').replace("'",'')
-        #rdm_audiopick_list = []
+        return randompick
 
     ########## Combine and trim audio function##########
-    def combine_audios():
-        global combined_audio
-        src_audio = AudioSegment.from_wav(randompick)
+    def combine_audios(audiopath):
+        """
+        Takes audiopath trims the silence and appends the audios
+        """
+        #global combined_audio
+        src_audio = AudioSegment.from_wav(audiopath)
         print("Trimming Audiofiles..")
         duration = len(src_audio)
         start_trim = detect_silence(src_audio)
@@ -236,7 +239,8 @@ for words in looprange:
         trimmed_audio = src_audio[start_trim:duration - end_trim]
         end = trimmed_audio[-100:]
         combined_audio += trimmed_audio.append(end, crossfade=100)
-    
+        return combined_audio
+
     ######### Check our list of filepaths #########
     for i in pathlist:
         wav_filepath = i
@@ -244,11 +248,11 @@ for words in looprange:
         audioname = wav_filepath.replace('.wav', '').replace('./audio/', '')
         # if condition cannot be replaced because we dont have all syllables yet
         if audioname in oz_audiolist:
-            audioisvalid = True 
+            audioisvalid = False
             random_pick()
             print("random pick is",randompick)
             print("Samples found! Creating combined Audiosnippet...")
-            combine_audios()
+            combine_audios(randompick)
         else:
             print("Syllable not found!!")
             audioisvalid = False

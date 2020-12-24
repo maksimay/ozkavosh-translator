@@ -247,7 +247,7 @@ for words in looprange:
         audioname = wav_filepath.replace('.wav', '').replace('./audio/', '')
         # if condition cannot be replaced because we dont have all syllables yet
         if audioname in oz_audiolist:
-            audioisvalid = False
+            audioisvalid = True
             random_pick()
             print("random pick is", randompick)
             print("Samples found! Creating combined Audiosnippet...")

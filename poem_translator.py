@@ -21,8 +21,6 @@ def detect_silence(sound, silence_threshold=-50.0, chunk_size=10):
 
     return trim_ms
 
-
-combined_audio = AudioSegment.empty()
 rdm_audiopick_list = []
 randompick = ""
 audioisvalid = False
@@ -44,6 +42,7 @@ def random_pick():
 ########## Combine and trim audio function##########
 def combine_audios():
     global combined_audio
+    combined_audio = AudioSegment.empty()
     src_audio = AudioSegment.from_wav(randompick)
     # print("Trimming Audiofiles..")
     duration = len(src_audio)
@@ -53,6 +52,26 @@ def combine_audios():
     end = trimmed_audio[-100:]
     combined_audio += trimmed_audio.append(end, crossfade=100)
 
+
+def combine_sentence():
+    global word_audio
+    global full_sentence_audio
+    full_sentence_audio = AudioSegment.empty()
+    silence = AudioSegment.silent(duration=800)
+    for filename in glob.glob('./TEMP/'+'*.wav'):
+        word_audio = AudioSegment.from_wav(filename)
+        full_sentence_audio += word_audio + silence
+
+
+def export_words():
+    if not os.path.exists('./TEMP'):
+        os.makedirs('./TEMP')
+    combined_audio.export("./TEMP/" + str(ozk_word) + ".wav", format="wav")
+    
+
+def delete_tempwords():
+    for files in glob.glob('./TEMP/'+'*.wav'):
+        os.remove(files)
 #tokens = nltk.sent_tokenize(contents)
 #for t in tokens:
     #print (t, "\n")
@@ -110,28 +129,26 @@ with open('Translation_Dictionary.csv', mode='r') as infile:
     reader = csv.reader(infile)
     Translation_Dictionary = {rows[0]: rows[1] for rows in reader}
 
-f = open('tolkien.txt', 'r')
+f = open('test.txt', 'r')
 poem = f.readlines()
 
 ### Make Directory for Combined audios if it doesnt exist yet ###
-if not os.path.exists('./combined'):
-    os.makedirs('./combined')
+if not os.path.exists('./sentences'):
+    os.makedirs('./sentences')
 
 for lines in poem:
-    audio_pathlist = []
     lines = lines.lower()
     #print("sentence is: ", lines)
     print(lines)
     # translate words that are not in the dict and update dict
     sentence = lines.split()
     for words in sentence: # for each of the words in sentence
-        print(words)
-
+        print("WORDS ARE",words)
         ozk_syllables = []  # list of new Ozkavosh syllables
 
         randompick = ''
-
-        if words not in Translation_Dictionary.keys():
+        value = 1
+        if value == 1: #words not in Translation_Dictionary.keys():
             # translator.py loop:
             print("no translation key for", words, "found in dict")
             Translation_Word = words
@@ -158,6 +175,7 @@ for lines in poem:
                 start_chars.append(hyphens[i][:1])
 
             ozk_syllables = []
+            audio_pathlist = []
 
             for i in start_chars:
                 character_mapping = dict_charpairs.get(i)
@@ -188,8 +206,8 @@ for lines in poem:
                     oz_audiolist.append(','.join(row))
 
             for i in audio_pathlist:
+                print(audio_pathlist)
                 wav_filepath = i
-                #print(i)
                 audio_name = wav_filepath.replace('.wav', '').replace('./audio/', '')
                 # if condition cannot be replaced because we dont have all syllables yet
                 if audio_name in oz_audiolist:
@@ -198,11 +216,12 @@ for lines in poem:
                     print("random pick is", randompick)
                     print("Samples found! Creating combined Audiosnippet...")
                     combine_audios()
-
+            ####EMPTY PATHLIST AFTER EVERY WORD##############                               
                 else:
                     print("Syllable not found!!")
                     audioisvalid = False
-
+            #### EXPORT THE WORDS AS SINGLE AUDIOS ###
+            export_words()
             audio_pathlist = []
             ozk_word = str(ozk_syllables)
             ozk_word = [character for character in ozk_word if character.isalnum()]
@@ -213,21 +232,25 @@ for lines in poem:
             print("translation for", words, "added to dict")
 
         else:
-            ozk_word = Translation_Dictionary.get(words)
+            #ozk_word = Translation_Dictionary.get(words)
             print(ozk_word, "was direct wiki translation for", words)
 
     #### FINAL EXPORT ####
-    if audioisvalid == True:
-        print("Exporting audio to disk ...")
-        combined_audio.export("./combined/_" + ozk_word + "_combined.wav", format="wav")
-        print("Exported succesfully!")
 
-    audio_pathlist = []
+        #if audioisvalid == True:
+    print("Exporting audio to disk ...")
+    combine_sentence()
+    full_sentence_audio.export("./sentences/" + str(sentence) + ".wav", format="wav")
+    delete_tempwords()
+    print("Exported succesfully!")
+            
 
-
+    
+    
+    '''
     print(audio_filepath , words)
     with open('LJSpeech.csv', 'a+', newline='') as csvfile:
         fieldnames = ["audio", "transcription"]
         LJSpeechwriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
         LJSpeechwriter.writerow({"audio": audio_filepath, "transcription": lines})
-
+    '''

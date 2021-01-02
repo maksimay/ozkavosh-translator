@@ -21,12 +21,9 @@ def detect_silence(sound, silence_threshold=-50.0, chunk_size=10):
 
     return trim_ms
 
-
-
 rdm_audiopick_list = []
 randompick = ""
 audioisvalid = False
-
 
 # ######### Random Pick function##########
 def random_pick():
@@ -55,7 +52,6 @@ def combine_audios():
     end = trimmed_audio[-100:]
     combined_audio += trimmed_audio.append(end, crossfade=100)
 
-
 def combine_sentence():
     global word_audio
     global full_sentence_audio
@@ -65,12 +61,10 @@ def combine_sentence():
         word_audio = AudioSegment.from_wav(filename)
         full_sentence_audio += word_audio + silence
 
-
 def export_words():
     if not os.path.exists('./TEMP'):
         os.makedirs('./TEMP')
     combined_audio.export("./TEMP/" + str(ozk_word) + ".wav", format="wav")
-    
 
 def delete_tempwords():
     for files in glob.glob('./TEMP/'+'*.wav'):
@@ -219,13 +213,13 @@ for lines in poem:
                     print("random pick is", randompick)
                     print("Samples found! Creating combined Audiosnippet...")
                     combine_audios()
-            # ###EMPTY PATH LIST AFTER EVERY WORD##############
                 else:
                     print("Syllable not found in Lookup Table")
                     audioisvalid = False
             # ### EXPORT THE WORDS AS SINGLE AUDIOS ###
             export_words()
             audio_pathlist = []
+            # ### EMPTY THE SEGMENT FOR NEXT SENTENCE
             combined_audio = AudioSegment.empty()
 
 
@@ -257,12 +251,7 @@ for lines in poem:
     delete_tempwords()
     print("Sentence exported succesfully!")
 
-
-
-    
-    
-
-    print(csvaudiofilepath , sentence)
+    print(csvaudiofilepath, sentence)
     with open('LJSpeech.csv', 'a+', newline='') as csvfile:
         fieldnames = ["audio", "transcription"]
         LJSpeechwriter = csv.DictWriter(csvfile, delimiter="|", fieldnames=fieldnames)

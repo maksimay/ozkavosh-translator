@@ -8,7 +8,7 @@ import os
 import glob
 import nltk
 
-### REMOVING SILENCE FUNCTION ####
+# ## REMOVING SILENCE FUNCTION ####
 def detect_silence(sound, silence_threshold=-50.0, chunk_size=10):
     # silence_threshold in dB
     # chunk_size in ms
@@ -21,28 +21,31 @@ def detect_silence(sound, silence_threshold=-50.0, chunk_size=10):
 
     return trim_ms
 
+
+
 rdm_audiopick_list = []
 randompick = ""
 audioisvalid = False
 
 
-########## Random Pick function##########
+# ######### Random Pick function##########
 def random_pick():
     global rdm_audiopick_list
     global randompick
     rdm_audiopick_list = []
     for filename in glob.glob('./audio/' + audio_name + '.wav'):
-        #print('FILENAME IS' + filename)
+        # print('FILENAME IS' + filename)
         rdm_audiopick_list.append(filename)
     for filename in glob.glob('./audio/' + audio_name + '[0-9]' + '.wav'):
         rdm_audiopick_list.append(filename)
-        #print(rdm_audiopick_list)
+        # print(rdm_audiopick_list)
     randompick = str(random.choices(rdm_audiopick_list)).replace('[', '').replace(']', '').replace("'", '')
+    print(randompick, "is random pick!!!")
 
-########## Combine and trim audio function##########
+# ######### Combine and trim audio function##########
+combined_audio = AudioSegment.empty() # creating empty segment once to fix loop bug
 def combine_audios():
     global combined_audio
-    combined_audio = AudioSegment.empty()
     src_audio = AudioSegment.from_wav(randompick)
     # print("Trimming Audiofiles..")
     duration = len(src_audio)
@@ -57,7 +60,7 @@ def combine_sentence():
     global word_audio
     global full_sentence_audio
     full_sentence_audio = AudioSegment.empty()
-    silence = AudioSegment.silent(duration=800)
+    silence = AudioSegment.silent(duration=300)
     for filename in glob.glob('./TEMP/'+'*.wav'):
         word_audio = AudioSegment.from_wav(filename)
         full_sentence_audio += word_audio + silence
@@ -72,9 +75,10 @@ def export_words():
 def delete_tempwords():
     for files in glob.glob('./TEMP/'+'*.wav'):
         os.remove(files)
-#tokens = nltk.sent_tokenize(contents)
-#for t in tokens:
-    #print (t, "\n")
+
+# tokens = nltk.sent_tokenize(contents)
+# for t in tokens:
+    # print (t, "\n")
 
 dict_charpairs = {
     'a': ["ac", "ach", "ah", "ahm", "ahmi", "al", "ala", "ark", "as", "ash", "ath", "atho"],
@@ -132,26 +136,24 @@ with open('Translation_Dictionary.csv', mode='r') as infile:
 f = open('test.txt', 'r')
 poem = f.readlines()
 
-### Make Directory for Combined audios if it doesnt exist yet ###
+# ## Make Directory for Combined audios if it doesnt exist yet ###
 if not os.path.exists('./sentences'):
     os.makedirs('./sentences')
 
 for lines in poem:
     lines = lines.lower()
-    #print("sentence is: ", lines)
-    print(lines)
-    # translate words that are not in the dict and update dict
-    sentence = lines.split()
-    for words in sentence: # for each of the words in sentence
-        print("WORDS ARE",words)
-        ozk_syllables = []  # list of new Ozkavosh syllables
+    print("line in poem is:", lines)
 
-        randompick = ''
+
+    sentence = lines.split()
+    for en_word in sentence:
+        print("looping over", en_word)
+        # translator.py loop:
         value = 1
-        if value == 1: #words not in Translation_Dictionary.keys():
-            # translator.py loop:
-            print("no translation key for", words, "found in dict")
-            Translation_Word = words
+        if value == 1: # words not in Translation_Dictionary.keys():
+
+            print("no translation key for", en_word, "found in dict")
+            Translation_Word = en_word
             Translation_Word = [character for character in str.lower(Translation_Word) if character.isalnum()]
             Translation_Word = "".join(Translation_Word)
             forbidden_letters = {'b': 'q', 'j': 'i', 'x': 'k'}
@@ -167,7 +169,7 @@ for lines in poem:
             hyphens = [Translation_Word[i:i + Hyphens_Rounded] for i in range(0, Translation_Word_Length, Hyphens_Rounded)]
 
             char_amt = []  # how many characters each syllable will have
-            start_chars = []  # list of English syllable start characters for Ozkavosh lookup replacement
+            start_chars = []  # list of English syllable start characters for demonic lookup replacement
 
             iterations = len(hyphens)
             for i in range(iterations):
@@ -180,16 +182,17 @@ for lines in poem:
             for i in start_chars:
                 character_mapping = dict_charpairs.get(i)
                 weightlist_mapping = weights_dict.get(i)
-                ozk_syllable_result = str(random.choices(population=character_mapping, weights=weightlist_mapping,k=1))  # returns randomly weighted pick from ozk syllables
+                ozk_syllable_result = str(random.choices(population=character_mapping, weights=weightlist_mapping, k=1)) # returns randomly weighted pick from ozk syllables
                 ozk_syllables.append(ozk_syllable_result)
 
-                ################## A U D I O P A T H ###################
+                # ################# A U D I O P A T H ###################
 
                 audio_name = str(re.sub(r'\W+', '', ozk_syllable_result))
-                print(audio_name, "is audioname")
-                audio_filepath = './audio/' + audio_name + '.wav'  #
-                print("searching for", audio_name, "in", audio_filepath)
+                # print(audio_name, "is name of audio")
+                audio_filepath = './audio/' + audio_name + '.wav'
+                print("searching for audio name", audio_name, "in path", audio_filepath)
                 audio_pathlist.append(audio_filepath)
+
 
             # print the new ozk word
             ozk_word = str(ozk_syllables)
@@ -206,51 +209,62 @@ for lines in poem:
                     oz_audiolist.append(','.join(row))
 
             for i in audio_pathlist:
-                print(audio_pathlist)
+                print(audio_pathlist, "PATHLIST")
                 wav_filepath = i
                 audio_name = wav_filepath.replace('.wav', '').replace('./audio/', '')
-                # if condition cannot be replaced because we dont have all syllables yet
+                # if condition cannot be replaced because we do not have all syllables yet
                 if audio_name in oz_audiolist:
                     audioisvalid = True
                     random_pick()
                     print("random pick is", randompick)
                     print("Samples found! Creating combined Audiosnippet...")
                     combine_audios()
-            ####EMPTY PATHLIST AFTER EVERY WORD##############                               
+            # ###EMPTY PATH LIST AFTER EVERY WORD##############
                 else:
-                    print("Syllable not found!!")
+                    print("Syllable not found in Lookup Table")
                     audioisvalid = False
-            #### EXPORT THE WORDS AS SINGLE AUDIOS ###
+            # ### EXPORT THE WORDS AS SINGLE AUDIOS ###
             export_words()
             audio_pathlist = []
+            combined_audio = AudioSegment.empty()
+
+
+
             ozk_word = str(ozk_syllables)
             ozk_word = [character for character in ozk_word if character.isalnum()]
-            ozk_word = "".join(ozk_word)  # get a clean Ozkavosh string for printing
-            print("ozkavosh word is", ozk_word)
+            ozk_word = "".join(ozk_word)  # get a clean demonic string for printing
+            print("demonic word is", ozk_word)
 
-            Translation_Dictionary.update({words: ozk_word})
-            print("translation for", words, "added to dict")
+            Translation_Dictionary.update({en_word: ozk_word})
+            print("translation for", en_word, "added to dict as", ozk_word, "\n")
 
         else:
-            #ozk_word = Translation_Dictionary.get(words)
-            print(ozk_word, "was direct wiki translation for", words)
+            # ozk_word = Translation_Dictionary.get(words)
+            print(ozk_word, "was direct wiki translation for", en_word)
 
-    #### FINAL EXPORT ####
+    # ### FINAL EXPORT ####
 
-        #if audioisvalid == True:
+        # if audioisvalid == True:
+
+
     print("Exporting audio to disk ...")
     combine_sentence()
+
     full_sentence_audio.export("./sentences/" + str(sentence) + ".wav", format="wav")
+
+    csvaudiofilepath = "./sentences/" + str(sentence) + ".wav"
+
     delete_tempwords()
-    print("Exported succesfully!")
-            
+    print("Sentence exported succesfully!")
+
+
 
     
     
-    '''
-    print(audio_filepath , words)
+
+    print(csvaudiofilepath , sentence)
     with open('LJSpeech.csv', 'a+', newline='') as csvfile:
         fieldnames = ["audio", "transcription"]
-        LJSpeechwriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        LJSpeechwriter.writerow({"audio": audio_filepath, "transcription": lines})
-    '''
+        LJSpeechwriter = csv.DictWriter(csvfile, delimiter="|", fieldnames=fieldnames)
+        LJSpeechwriter.writerow({"audio": csvaudiofilepath, "transcription": lines})
+

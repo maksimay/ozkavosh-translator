@@ -70,23 +70,24 @@ def delete_tempwords():
 combined_audio = AudioSegment.empty()
 ExportID = 0
 audio_dir = "audio"
-oz_sample_file = "./oz_audiolist.csv" # NEEDS UPDATING
+# NEEDS UPDATING
+oz_sample_file = "./oz_audiolist.csv"
 
 with open('Translation_Dictionary.csv', mode='r') as infile:
     reader = csv.reader(infile)
     Translation_Dictionary = {rows[0]: rows[1] for rows in reader}
 
 dict_charpairs = {
-    'a': ["ac", "ach", "ah", "ahm", "ahmi", "al", "ala", "ark", "as", "ash", "ath", "atho"],
+    'a': ["ac", "ach", "acha", "ah", "ahm", "ahmi", "al", "ar", "ark", "as", "ash", "ashm", "ath"],
     'c': ["ch", "cha"],
     'd': ["do", "dom", "doq"],
-    'e': ["ek", "en", "ey"],
+    'e': ["ek", "en", "ensh", "ey"],
     'f': ["fa", "fath", "fe", "fek", "fi", "fo", "fol"],
     'g': ["gl", "glu", "gr", "gro", "groth"],
     'h': ["ha", "hag", "has", "he", "hedo", "hm", "ho", "hol", "hro"],
     'i': ["ich", "ik", "iru", "is", "isk", "iz", "izh"],
     'k': ["ka", "kala", "kath", "ko"],
-    'l': ["lo", "lof", "lofa", "lom"],
+    'l': ["lo", "lof", "lom"],
     'm': ["mi", "mis", "mo", "moz"],
     'n': ["ne", "ni", "ns"],
     'o': ["of", "ok", "ol", "om", "omf", "omo", "oq", "osh", "oth", "ov", "oz", "ozh"],
@@ -101,15 +102,15 @@ dict_charpairs = {
     'y': ["yi"],
     'z': ["zh", "zomoz"]}
 weights_dict = {
-    "a": [1, 2, 2, 2, 3, 2, 3, 3, 2, 3, 2, 1],
+    "a": [1, 2, 1, 2, 2, 3, 3, 3, 3, 2, 3, 1, 2],
     "c": [1, 2],
     "d": [1, 2, 2],
-    "e": [1, 2, 2],
+    "e": [1, 2, 2, 1],
     "f": [1, 2, 2, 3, 2, 3, 2],
     "g": [1, 2, 2, 2, 1],
     "h": [1, 2, 2, 1, 2, 2, 1, 2, 2],
     "i": [1, 3, 3, 2, 1, 3, 2],
-    "l": [1, 2, 2, 2],
+    "l": [1, 2, 2],
     "m": [1, 1, 1, 2],
     "n": [1, 2, 2],
     "o": [1, 2, 3, 3, 3, 3, 2, 2, 2, 3, 3, 2],
@@ -140,7 +141,8 @@ for lines in poem:
     for en_word in sentence:
         print("looping over", en_word)
         value = 1
-        if value == 1:  # words not in Translation_Dictionary.keys():
+        if value == 1:
+        # if en_word not in Translation_Dictionary.keys():  # if value == 1:
             print("no translation key for", en_word, "found in dict")
             Translation_Word = en_word
             Translation_Word = [character for character in str.lower(Translation_Word) if character.isalnum()]
@@ -208,15 +210,15 @@ for lines in poem:
             # ### CREATE NEW DICTIONARY ENTRY
             Translation_Dictionary.update({en_word: ozk_word})
             print("translation for", en_word, "added to dict as", ozk_word, "\n")
-            # ### EXPORT THE WORDS AS SINGLE AUDIOS ###
+            # ### EXPORT THE WORDS AS TEMP SINGLE AUDIOS ###
             export_words()
             # ### EMPTY THE SEGMENT AND PATHLIST FOR THE NEXT WORD
             audio_pathlist = []
             combined_audio = AudioSegment.empty()
 
-        else:
-            # ozk_word = Translation_Dictionary.get(words)
-            print(ozk_word, "was direct wiki translation for", en_word)
+        # else:
+            # ozk_word = Translation_Dictionary.get(en_word)
+            # print(ozk_word, "was direct wiki translation for", en_word)
 
     print("Exporting audio to disk ...")
     combine_sentence()

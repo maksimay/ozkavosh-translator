@@ -85,7 +85,7 @@ retrieve_key = "irush"
 print("HERE COMES THE", retrieve_key, "SYNONYM DIRECT TRANSLATIONS LIST:")
 print(dict_syndLUL.get(retrieve_key))
 
-#Save our dict elements into csv file
+# Save our dict elements into csv file
 with open("synonym_dict.csv", "w") as f:
     wr = csv.writer(f, delimiter="\n")
     wr.writerow(dict_syndLUL.items()) 

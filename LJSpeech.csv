@@ -1696,3 +1696,27 @@
 ./sentences/['a', 'a', 'a']001.wav|a a a
 ./sentences/['a', 'a', 'a']001.wav|a a a
 ./sentences/['a', 'a', 'a']001.wav|a a a
+./sentences/['a', 'b', 'c', 'a', 'b', 'a', 'c', 'a', 'c', 'c']001.wav|a b c a b a c a c c
+./sentences/['a', 'b', 'c', 'a', 'b', 'a', 'c', 'a', 'c', 'c']001.wav|a b c a b a c a c c
+./sentences/['a', 'b', 'c', 'a']001.wav|a b c a
+./sentences/['a', 'b', 'c']001.wav|a b c
+./sentences/['a', 'b', 'c']001.wav|a b c
+./sentences/['a', 'b', 'c']001.wav|a b c
+./sentences/['a', 'b', 'c']001.wav|a b c
+./sentences/['a', 'b', 'c']001.wav|a b c
+./sentences/['a', 'b', 'c']001.wav|a b c
+./sentences/['a', 'b', 'c']001.wav|a b c
+./sentences/['a', 'b', 'c']001.wav|a b c
+./sentences/['a', 'b', 'c', 'c', 'c', 'c', 'c', 'c', 'c']001.wav|a b c c c c c c c
+./sentences/['a', 'b', 'c', 'c', 'c', 'c', 'c', 'c', 'c']001.wav|a b c c c c c c c
+./sentences/['a', 'b']001.wav|a b
+./sentences/['a', 'b']001.wav|a b
+./sentences/['a', 'c', 'a', 'b']001.wav|a c a b
+./sentences/['a', 'a']001.wav|a a
+./sentences/['a', 'a', 'a', 'a']001.wav|a a a a
+./sentences/['a', 'a', 'a', 'a']001.wav|a a a a
+./sentences/['a']001.wav|a
+./sentences/['a', 'a']001.wav|a a
+./sentences/['a', 'a']001.wav|a a
+./sentences/['a', 'a']001.wav|a a
+./sentences/['a', 'a']001.wav|a a

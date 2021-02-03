@@ -33,7 +33,7 @@ def random_pick():
         print('FILENAME IS' + filename)
         # print(rdm_audiopick_list)
     randompick = str(random.choices(rdm_audiopick_list)).replace('[', '').replace(']', '').replace("'", '')
-    print(randompick, "is random pick!")
+    # print(randompick, "is random pick!")
 
 
 def combine_syllables():
@@ -61,16 +61,11 @@ def combine_sentence():
 
 def export_word():
     global TempID
-    TempID = 0
     if not os.path.exists('./TEMP'):
         os.makedirs('./TEMP')
-    combined_audio.export("./TEMP/" + str(ozk_word) + ".wav", format="wav")
-    for filename in glob.glob('./TEMP/'+'*.wav'):
-        #print(filename, "IS FILENAME")
-        if fnmatch.fnmatch(filename, '*.wav'):
-            print("YESYESYES")
-            TempID += 1
-            combined_audio.export("./TEMP/" + str(ozk_word) + str(TempID) + ".wav", format="wav")
+    TempID += 1
+    combined_audio.export("./TEMP/" + str(ozk_word) + str(TempID) + ".wav", format="wav")
+
 
 
 
@@ -83,6 +78,7 @@ def delete_tempwords():
 combined_word_audio = AudioSegment.empty()
 combined_audio = AudioSegment.empty()
 ExportID = 0
+TempID = 0
 audio_pathlist = []
 
 # syllable audio directory
@@ -283,12 +279,12 @@ for lines in poem:
             rcmb_sylls = Syllable_Dictionary.get(ozk_word)
             print(rcmb_sylls)
             # for each entry in the list
-            for i in rcmb_sylls:
+            for syllables in rcmb_sylls:
                 # clean string
-                audio_name = str(re.sub(r'\W+', '', i))
-                print(audio_name, "is name of audio")
+                audio_name = str(re.sub(r'\W+', '', syllables))
+                # print(audio_name, "is name of audio")
                 audio_filepath = './audio/' + audio_name + '.wav'
-                print("searching for audio name", audio_name, "in path", audio_filepath)
+                # print("searching for audio name", audio_name, "in path", audio_filepath)
                 # append to list for random syllable pick
                 audio_pathlist.append(audio_filepath)
 
@@ -309,7 +305,7 @@ for lines in poem:
                 if audio_name in oz_audio_rand_list:
                     audioisvalid = True
                     random_pick()
-                    print("Sample found! Trimming and Appending Syllable...")
+                    print("Sample", randompick, "found! Trimming and Appending Syllable...")
                     combine_syllables()
                 else:
                     audioisvalid = False
@@ -322,6 +318,10 @@ for lines in poem:
             combined_audio = AudioSegment.empty()
 
             # END RECOMBINE LOOP
+
+
+
+
 
     # write translation dict to disk
     with open('Translation_Dictionary.csv', 'w') as f:
@@ -336,7 +336,7 @@ for lines in poem:
     LJCounter = LJCounter.zfill(3)
 
     full_sentence_audio.export("./sentences/" + str(sentence) + LJCounter + ".wav", format="wav")
-    delete_tempwords()
+    # delete_tempwords()
     csvaudiofilepath = "./sentences/" + str(sentence) + LJCounter + ".wav"
 
     with open('LJSpeech.csv', 'a+', newline='') as csvfile:

@@ -401,3 +401,579 @@
 ./sentences/['king']001.wav|king
 ./sentences/['king']001.wav|king
 ./sentences/['king']001.wav|king
+./sentences/['king']001.wav|king
+./sentences/['king']001.wav|king
+./sentences/['king', 'hello']001.wav|"king hello
+"
+./sentences/['power', 'move', 'thiswordisnotinthere']002.wav|power move thiswordisnotinthere
+./sentences/['king', 'hello']001.wav|"king hello
+"
+./sentences/['power', 'move', 'thiswordisnotinthere']002.wav|power move thiswordisnotinthere
+./sentences/['king', 'hello']001.wav|"king hello
+"
+./sentences/['power', 'move', 'thiswordisnotinthere']002.wav|power move thiswordisnotinthere
+./sentences/['king', 'hello']001.wav|"king hello
+"
+./sentences/['power', 'move', 'thiswordisnotinthere']002.wav|power move thiswordisnotinthere
+./sentences/['king', 'hello', 'lolmao']001.wav|"king hello lolmao
+"
+./sentences/['power', 'move', 'thiswordisnotinthere']002.wav|power move thiswordisnotinthere
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|to bogeys darkling crypt
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|to bogeys darkling crypt
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|to bogeys darkling crypt
+./sentences/['ho']001.wav|"ho
+"
+./sentences/['ho', 'ha', 'he']001.wav|"ho ha he
+"
+./sentences/['a', 'b', 'c']001.wav|"a b c
+"
+./sentences/['a', 'b', 'c']001.wav|"a b c
+"
+./sentences/['a', 'b', 'c']001.wav|"a b c
+"
+./sentences/['a', 'b', 'c']001.wav|"a b c
+"
+./sentences/['a', 'b', 'c']001.wav|"a b c
+"
+./sentences/['a', 'b', 'c']001.wav|"a b c
+"
+./sentences/['a', 'b', 'c']001.wav|"a b c
+"
+./sentences/['a', 'b', 'c']001.wav|"a b c
+"
+./sentences/['a', 'b', 'c']001.wav|"a b c
+"
+./sentences/['a', 'b', 'c']001.wav|"a b c
+"
+./sentences/['a', 'b', 'c']001.wav|"a b c
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|to bogeys darkling crypt
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|to bogeys darkling crypt
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|to bogeys darkling crypt
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|to bogeys darkling crypt
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|upon the field to day

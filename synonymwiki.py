@@ -13,9 +13,9 @@ dict_syndLUL = {"Ozh":["Self","I","me","my","mine"],
 "doq":["upon","ontop","above"],
 "roq":["far","distant"],
 "doz":["below","beneath","underneath"],
-"ahm'":["very","super"],
+"ahm":["very","super"],
 "ashm":["more","additional"],
-"vo'":["not"],
+"vo":["not"],
 "Vom":["less"],
 "acha":["am","be","now"],
 "icha":["could","will","possibility"],
@@ -45,7 +45,6 @@ dict_syndLUL = {"Ozh":["Self","I","me","my","mine"],
 "safras":["pain","suffer","wound"],
 "poz":["power","ability","skill","action"],
 "irush":["Illness","common,cold","plague"],
-"sol":["hope","light","brightness","sun","fire"],
 "groth":["spread","widen","open","welcome"],
 "greesh":["debt","lack"],
 "lieyev":["payment","gift","tithe","taxes","tax"],
@@ -57,38 +56,32 @@ dict_syndLUL = {"Ozh":["Self","I","me","my","mine"],
 "ov":["one","once","singular"],
 "sav":["seven","seventh"],
 "kish":["excrement","waste"],
-"sovoz":["french dip sandwich"]
+"sol":["hope","light","brightness","sun","fire"],
+"sovoz":["french dip sandwich"],
 }
 
 
+# "thok":["move","go","walk","run"],
 templist = []
 for key, value in dict_syndLUL.items():                             # for each key value pair item:
-            for i in value:                                         # for each element in the value list:
+            for i in value:                                         # for each value:
+                print(i)
                 for syn in wordnet.synsets(i):                      # for each synonyms in wordnet:
                     for k in syn.lemmas():                          # for each lemma (synonym list word element):
                         templist.append(k.name())                   # stash the synonym into a temp list!
 
             templist = np.unique(templist).tolist()                 # remove duplicates from templist!
             for i in templist:                                      # for each element in the stashed synonym list:
-                #print(templist, "i")                               # for each word in list, print the list (lul)
+                print(templist, "i")                               # for each word in list, print the list (lul)
+                i = [character for character in str.lower(i) if character.isalnum()]
+                i = "".join(i)
                 value.append(i)                                     # append each temp element to value list in the dict!
             #print(templist)
 
             templist = []                                           # clear the stash for the next iteration!
                                                                     # profit?
 
-
-# PRINT RESULT
-
-# retrieve synonyms for ozk word
-retrieve_key = "irush"
-print("HERE COMES THE", retrieve_key, "SYNONYM DIRECT TRANSLATIONS LIST:")
-print(dict_syndLUL.get(retrieve_key))
-
 # Save our dict elements into csv file
-with open("synonym_dict.csv", "w") as f:
-    wr = csv.writer(f, delimiter="\n")
-    wr.writerow(dict_syndLUL.items()) 
-
-
-
+with open('synonym_dict.csv', 'w') as f:
+    for key in dict_syndLUL.keys():
+        f.write("%s, %s\n" % (key, str(dict_syndLUL.get(key))))

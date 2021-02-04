@@ -1720,3 +1720,438 @@
 ./sentences/['a', 'a']001.wav|a a
 ./sentences/['a', 'a']001.wav|a a
 ./sentences/['a', 'a']001.wav|a a
+./sentences/['a', 'a', 'b', 'b', 'cc', 'c', 'c', 'c']001.wav|a a b b cc c c c
+./sentences/['a', 'b', 'c', 'a', 'b', 'c']001.wav|a b c a b c
+./sentences/['a']001.wav|a
+./sentences/['a']001.wav|a
+./sentences/['a', 'a']001.wav|a a
+./sentences/['a', 'a', 'b', 'c']001.wav|a a b c
+./sentences/['a', 'a', 'a', 'a', 'a']001.wav|"a a a a a
+"
+./sentences/['b', 'b', 'b', 'b', 'b']002.wav|"b b b b b
+"
+./sentences/['c', 'c', 'c', 'c', 'c']003.wav|"c c c c c
+"
+./sentences/['d', 'd', 'd', 'd', 'd']004.wav|"d d d d d
+"
+./sentences/['e', 'e', 'e', 'e', 'e']005.wav|"e e e e e
+"
+./sentences/['f', 'f', 'f', 'f', 'f']006.wav|"f f f f f
+"
+./sentences/['g', 'g', 'g', 'g', 'g']007.wav|"g g g g g
+"
+./sentences/['h', 'h', 'h', 'h', 'h']008.wav|h h h h h
+./sentences/['a', 'a', 'a', 'a', 'a']001.wav|"a a a a a
+"
+./sentences/['b', 'b', 'b', 'b', 'b']002.wav|"b b b b b
+"
+./sentences/['c', 'c', 'c', 'c', 'c']003.wav|"c c c c c
+"
+./sentences/['d', 'd', 'd', 'd', 'd']004.wav|"d d d d d
+"
+./sentences/['e', 'e', 'e', 'e', 'e']005.wav|"e e e e e
+"
+./sentences/['f', 'f', 'f', 'f', 'f']006.wav|"f f f f f
+"
+./sentences/['g', 'g', 'g', 'g', 'g']007.wav|g g g g g
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|"to bogeys darkling crypt
+"
+./sentences/['each', 'knight', 'is', 'robed', 'in', 'scarlet']009.wav|"each knight is robed in scarlet
+"
+./sentences/['or', 'clad', 'in', 'olive', 'green']010.wav|or clad in olive green
+./sentences/['test', 'test', 'test', 'test', 'test', 'test']001.wav|"test test test test test test
+"
+./sentences/['arooo', 'canus', 'gremlo', 'pale', 'horse']002.wav|arooo canus gremlo pale horse
+./sentences/['longwordherewithlots', 'longwordherewithlots', 'longwordherewithlots', 'longwordherewithlotslongwordherewithlots', 'longwordherewithlots']001.wav|longwordherewithlots longwordherewithlots longwordherewithlots longwordherewithlotslongwordherewithlots longwordherewithlots
+./sentences/['longwordherewithlots', 'longwordherewithlots', 'longwordherewithlots', 'longwordherewithlots', 'longwordherewithlots', 'longwordherewithlots', 'longwordherewithlots']001.wav|longwordherewithlots longwordherewithlots longwordherewithlots longwordherewithlots longwordherewithlots longwordherewithlots longwordherewithlots
+./sentences/['longwordherewithlots', 'longwordherewithlots', 'longwordherewithlots', 'longwordherewithlots', 'longwordherewithlots', 'longwordherewithlots', 'longwordherewithlots']001.wav|longwordherewithlots longwordherewithlots longwordherewithlots longwordherewithlots longwordherewithlots longwordherewithlots longwordherewithlots
+./sentences/['longwordherewithlots', 'longwordherewithlots', 'longwordherewithlots', 'longwordherewithlots', 'longwordherewithlots', 'longwordherewithlots', 'longwordherewithlots']001.wav|longwordherewithlots longwordherewithlots longwordherewithlots longwordherewithlots longwordherewithlots longwordherewithlots longwordherewithlots
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|"to bogeys darkling crypt
+"
+./sentences/['each', 'knight', 'is', 'robed', 'in', 'scarlet']009.wav|"each knight is robed in scarlet
+"
+./sentences/['or', 'clad', 'in', 'olive', 'green']010.wav|or clad in olive green
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|"to bogeys darkling crypt
+"
+./sentences/['each', 'knight', 'is', 'robed', 'in', 'scarlet']009.wav|"each knight is robed in scarlet
+"
+./sentences/['or', 'clad', 'in', 'olive', 'green']010.wav|or clad in olive green
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|"to bogeys darkling crypt
+"
+./sentences/['each', 'knight', 'is', 'robed', 'in', 'scarlet']009.wav|"each knight is robed in scarlet
+"
+./sentences/['or', 'clad', 'in', 'olive', 'green']010.wav|or clad in olive green
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|"to bogeys darkling crypt
+"
+./sentences/['each', 'knight', 'is', 'robed', 'in', 'scarlet']009.wav|"each knight is robed in scarlet
+"
+./sentences/['or', 'clad', 'in', 'olive', 'green']010.wav|or clad in olive green
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|"to bogeys darkling crypt
+"
+./sentences/['each', 'knight', 'is', 'robed', 'in', 'scarlet']009.wav|"each knight is robed in scarlet
+"
+./sentences/['or', 'clad', 'in', 'olive', 'green']010.wav|or clad in olive green
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|"to bogeys darkling crypt
+"
+./sentences/['each', 'knight', 'is', 'robed', 'in', 'scarlet']009.wav|"each knight is robed in scarlet
+"
+./sentences/['or', 'clad', 'in', 'olive', 'green']010.wav|or clad in olive green
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|"to bogeys darkling crypt
+"
+./sentences/['each', 'knight', 'is', 'robed', 'in', 'scarlet']009.wav|"each knight is robed in scarlet
+"
+./sentences/['or', 'clad', 'in', 'olive', 'green']010.wav|or clad in olive green
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|"to bogeys darkling crypt
+"
+./sentences/['each', 'knight', 'is', 'robed', 'in', 'scarlet']009.wav|"each knight is robed in scarlet
+"
+./sentences/['or', 'clad', 'in', 'olive', 'green']010.wav|or clad in olive green
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|"to bogeys darkling crypt
+"
+./sentences/['each', 'knight', 'is', 'robed', 'in', 'scarlet']009.wav|"each knight is robed in scarlet
+"
+./sentences/['or', 'clad', 'in', 'olive', 'green']010.wav|or clad in olive green
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|"to bogeys darkling crypt
+"
+./sentences/['each', 'knight', 'is', 'robed', 'in', 'scarlet']009.wav|"each knight is robed in scarlet
+"
+./sentences/['or', 'clad', 'in', 'olive', 'green']010.wav|or clad in olive green
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|"to bogeys darkling crypt
+"
+./sentences/['each', 'knight', 'is', 'robed', 'in', 'scarlet']009.wav|"each knight is robed in scarlet
+"
+./sentences/['or', 'clad', 'in', 'olive', 'green']010.wav|or clad in olive green
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|"to bogeys darkling crypt
+"
+./sentences/['each', 'knight', 'is', 'robed', 'in', 'scarlet']009.wav|"each knight is robed in scarlet
+"
+./sentences/['or', 'clad', 'in', 'olive', 'green']010.wav|or clad in olive green
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['to', 'bogeys', 'darkling', 'crypt']008.wav|"to bogeys darkling crypt
+"
+./sentences/['each', 'knight', 'is', 'robed', 'in', 'scarlet']009.wav|"each knight is robed in scarlet
+"
+./sentences/['or', 'clad', 'in', 'olive', 'green']010.wav|or clad in olive green
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'trumpets', 'loudly', 'bray']002.wav|"ho trumpets loudly bray
+"
+./sentences/['the', 'clans', 'will', 'strive', 'and', 'gory', 'writhe']003.wav|"the clans will strive and gory writhe
+"
+./sentences/['upon', 'the', 'field', 'to', 'day']004.wav|"upon the field to day
+"
+./sentences/['to', 'day', 'the', 'walls', 'and', 'blackboards']005.wav|"to day the walls and blackboards
+"
+./sentences/['are', 'hung', 'with', 'flaunting', 'script']006.wav|"are hung with flaunting script
+"
+./sentences/['from', 'atlas', 'on', 'the', 'staircase']007.wav|"from atlas on the staircase
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"
+./sentences/['ho', 'rattles', 'sound', 'your', 'warnote']001.wav|"ho rattles sound your warnote
+"

@@ -51,7 +51,7 @@ dict_syndLUL = {"ozh": ["Self", "I", "me", "my", "mine"],
                 "chron": ["time", "duration", "period"],
                 "rast": ["toys", "puppets", "amusement", "entertainment"],
                 "miskath": ["failure", "incomplete", "unfinished"],
-                "fol": ["weakling", "whelp", "peasant", "fool", "greg"],
+                "fol": ["weakling", "whelp", "peasant", "fool", "greg", "fools"],
                 "ensh": ["know", "learn"],
                 "ov": ["one", "once", "singular"],
                 "sav": ["seven", "seventh"],
@@ -59,7 +59,6 @@ dict_syndLUL = {"ozh": ["Self", "I", "me", "my", "mine"],
                 "sol": ["hope", "light", "brightness", "sun", "fire"],
                 "sovoz": ["sandwich", "snack"],
                 }
-
 
 
 templist = []

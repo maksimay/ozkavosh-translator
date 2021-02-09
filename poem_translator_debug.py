@@ -4,6 +4,8 @@ import csv
 import re
 import random
 import math
+import re
+from unidecode import unidecode
 from hyphenate import hyphenate_word
 from pydub import AudioSegment
 
@@ -38,6 +40,7 @@ def random_pick():
 
 def combine_syllables():
     global combined_audio
+    # combined_audio = AudioSegment.empty()
     src_audio = AudioSegment.from_wav(randompick)
     # print("Trimming Audiofiles..")
     duration = len(src_audio)
@@ -60,17 +63,17 @@ def combine_sentence():
 
 def export_word():
     global TempID
-    global SentenceID
+    global inSentenceID
     if not os.path.exists('./TEMP'):
         os.makedirs('./TEMP')
     TempID += 1
     xTempID = str(TempID)
     xTempID = xTempID.zfill(3)
-    SentenceID += 1
-    xSentenceID = str(SentenceID)
-    xSentenceID = xSentenceID.zfill(3)
-    print(xSentenceID)
-    combined_audio.export("./TEMP/" + str(xSentenceID) + str(oz_word) + str(xTempID) + ".wav", format="wav")
+    inSentenceID += 1
+    xinSentenceID = str(inSentenceID)
+    xinSentenceID = xinSentenceID.zfill(3)
+    print("Word", xinSentenceID, "exported")
+    combined_audio.export("./TEMP/" + str(xinSentenceID) + str(oz_word) + str(xTempID) + ".wav", format="wav")
 
 
 def delete_tempwords():
@@ -85,16 +88,72 @@ def get_key(val):
 
     return "key doesn't exist"
 
-# initialise variables
 
+_whitespace_re = re.compile(r'\s+')
+
+
+def collapse_whitespace(text):
+  return re.sub(_whitespace_re, ' ', text)
+
+
+def convert_to_ascii(text):
+  return unidecode(text)
+
+
+def lowercase(text):
+  return text.lower()
+
+
+def expand_abbreviations(text):
+  for regex, replacement in _abbreviations:
+    text = re.sub(regex, replacement, text)
+  return text
+
+
+def basic_cleaners(text):
+  '''Basic pipeline that lowercases and collapses whitespace without transliteration.'''
+  text = lowercase(text)
+  text = collapse_whitespace(text)
+  return text
+
+
+def english_cleaners(text):
+  '''Pipeline for English text, including number and abbreviation expansion.'''
+  text = convert_to_ascii(text)
+  text = lowercase(text)
+  text = expand_abbreviations(text)
+  text = collapse_whitespace(text)
+  return text
+
+# List of (regular expression, replacement) pairs for abbreviations:
+_abbreviations = [(re.compile('\\b%s\\.' % x[0], re.IGNORECASE), x[1]) for x in [
+  ('mrs', 'misess'),
+  ('mr', 'mister'),
+  ('dr', 'doctor'),
+  ('st', 'saint'),
+  ('co', 'company'),
+  ('jr', 'junior'),
+  ('maj', 'major'),
+  ('gen', 'general'),
+  ('drs', 'doctors'),
+  ('rev', 'reverend'),
+  ('lt', 'lieutenant'),
+  ('hon', 'honorable'),
+  ('sgt', 'sergeant'),
+  ('capt', 'captain'),
+  ('esq', 'esquire'),
+  ('ltd', 'limited'),
+  ('col', 'colonel'),
+  ('ft', 'fort'),
+]]
 if not os.path.exists('./sentences'):
     os.makedirs('./sentences')
-
+# initialise variables
 combined_word_audio = AudioSegment.empty()
 combined_audio = AudioSegment.empty()
 ExportID = 0
 TempID = 0
-SentenceID = 0
+inSentenceID = 0
 audio_pathlist = []
 
 # syllable audio directory
@@ -153,14 +212,15 @@ weight_mapping = {
 }
 forbidden_letters = {'b': 'q', 'j': 'i', 'x': 'k'}
 # initialise dicts
+
 # read in available key value pairs | en, ozk
 with open('Translation_Dictionary.csv', mode='r') as infile:
-    reader = csv.reader(infile)
+    reader = csv.reader(infile, delimiter='|')
     Translation_Dictionary = {rows[0]: rows[1] for rows in reader}
-# read in list of available syllables | ozk, [syll1,...]
+# read in list of available syllables | ozk, ['syll1','syll2','syll3']
 with open('Syllable_Dictionary.csv', mode='r') as infile:
-    reader = csv.reader(infile)
-    Syllable_Dictionary = {rows[0]: rows[1:] for rows in reader}
+    reader = csv.reader(infile, delimiter='|')
+    Syllable_Dictionary = {rows[0]: rows[1] for rows in reader}
 # read in direct translations and wordnet synonyms | {ozk:[en1,...]}
 with open('synonym_dict.csv', mode='r') as infile:
     reader = csv.reader(infile)
@@ -171,32 +231,43 @@ for key, value in Synonym_Dictionary.items():
     for i in value:
         Translation_Dictionary.update({i: get_key(i)})
 # clean the key
+
 Translation_Dictionary = {key.replace('[', '').replace(']', '').replace("'", '').replace(" ", ''): value
                           for key, value in Translation_Dictionary.items()}
 
-# update syllables for direct wiki translation words # -> put them into a list aswell
 
-directwords = []
-for key, value in Synonym_Dictionary.items():
-    directwords.append(key)
-    Syllable_Dictionary.update({key: directwords})
-    directwords = []
-
-
+# update syllable picks for direct wiki translation words to find audio files
+if os.stat('Syllable_Dictionary.csv').st_size == 0:
+    print("syllable dict empty, populating with direct word translations")
+    wikiwords = []
+    for key in Synonym_Dictionary.keys(): # this is the SYN dict (list of ozk words)
+        wikiwords.append(key)
+        Syllable_Dictionary[key] = wikiwords # this is the SYLL dict (syll = ozk word = arkosh1,2,3.wav)
+        wikiwords = []
 
 # re save the dict
 with open('Translation_Dictionary.csv', 'w') as f:
     for key in Translation_Dictionary.keys():
         f.write("%s,%s\n" % (key, Translation_Dictionary[key]))
 
+
+# initialise list of available syllable audios # this was previously inside the translation loop
+oz_available_audio = []
+# read in list of available ozk syllable variations aka audio files ek, ek1, ek2...
+with open(oz_sample_file) as csvfile:
+    dictionary = csv.reader(csvfile, delimiter=' ')
+    for row in dictionary:
+        oz_available_audio.append(','.join(row))
+
 f = open('test.txt', 'r')
 poem = f.readlines()
 for lines in poem:
     lines = lines.lower()
+
     print("line in poem is:", lines)
     sentence = lines.split()
     for en_word in sentence:
-        print("iterating over", en_word)
+        # print("iterating over", en_word)
         # remove any special characters
         en_word = [character for character in str.lower(en_word) if character.isalnum()]
         en_word = "".join(en_word)
@@ -210,43 +281,37 @@ for lines in poem:
 # ################     ##############################################################################################
         if en_word in Translation_Dictionary.keys():
             # get the ozkavosh word
-            oz_word = Translation_Dictionary.get(en_word)
+            oz_word = Translation_Dictionary[en_word]
             print("iterating over known word", oz_word, "(", en_word, ")")
             audio_pathlist = []
+            # get list of ozkavosh syllables
             repick_sylls = []
-            repick_sylls = Syllable_Dictionary.get(oz_word)
+            repick_sylls.append(Syllable_Dictionary[oz_word])
+            # repick_sylls.append(Syllable_Dictionary[oz_word])
             print(repick_sylls, "is repick_sylls")
+            # get clean string from list entry to look for audio file (WORKAROUND)
             for i in repick_sylls:
-                print(i, "is name of audio")
-                audio_filepath = './audio/' + i + '.wav'
-                print("searching for audio name", i, "in path", audio_filepath)
-                # append to list for random syllable pick
+                audiostring = str(i).replace('[', '').replace(']', '').replace("'", '').replace(" ", '').replace('"', '').replace('\\', '').replace('/', '')
+                print(audiostring, "is audio string")
+                audio_filepath = './audio/' + audiostring + '.wav'
                 audio_pathlist.append(audio_filepath)
-            # clear and initialise list of available syllable audios
-            oz_available_audio = []
-            # read in list of available ozk syllable variations aka audio files ek, ek1, ek2...
-            with open(oz_sample_file) as csvfile:
-                dictionary = csv.reader(csvfile, delimiter=' ')
-                for row in dictionary:
-                    oz_available_audio.append(','.join(row))
-            # print(audio_pathlist, "AUDIO PATHLIST ENTRIES")
-            # pick a random variation for each syllable
-            # rand syllable selection, combine word audio
+                print("searching for audio", audiostring, "in path", audio_filepath)
+
+            # pick a random variation for each syllable and combine word audio
             print(audio_pathlist)
             for i in audio_pathlist:
                 wav_filepath = i
                 audio_name = wav_filepath.replace('.wav', '').replace('./audio/', '')
-                print(i)
                 if audio_name in oz_available_audio:
                     audioisvalid = True
                     random_pick()
                     print("Sample", randompick, "found! Trimming and Appending Syllable...")
+                    # append randomly chosen syllable audio to previous audio block
                     combine_syllables()
                 else:
                     audioisvalid = False
                     print("Sample not found in Lookup Table RECOMBINE LOOP")
             export_word()
-            print("EXPORTED KNOWN WORD")
             # empty pathlist and audio segment for next word
             audio_pathlist = []
             repick_sylls = []
@@ -255,10 +320,7 @@ for lines in poem:
         if en_word not in Translation_Dictionary.keys():
             print("no translation key for", en_word, "found in dict")
             hyphens = en_hyphens
-            print(len(en_hyphens))
-            print(len(en_word))
             if len(en_hyphens) == 1:
-                print("single hyphen word detected")
                 Translation_Word_Length = len(str(en_word))
                 Hyphens_Length = math.sqrt(len(en_word))
                 Hyphens_Rounded = int(Hyphens_Length)
@@ -276,39 +338,37 @@ for lines in poem:
             # initialise and or clear lists of syllables and corresponding audio paths to sample from
             oz_syllables = []
             audio_pathlist = []
-            # print(start_chars, "is start chars")
             # en_syllable start characters, assign rand ozk syllable to each one, make list of audios for random pick
             for i in start_chars:
                 char_map = oz_syllable_mapping.get(i)
                 weights_map = weight_mapping.get(i)
                 oz_syllable_pick = str(random.choices(population=char_map, weights=weights_map, k=1))
-                # append the syllables to form the new word
                 oz_syllables.append(oz_syllable_pick)
                 # create clean audio string
                 audio_name = str(re.sub(r'\W+', '', oz_syllable_pick))
-                # print(audio_name, "is name of audio")
                 audio_filepath = './audio/' + audio_name + '.wav'
                 # print("searching for audio name", audio_name, "in path", audio_filepath)
                 # append to list for random syllable pick
                 audio_pathlist.append(audio_filepath)
-
-            # clean string
+            # clean word string
             oz_word = str(oz_syllables)
             oz_word = [character for character in oz_word if character.isalnum()]
             oz_word = "".join(oz_word)
 
+
+            val = []
+            for i in oz_syllables:
+                valstr = str(i).replace('[', '').replace(']', '').replace("'", '').replace(" ", '').replace('"', '').replace('\\', '').replace('/', '')
+                val.append(valstr)
+
+            Syllable_Dictionary[oz_word] = val
+
+
+            print("syllable list for", oz_word, "added to dict as", val, "\n")
             # update english to ozkavosh dictionary
-            Translation_Dictionary.update({en_word: oz_word})
+            Translation_Dictionary[en_word] = oz_word
             print("translation for", en_word, "added to dict as", oz_word, "\n")
-
-            # read in list of available ozk syllable variations aka audio files ek, ek1, ek2...
-            oz_available_audio = []
-            with open(oz_sample_file) as csvfile:
-                dictionary = csv.reader(csvfile, delimiter=' ')
-                for row in dictionary:
-                    oz_available_audio.append(','.join(row))
-
-            print(audio_pathlist, "AUDIO PATHLIST ENTRIES")
+            # print(audio_pathlist, "AUDIO PATHLIST ENTRIES")
             # pick a random variation for each syllable
             # rand syllable selection, combine word audio
             for i in audio_pathlist:
@@ -323,26 +383,10 @@ for lines in poem:
                     audioisvalid = False
                     print("Sample not found in Lookup Table TRANSLATION LOOP")
 
-            clean_sylls = []
-            for i in oz_syllables:
-                i = [character for character in str.lower(i) if character.isalnum()]
-                i = "".join(i)
-                clean_sylls.append(i)
-            # clear and initialise list of available syllable audios
-            Syllable_Dictionary.update({oz_word: clean_sylls})
-            print("syllable list for", oz_word, "added to dict as", clean_sylls, "\n")
-
-            with open('Syllable_Dictionary.csv', 'w') as f:
-                for key in Syllable_Dictionary.keys():
-                    f.write("%s, %s\n" % (key, Syllable_Dictionary.get(key)))
-
-            # export /temp word audio
             export_word()
-            print("EXPORTED UNKNOWN WORD")
             # empty pathlist and audio segment for next word
             audio_pathlist = []
             combined_audio = AudioSegment.empty()
-            clean_sylls = []
             oz_syllables = []
             # END TRANSLATION LOOP =)
 
@@ -351,20 +395,31 @@ for lines in poem:
     ExportID += 1
     LJCounter = str(ExportID)
     LJCounter = LJCounter.zfill(3)
-    full_sentence_audio.export("./sentences/" + str(sentence) + LJCounter + ".wav", format="wav")
+    csvaudiofilepath = "./sentences/" + str(sentence) + LJCounter + ".wav"
+    full_sentence_audio.export("./sentences/" + "Sentence" + LJCounter + ".wav", format="wav")
     delete_tempwords()
     TempID = 0
     SentenceID = 0
-    csvaudiofilepath = "./sentences/" + str(sentence) + LJCounter + ".wav"
+
 
     with open('LJSpeech.csv', 'a+', newline='') as csvfile:
         fieldnames = ["audio", "transcription"]
         LJSpeechwriter = csv.DictWriter(csvfile, delimiter="|", fieldnames=fieldnames)
         LJSpeechwriter.writerow({"audio": csvaudiofilepath, "transcription": lines})
 
+with open('Syllable_Dictionary.csv', 'w') as f:
+    for key in Syllable_Dictionary.keys():
+        f.write("%s|%s\n" % (key, Syllable_Dictionary[key]))
+'''
+with open('Syllable_Dictionary.csv', 'w', newline='') as csvfile:
+    fieldnames = ["ozkavosh", "syllables"]
+    SyllWriter = csv.DictWriter(csvfile, delimiter=",", fieldnames=fieldnames)
+    for key, value in Syllable_Dictionary.keys():
+        SyllWriter.writerow({"ozkavosh": key, "syllables": value})
+'''
 
 with open('Translation_Dictionary.csv', 'w') as f:
     for key in Translation_Dictionary.keys():
-        f.write("%s,%s\n" % (key, Translation_Dictionary[key]))
+        f.write("%s|%s\n" % (key, Translation_Dictionary[key]))
 
 

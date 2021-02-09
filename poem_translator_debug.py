@@ -104,11 +104,6 @@ def lowercase(text):
   return text.lower()
 
 
-def expand_abbreviations(text):
-  for regex, replacement in _abbreviations:
-    text = re.sub(regex, replacement, text)
-  return text
-
 
 def basic_cleaners(text):
   '''Basic pipeline that lowercases and collapses whitespace without transliteration.'''
@@ -121,31 +116,11 @@ def english_cleaners(text):
   '''Pipeline for English text, including number and abbreviation expansion.'''
   text = convert_to_ascii(text)
   text = lowercase(text)
-  text = expand_abbreviations(text)
   text = collapse_whitespace(text)
   return text
 
 # List of (regular expression, replacement) pairs for abbreviations:
-_abbreviations = [(re.compile('\\b%s\\.' % x[0], re.IGNORECASE), x[1]) for x in [
-  ('mrs', 'misess'),
-  ('mr', 'mister'),
-  ('dr', 'doctor'),
-  ('st', 'saint'),
-  ('co', 'company'),
-  ('jr', 'junior'),
-  ('maj', 'major'),
-  ('gen', 'general'),
-  ('drs', 'doctors'),
-  ('rev', 'reverend'),
-  ('lt', 'lieutenant'),
-  ('hon', 'honorable'),
-  ('sgt', 'sergeant'),
-  ('capt', 'captain'),
-  ('esq', 'esquire'),
-  ('ltd', 'limited'),
-  ('col', 'colonel'),
-  ('ft', 'fort'),
-]]
+
 if not os.path.exists('./sentences'):
     os.makedirs('./sentences')
 # initialise variables

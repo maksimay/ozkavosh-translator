@@ -28,7 +28,7 @@ def get_synonyms_wordnet():
             value.append(i)                                                     # append each temp element to value list in the dict!
 
 
-# init dataframe from wiki direct translations and synonyms
+# init translation dataframe from wiki direct translations and synonyms
 DictWikiSyns = {
                 "ozh": ["Self", "I", "me", "my", "mine"],
                 "izh": ["you", "him", "her"],
@@ -142,20 +142,29 @@ DictWikiSylls = {
             "sovoz": ["so", "vo", "oz"]
             }
 Translation_Dictionary = {}
-
 get_synonyms_wordnet()
 
 for key, value in DictWikiSyns.items():
     for i in value:
         Translation_Dictionary.update({i: get_synonym_key(i)})
 
-df = pd.DataFrame(list(Translation_Dictionary.items()), columns=['english', 'ozkavosh'])
+df = pd.DataFrame(list(Translation_Dictionary.items()), columns=['english', 'ozkavosh'], dtype='object')
 df['syllables'] = ""
 
 for i in range(len(df)):
     syllkey = df.iloc[i, 1]
     syllval = DictWikiSylls[syllkey]
+
     df.iat[i, 2] = syllval
+    #print(syllval)
 print(df)
 
 df.to_pickle('df_translation.pkl')
+
+
+# create an empty! training dataframe
+df2 = pd.DataFrame({'wav_path': pd.Series([], dtype='object'),
+                    'en_transcription': pd.Series([], dtype='object'),
+                    })
+
+df2.to_pickle('df_training.pkl')

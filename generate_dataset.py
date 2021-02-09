@@ -39,7 +39,6 @@ def random_pick():
 
 def combine_syllables():
     global combined_audio
-    # combined_audio = AudioSegment.empty()
     src_audio = AudioSegment.from_wav(randompick)
     # print("Trimming Audiofiles..")
     duration = len(src_audio)
@@ -81,7 +80,9 @@ def delete_tempwords():
 
 
 # init
-
+####################################################
+#               alphabet : oz_sylls                #
+####################################################
 oz_syllable_mapping = {
     'a': ["ac", "ach", "ah", "ahm", "al", "ar", "as", "ash", "ath"], # 9
     'c': ["ch", "cha"],
@@ -107,6 +108,9 @@ oz_syllable_mapping = {
     'y': ["yi"],
     'z': ["zh"]}
 # from future import nicht uniforme zufallsvariable hier
+####################################################
+#    (alphabet:oz_sylls) : rand pick probability   #
+####################################################
 weight_mapping = {
     "a": [1, 2, 1, 2, 2, 2, 2, 3, 2], # 9
     "c": [1, 2],
@@ -132,11 +136,14 @@ weight_mapping = {
     "y": [1],
     "z": [2]
 }
-
+####################################################
+#  letters don't appear in the wiki translations   #
+####################################################
 forbidden_letters = {'b': 'q', 'j': 'o', 'x': 'o'}
-
-audio_dir = "audio"
-
+####################################################
+#  check available audio files                     #
+####################################################
+audio_dir = "audio_input"
 oz_available_audio = []
 oz_sample_file = "./oz_audiolist.csv"
 with open(oz_sample_file) as csvfile:
@@ -146,17 +153,18 @@ with open(oz_sample_file) as csvfile:
 
 word_temp_id = 0
 sentence_index = 0
-
-path, dirs, files = next(os.walk("./sentences"))
+# do this in order to not overwrite previously created sentence audio
+path, dirs, files = next(os.walk("./training_audio"))
 wav_count = len(files)
 print(wav_count, "is number of files")
-
 wav_export_id = wav_count
-combined_word_audio = AudioSegment.empty()
-combined_audio = AudioSegment.empty()
-train_df = pd.DataFrame()
 
-# load dataframe
+# init audio vars
+# combined_word_audio = AudioSegment.empty()
+combined_audio = AudioSegment.empty()
+
+
+# load dataframes
 df = pd.read_pickle('df_translation.pkl')
 df2 = pd.read_pickle('df_training.pkl')
 f = open('test.txt', 'r')
@@ -169,13 +177,14 @@ for lines in poem:
     for en_word in sentence:
         en_word = [character for character in str.lower(en_word) if character.isalnum()]
         en_word = "".join(en_word)
-
+        # if translation dataframe column english already contains an exact equal match of the word
         if df['english'].eq(en_word).any():
-            audio_pathlist = []
+            # get the stored syllables
             entry = df.loc[df['english'] == en_word]
             oz_word = entry.iloc[0].iloc[1]
             recombine_sylls = entry.iloc[0].iloc[2]
-
+            # make sure audio file is there, append syllable segments and export the word
+            audio_pathlist = []
             for i in recombine_sylls:
                 audiostring = str(i)
                 # print(audiostring, "is audio string")
@@ -195,9 +204,7 @@ for lines in poem:
                     audioisvalid = False
                     print("Sample not found in recombine loop")
             export_word()
-            # empty pathlist and audio segment for next word
-            audio_pathlist = []
-            repick_sylls = []
+            # make sure audio segment is empty for next word
             combined_audio = AudioSegment.empty()
 
         else:
@@ -273,21 +280,21 @@ for lines in poem:
     combine_sentence()
     wav_export_id += 1
     wav_id_str = str(wav_export_id)
-    wav_id_str = wav_id_str.zfill(4)
-    training_transcription = lines
-    training_transcription = training_transcription.rstrip('\n')
-    full_sentence_audio.export("./sentences/" + training_transcription + wav_id_str + ".wav", format="wav")
-    training_wav_path = "/sentences/" + training_transcription + wav_id_str + ".wav"
-    df2.loc[len(df2.index)] = [training_wav_path, training_transcription]
+    wav_id_str = wav_id_str.zfill(5)
+    transcription = lines
+    transcription = transcription.rstrip('\n')
+    full_sentence_audio.export("./training_audio/" + transcription + wav_id_str + ".wav", format="wav")
+    training_wav_path = "/training_audio/" + wav_id_str + ".wav"
     delete_tempwords()
     word_temp_id = 0
     sentence_index = 0
     # update the training df
+    df2.loc[len(df2.index)] = [training_wav_path, transcription]
 
-# print(df.tail(-50))
 print(df2)
 # save the dataframes
 df.to_pickle('df_translation.pkl')
 df2.to_pickle('df_training.pkl')
 compression_opts = dict(method='infer', archive_name='out.csv')
-df2.to_csv('out.csv', sep='|', mode="w", index=False, compression=compression_opts)
+# replace (overwrite) csv
+df2.to_csv(r'out.csv', sep='|', index=False, compression=compression_opts)

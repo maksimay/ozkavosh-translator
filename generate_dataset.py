@@ -27,14 +27,14 @@ def random_pick():
     global randompick
     rdm_audiopick_list = []
     for filename in glob.glob('./audio/' + audio_name + '.wav'):
-        #print('FILENAME IS' + filename)
+        print('FILENAME IS' + filename)
         rdm_audiopick_list.append(filename)
     for filename in glob.glob('./audio/' + audio_name + '[0-9]' + '.wav'):
         rdm_audiopick_list.append(filename)
-        #print('FILENAME IS' + filename)
-        # print(rdm_audiopick_list)
+        print('FILENAME IS' + filename)
+        print(rdm_audiopick_list)
     randompick = str(random.choices(rdm_audiopick_list)).replace('[', '').replace(']', '').replace("'", '')
-    # print(randompick, "is random pick!")
+    print(randompick, "is random pick!")
 
 
 def combine_syllables():
@@ -61,7 +61,7 @@ def export_word():
     sentence_index += 1
     str_sentence_index = str(sentence_index)
     str_sentence_index = str_sentence_index.zfill(3)
-    print("Word", str_sentence_index, "exported")
+    # print("Word", str_sentence_index, "exported")
     combined_audio.export("./TEMP/" + str(str_sentence_index) + str(oz_word) + str(temp_id) + ".wav", format="wav")
 
 
@@ -69,7 +69,7 @@ def combine_sentence():
     global word_audio
     global full_sentence_audio
     full_sentence_audio = AudioSegment.empty()
-    silence = AudioSegment.silent(duration=220)
+    silence = AudioSegment.silent(duration=820)
     for filename in glob.glob('./TEMP/'+'*.wav'):
         word_audio = AudioSegment.from_wav(filename)
         full_sentence_audio += word_audio + silence
@@ -83,19 +83,19 @@ def delete_tempwords():
 # init
 
 oz_syllable_mapping = {
-    'a': ["ac", "ach", "ah", "ahm", "al", "ar", "as", "ash", "ath"],
+    'a': ["ac", "ach", "ah", "ahm", "al", "ar", "as", "ash", "ath"], # 9
     'c': ["ch", "cha"],
-    'd': ["do", "dom", "doq"],
+    'd': ["do", "dom"],
     'e': ["ek", "en", "ey"],
     'f': ["fa", "fe", "fek", "fi", "fo"],
     'g': ["gl", "glu", "gr", "gro"],
-    'h': ["ha", "hag", "has", "he", "hm", "ho", "hol", "hro"],
+    'h': ["ha", "hag", "has", "he", "hm", "ho", "hol", "hro"], # 8
     'i': ["ich", "ik", "iru", "is", "isk", "iz", "izh"],
     'k': ["ka", "kala", "kath", "ko"],
     'l': ["lo", "lof", "lom"],
     'm': ["mi", "mis", "mo", "moz"],
     'n': ["ne", "ni", "ns"],
-    'o': ["of", "ok", "ol", "om", "omf", "omo", "oq", "osh", "oth", "ov", "oz", "ozh"],
+    'o': ["of", "ok", "ol", "om", "omf", "omo", "oq", "osh", "oth", "ov", "oz", "ozh"], # 12
     'p': ["po", "pr", "pz"],
     'q': ["oq", "ok"],
     'r': ["ro", "ros", "rush"],
@@ -106,20 +106,21 @@ oz_syllable_mapping = {
     'w': ["wr"],
     'y': ["yi"],
     'z': ["zh"]}
-# nicht uniforme zufallsvariable hier
+# from future import nicht uniforme zufallsvariable hier
 weight_mapping = {
-    "a": [1, 2, 1, 2, 2, 3, 2, 3, 2],
+    "a": [1, 2, 1, 2, 2, 2, 2, 3, 2], # 9
     "c": [1, 2],
-    "d": [1, 2, 2],
+    "d": [1, 2],
     "e": [2, 3, 2],
     "f": [1, 2, 2, 3, 2],
     "g": [3, 2, 2, 2],
-    "h": [1, 2, 2, 2, 2, 1, 2, 2], #
-    "i": [2, 3, 3, 2, 1, 3, 2],
+    "h": [1, 2, 2, 2, 2, 1, 2, 2], # 8
+    "i": [2, 3, 3, 2, 2, 3, 2],
+    "k": [1, 2, 2, 1],
     "l": [1, 2, 2],
     "m": [1, 1, 1, 2],
     "n": [2, 2, 1],
-    "o": [1, 2, 3, 3, 3, 3, 2, 2, 2, 3, 3, 2],
+    "o": [2, 2, 3, 3, 2, 2, 2, 1, 2, 3, 3, 2], # 12
     "p": [1, 2, 2],
     "q": [1, 2],
     "r": [1, 2, 2],
@@ -131,8 +132,11 @@ weight_mapping = {
     "y": [1],
     "z": [2]
 }
+
 forbidden_letters = {'b': 'q', 'j': 'o', 'x': 'o'}
+
 audio_dir = "audio"
+
 oz_available_audio = []
 oz_sample_file = "./oz_audiolist.csv"
 with open(oz_sample_file) as csvfile:
@@ -142,7 +146,12 @@ with open(oz_sample_file) as csvfile:
 
 word_temp_id = 0
 sentence_index = 0
-wav_export_id = 0
+
+path, dirs, files = next(os.walk("./sentences"))
+wav_count = len(files)
+print(wav_count, "is number of files")
+
+wav_export_id = wav_count
 combined_word_audio = AudioSegment.empty()
 combined_audio = AudioSegment.empty()
 train_df = pd.DataFrame()
@@ -155,27 +164,24 @@ poem = f.readlines()
 
 for lines in poem:
     lines = lines.lower()
-    print("line in poem is:", lines)
     sentence = lines.split()
+    print(sentence)
     for en_word in sentence:
         en_word = [character for character in str.lower(en_word) if character.isalnum()]
         en_word = "".join(en_word)
 
         if df['english'].eq(en_word).any():
             audio_pathlist = []
-            print(en_word, "found")
             entry = df.loc[df['english'] == en_word]
-            #print(entry)
             oz_word = entry.iloc[0].iloc[1]
             recombine_sylls = entry.iloc[0].iloc[2]
-            #print(recombine_sylls)
 
             for i in recombine_sylls:
                 audiostring = str(i)
                 # print(audiostring, "is audio string")
                 audio_filepath = './audio/' + audiostring + '.wav'
                 audio_pathlist.append(audio_filepath)
-                # print("searching for audio", audiostring, "in path", audio_filepath)
+                print("searching for audio", audiostring, "in path", audio_filepath)
 
             for i in audio_pathlist:
                 audio_filepath = i
@@ -183,7 +189,7 @@ for lines in poem:
                 if audio_name in oz_available_audio:
                     audioisvalid = True
                     random_pick()
-                    # print("Sample", randompick, "found! Trimming and Appending Syllable...")
+                    print("Sample", randompick, "found! Trimming and Appending Syllable...")
                     combine_syllables()
                 else:
                     audioisvalid = False
@@ -201,22 +207,22 @@ for lines in poem:
             trl_hyphens = en_hyphens
             temp_hyphens = []
             for hyphen in en_hyphens:
-                print(hyphen)
                 for key in forbidden_letters.keys():
                     hyphen = hyphen.replace(key, forbidden_letters[key])
                 temp_hyphens.append(hyphen)
-
-            print(temp_hyphens)
+            for key in forbidden_letters.keys():
+                trl_word = trl_word.replace(key, forbidden_letters[key])
+            print(trl_word)
             hyphens = temp_hyphens
             if len(en_hyphens) == 1:
                 word_len = len(str(en_word))
-                hyphens_len = math.sqrt(len(en_word))
+                hyphens_len = math.sqrt(len(trl_word))
                 hyphens_rounded = int(hyphens_len)
                 if hyphens_rounded == 0:
                     hyphens_rounded += 1
-                hyphens = [en_word[i:i + hyphens_rounded] for i in
+                hyphens = [trl_word[i:i + hyphens_rounded] for i in
                            range(0, word_len, hyphens_rounded)]
-                # print(hyphens, "are hyphens in custom translate condition")
+                print(hyphens, "are hyphens in custom translate condition")
 
             char_amt = []
             start_chars = []
@@ -237,7 +243,7 @@ for lines in poem:
                 # create clean string to look for audio
                 audio_name = str(re.sub(r'\W+', '', oz_syllable_pick))
                 audio_filepath = './audio/' + audio_name + '.wav'
-                # print("searching for audio name", audio_name, "in path", audio_filepath)
+                print("searching for audio name", audio_name, "in path", audio_filepath)
                 audio_pathlist.append(audio_filepath)
 
             oz_word = str(oz_syllables)
@@ -250,33 +256,38 @@ for lines in poem:
                 if audio_name in oz_available_audio:
                     audioisvalid = True
                     random_pick()
-                    print("Sample found! Trimming and Appending Syllable...")
+                    # print("Sample found! Trimming and Appending Syllable...")
                     combine_syllables()
                 else:
                     audioisvalid = False
-                    print("Sample not found in Lookup Table TRANSLATION LOOP")
+                    print("Sample not found in translation loop")
             
             # update the dataframe
             df.loc[len(df.index)] = [en_word, oz_word, oz_syllables]
-
             export_word()
-            # empty pathlist and audio segment for next word
             audio_pathlist = []
             combined_audio = AudioSegment.empty()
             oz_syllables = []
-            # END TRANSLATION LOOP =)
-    print("Exporting sentence audio to disk ...")
+            # end translation loop
+    # print("Exporting sentence audio to disk ...")
     combine_sentence()
     wav_export_id += 1
-    LJCounter = str(wav_export_id)
-    LJCounter = LJCounter.zfill(4)
-    full_sentence_audio.export("./sentences/" + "Sentence" + LJCounter + ".wav", format="wav")
+    wav_id_str = str(wav_export_id)
+    wav_id_str = wav_id_str.zfill(4)
+    training_transcription = lines
+    training_transcription = training_transcription.rstrip('\n')
+    full_sentence_audio.export("./sentences/" + training_transcription + wav_id_str + ".wav", format="wav")
+    training_wav_path = "/sentences/" + training_transcription + wav_id_str + ".wav"
+    df2.loc[len(df2.index)] = [training_wav_path, training_transcription]
     delete_tempwords()
     word_temp_id = 0
     sentence_index = 0
     # update the training df
 
-print(df.tail(-50))
+# print(df.tail(-50))
+print(df2)
 # save the dataframes
 df.to_pickle('df_translation.pkl')
 df2.to_pickle('df_training.pkl')
+compression_opts = dict(method='infer', archive_name='out.csv')
+df2.to_csv('out.csv', sep='|', mode="w", index=False, compression=compression_opts)

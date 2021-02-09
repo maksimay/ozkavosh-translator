@@ -162,7 +162,7 @@ print(df)
 df.to_pickle('df_translation.pkl')
 
 
-# create an empty! training dataframe
+# create an !empty! training dataframe
 df2 = pd.DataFrame({'wav_path': pd.Series([], dtype='object'),
                     'en_transcription': pd.Series([], dtype='object'),
                     })

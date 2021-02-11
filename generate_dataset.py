@@ -159,6 +159,7 @@ wav_count = len(files)
 print(wav_count, "is number of files")
 wav_export_id = wav_count
 
+
 # init audio vars
 # combined_word_audio = AudioSegment.empty()
 combined_audio = AudioSegment.empty()
@@ -283,18 +284,21 @@ for lines in poem:
     wav_id_str = wav_id_str.zfill(5)
     transcription = lines
     transcription = transcription.rstrip('\n')
-    full_sentence_audio.export("./training_audio/" + transcription + wav_id_str + ".wav", format="wav")
-    training_wav_path = "/training_audio/" + wav_id_str + ".wav"
+    norm_transcription = lines
+    norm_transcription = norm_transcription.rstrip('\n')
+    newaudio = full_sentence_audio.set_frame_rate(22050)
+    newaudio.export("./training_audio/" + "LJ001-" + wav_id_str + ".wav", format="wav")
+    training_wav_path = "LJ001-" + wav_id_str
     delete_tempwords()
     word_temp_id = 0
     sentence_index = 0
     # update the training df
-    df2.loc[len(df2.index)] = [training_wav_path, transcription]
+    df2.loc[len(df2.index)] = [training_wav_path, transcription, norm_transcription]
 
 print(df2)
 # save the dataframes
 df.to_pickle('df_translation.pkl')
 df2.to_pickle('df_training.pkl')
-compression_opts = dict(method='infer', archive_name='out.csv')
 # replace (overwrite) csv
-df2.to_csv(r'out.csv', sep='|', index=False, compression=compression_opts)
+compression_opts = dict(method='infer', archive_name='metadata.csv')
+df2.to_csv(r'metadata.csv', sep='|', index=False, compression=compression_opts)

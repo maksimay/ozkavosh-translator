@@ -3,9 +3,4 @@ python -m pip install SpeechRecognition
 python -m pip install pydub
 python -m pip install pandas
 python -m pip install numpy
-pydub~=0.24.1
-numpy~=1.19.4
-nltk~=3.5
-pandas~=1.1.5
-Unidecode~=1.2.0
-Hyphenate~=1.1.0
+python -m pip install idisplay

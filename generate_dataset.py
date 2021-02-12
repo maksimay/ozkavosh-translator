@@ -26,10 +26,10 @@ def random_pick():
     global rdm_audiopick_list
     global randompick
     rdm_audiopick_list = []
-    for filename in glob.glob('./audio/' + audio_name + '.wav'):
+    for filename in glob.glob('./audio_input/' + audio_name + '.wav'):
         print('FILENAME IS' + filename)
         rdm_audiopick_list.append(filename)
-    for filename in glob.glob('./audio/' + audio_name + '[0-9]' + '.wav'):
+    for filename in glob.glob('./audio_input/' + audio_name + '[0-9]' + '.wav'):
         rdm_audiopick_list.append(filename)
         print('FILENAME IS' + filename)
         print(rdm_audiopick_list)
@@ -79,7 +79,7 @@ def delete_tempwords():
         os.remove(files)
 
 
-# init
+# init mappings
 ####################################################
 #               alphabet : oz_sylls                #
 ####################################################
@@ -151,6 +151,8 @@ with open(oz_sample_file) as csvfile:
     for row in dictionary:
         oz_available_audio.append(','.join(row))
 
+# init vars
+
 word_temp_id = 0
 sentence_index = 0
 # do this in order to not overwrite previously created sentence audio
@@ -158,7 +160,7 @@ path, dirs, files = next(os.walk("./training_audio"))
 wav_count = len(files)
 print(wav_count, "is number of files")
 wav_export_id = wav_count
-
+oz_sentence = []
 
 # init audio vars
 # combined_word_audio = AudioSegment.empty()
@@ -183,6 +185,7 @@ for lines in poem:
             # get the stored syllables
             entry = df.loc[df['english'] == en_word]
             oz_word = entry.iloc[0].iloc[1]
+            oz_sentence.append(oz_word)
             recombine_sylls = entry.iloc[0].iloc[2]
             # make sure audio file is there, append syllable segments and export the word
             audio_pathlist = []
@@ -257,7 +260,7 @@ for lines in poem:
             oz_word = str(oz_syllables)
             oz_word = [character for character in oz_word if character.isalnum()]
             oz_word = "".join(oz_word)
-
+            oz_sentence.append(oz_word)
             for i in audio_pathlist:
                 wav_filepath = i
                 audio_name = wav_filepath.replace('.wav', '').replace('./audio/', '')
@@ -284,6 +287,12 @@ for lines in poem:
     wav_id_str = wav_id_str.zfill(5)
     transcription = lines
     transcription = transcription.rstrip('\n')
+
+    separator = ', '
+    oz_sentence = separator.join(oz_sentence)
+    oz_transcription = str(oz_sentence)
+    oz_transcription = oz_transcription.replace(',', '')
+    norm_oz_transcription = oz_transcription
     norm_transcription = lines
     norm_transcription = norm_transcription.rstrip('\n')
     newaudio = full_sentence_audio.set_frame_rate(22050)
@@ -292,8 +301,9 @@ for lines in poem:
     delete_tempwords()
     word_temp_id = 0
     sentence_index = 0
+    oz_sentence = []
     # update the training df
-    df2.loc[len(df2.index)] = [training_wav_path, transcription, norm_transcription]
+    df2.loc[len(df2.index)] = [training_wav_path, oz_transcription, norm_oz_transcription]
 
 print(df2)
 # save the dataframes

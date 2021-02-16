@@ -207,6 +207,8 @@ oz_phoneme_mapping = {
     'yi': ["Y", "IY"],
     'zh': ["ZH"]
 }
+
+
 # from future import nicht uniforme zufallsvariable hier
 ####################################################
 #    (alphabet:oz_sylls) : rand pick probability   #
@@ -269,7 +271,9 @@ combined_audio = AudioSegment.empty()
 
 # load dataframes
 df = pd.read_pickle('df_translation.pkl')
-df2 = pd.read_pickle('df_training.pkl')
+df2 = pd.read_pickle('df_training_kaldi.pkl')
+df3 = pd.read_pickle('df_training_taco.pkl')
+df4 = pd.read_pickle('df_lexicon_kaldi.pkl')
 f = open('test.txt', 'r')
 poem = f.readlines()
 
@@ -343,7 +347,7 @@ for lines in poem:
                 start_chars.append(hyphens[i][:1])
             oz_syllables = []
             audio_pathlist = []
-
+            phonemes = []
             for chars in start_chars:
                 char_map = oz_syllable_mapping.get(chars)
                 weights_map = weight_mapping.get(chars)
@@ -351,6 +355,10 @@ for lines in poem:
                 # create clean string for syllable list
                 oz_syllable_pick = str(re.sub(r'\W+', '', oz_syllable_pick))
                 oz_syllables.append(oz_syllable_pick)
+                oz_phoneme_pick = str(oz_phoneme_mapping.get(oz_syllable_pick))
+                oz_phoneme_pick = str(re.sub(r'\W+', '', oz_phoneme_pick))
+                print(oz_phoneme_pick, "!!!!!!")
+                phonemes.append(oz_phoneme_pick)
                 # create clean string to look for audio
                 audio_name = str(re.sub(r'\W+', '', oz_syllable_pick))
                 audio_filepath = './audio/' + audio_name + '.wav'
@@ -373,18 +381,21 @@ for lines in poem:
                     audioisvalid = False
                     print("Sample not found in translation loop")
             
-            # update the dataframe
+            # update the translation dataframe
             df.loc[len(df.index)] = [en_word, oz_word, oz_syllables]
+            # update the lexicon dataframe
+            df4.loc[len(df4.index)] = [oz_word, phonemes]
             export_word()
             audio_pathlist = []
             combined_audio = AudioSegment.empty()
             oz_syllables = []
+            phonemes = []
             # end translation loop
     # print("Exporting sentence audio to disk ...")
     combine_sentence()
     wav_export_id += 1
-    wav_id_str = str(wav_export_id)
-    wav_id_str = wav_id_str.zfill(5)
+    wav_exp_id = str(wav_export_id)
+    wav_exp_id = wav_exp_id.zfill(5)
     transcription = lines
     transcription = transcription.rstrip('\n')
 
@@ -396,19 +407,30 @@ for lines in poem:
     norm_transcription = lines
     norm_transcription = norm_transcription.rstrip('\n')
     newaudio = full_sentence_audio.set_frame_rate(22050)
-    newaudio.export("./training_audio/" + "LJ001-" + wav_id_str + ".wav", format="wav")
-    training_wav_path = "LJ001-" + wav_id_str
+    newaudio.export("./training_audio/" + "LJ001-" + wav_exp_id + ".wav", format="wav")
+    taco_training_wav_path = "LJ001-" + wav_exp_id
+    kaldi_file_id = wav_exp_id
+    kaldi_wav_path = "./training_audio/" + wav_exp_id + ".wav"
+    kaldi_speaker_id = 1
+    kaldi_utt_id = wav_exp_id
+    kaldi_utt_segment_start = 0
+    kaldi_utt_segment_end = 1
+    kaldi_segment_times = [kaldi_utt_segment_start, kaldi_utt_segment_end]
     delete_tempwords()
     word_temp_id = 0
     sentence_index = 0
     oz_sentence = []
-    # update the training df
-    df2.loc[len(df2.index)] = [training_wav_path, oz_transcription, norm_oz_transcription]
+    # update kaldi training df
+    df2.loc[len(df2.index)] = [kaldi_file_id, kaldi_wav_path, kaldi_speaker_id, kaldi_utt_id, kaldi_segment_times, oz_transcription]
+    # update taco training df
+    df3.loc[len(df3.index)] = [taco_training_wav_path, oz_transcription, norm_oz_transcription]
 
-print(df2)
+print(df4)
 # save the dataframes
 df.to_pickle('df_translation.pkl')
-df2.to_pickle('df_training.pkl')
+df2.to_pickle('df_training_kaldi.pkl')
+df3.to_pickle('df_training_taco.pkl')
+df4.to_pickle('df_lexicon_kaldi.pkl')
 # replace (overwrite) csv
 compression_opts = dict(method='infer', archive_name='metadata.csv')
-df2.to_csv(r'metadata.csv', sep='|', index=False, compression=compression_opts)
+df3.to_csv(r'metadata.csv', sep='|', index=False, compression=compression_opts)

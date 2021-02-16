@@ -161,11 +161,44 @@ print(df)
 
 df.to_pickle('df_translation.pkl')
 
+# create an !empty! training dataframe with KALDI training formatting
+# use data in this to:
+# create text file containing utterance transcriptions              -> utt_id WORD1 WORD2 WORD3
+# create a lexicon                                                  -> {word:[phonemes]}
+# create a segments file containing                                 -> utt_id file_id start_time end_time
+# create wav.scp file containing                                    -> file_id wav_path
+# create utt2spk file containing map of utterance to speaker        -> utt_id spkr
+# create spk2utt file containing map of speaker to utterance        -> spkr utt_id1 utt_id2 utt_id3
 
-# create an !empty! training dataframe
-df2 = pd.DataFrame({'wav_path': pd.Series([], dtype='object'),
+
+# already available data: transcription, file_id, wav_path, syllables
+# wav file length generates utt_seg_start_end?
+# wav_path generates utt_id
+# speaker id is either always the same or a lot of stuff needs changing =)
+
+# lexicon: generates from translation df + syll:phoneme dict
+
+df2 = pd.DataFrame({'file_id': pd.Series([], dtype='object'), #
+                    'wav_path': pd.Series([], dtype='object'), #
+                    'speaker_id': pd.Series([], dtype='object'), #
+                    'utt_id': pd.Series([], dtype='object'), #
+                    'utt_seg_start_end': pd.Series([], dtype='object'), #
+                    'transcription': pd.Series([], dtype='object'), #
+                    })
+
+
+df2.to_pickle('df_training_kaldi.pkl')
+
+# create an !empty! training dataframe with tacotron training formatting
+df3 = pd.DataFrame({'wav_path': pd.Series([], dtype='object'),
                     'oz_transcription': pd.Series([], dtype='object'),
                     'oz_normalized_transcription': pd.Series([], dtype='object')
                     })
 
-df2.to_pickle('df_training.pkl')
+df3.to_pickle('df_training_taco.pkl')
+
+df4 = pd.DataFrame({'oz_word': pd.Series([], dtype='object'),
+                    'phonemes': pd.Series([], dtype='object'),
+                    })
+
+df4.to_pickle('df_lexicon_kaldi.pkl')

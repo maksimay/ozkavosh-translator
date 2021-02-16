@@ -9,7 +9,7 @@ from hyphenate import hyphenate_word
 from pydub import AudioSegment
 
 
-def detect_silence(sound, silence_threshold=-50.0, chunk_size=10):
+def detect_silence(sound, silence_threshold=-70.0, chunk_size=10):
     # silence_threshold in dB
     # chunk_size in ms
     # iterate over chunks until you find the first one with sound
@@ -45,8 +45,10 @@ def combine_syllables():
     start_trim = detect_silence(src_audio)
     end_trim = detect_silence(src_audio.reverse())
     trimmed_audio = src_audio[start_trim:duration - end_trim]
-    end = trimmed_audio[-100:]
-    combined_audio += trimmed_audio.append(end, crossfade=100)
+    trim_dur = len(trimmed_audio)
+    end_offset = trim_dur * 0.5
+    end = trimmed_audio[-end_offset:]
+    combined_audio += trimmed_audio.append(end, crossfade=(end_offset-1))
 
 
 def export_word():
@@ -68,7 +70,7 @@ def combine_sentence():
     global word_audio
     global full_sentence_audio
     full_sentence_audio = AudioSegment.empty()
-    silence = AudioSegment.silent(duration=820)
+    silence = AudioSegment.silent(duration=800)
     for filename in glob.glob('./TEMP/'+'*.wav'):
         word_audio = AudioSegment.from_wav(filename)
         full_sentence_audio += word_audio + silence
@@ -107,6 +109,104 @@ oz_syllable_mapping = {
     'w': ["wr"],
     'y': ["yi"],
     'z': ["zh"]}
+
+oz_phoneme_mapping = {
+    'ac': ["AA", "K"],
+    'ach': ["AA", "K", "H"],
+    'ah': ["AA", "H"],
+    'ahm': ["AA", "H", "M"],
+    'al': ["AA", "L"],
+    'ar': ["AA", "R"],
+    'as': ["AA", "S"],
+    'ash': ["AA", "SH"],
+    'ath': ["AA", "TH"],
+    'ch': ["CH"],
+    'cha': ["CH", "AA"],
+    'do': ["D", "UH"],
+    'dom': ["D", "UH", "M"],
+    'ek': ["EH", "K"],
+    'en': ["EH", "N"],
+    'ey': ["EH", "Y"],
+    'fa': ["F", "AA"],
+    'fe': ["F", "EH"],
+    'fek': ["F", "EH", "K"],
+    'fi': ["F", "IY"],
+    'fo': ["F", "AO"],
+    'gl': ["G", "L"],
+    'glu': ["G", "L", "UH"],
+    'gr': ["G", "R"],
+    'gro': ["G", "R", "OH"],
+    'ha': ["H", "AA"],
+    'hag': ["H", "AA", "G"],
+    'has': ["H", "AA", "SH"],
+    'he': ["H", "EH"],
+    'hm': ["H", "M"],
+    'ho': ["H", "UH"],
+    'hol': ["H", "UH", "L"],
+    'hro': ["H", "R", "UH"],
+    'ich': ["IH", "SH"],
+    'ik': ["IH", "K"],
+    'iru': ["IH", "R", "UH"],
+    'is': ["IH", "SH"],
+    'isk': ["IH", "SH", "K"],
+    'iz': ["IH", "Z"],
+    'izh': ["IH", "ZH"],
+    'ka': ["K", "AA", "H"],
+    'kala': ["K", "AA", "L", "AA"],
+    'kath': ["K", "AA", "TH"],
+    'ko': ["K", "UH"],
+    'lo': ["L", "UH"],
+    'lof': ["L", "UH", "F"],
+    'lom': ["L", "UH", "M"],
+    'mi': ["M", "IY"],
+    'mis': ["M", "IY", "S"],
+    'mo': ["M", "UH"],
+    'moz': ["M", "UH", "ZH"],
+    'ne': ["N", "EH"],
+    'ni': ["N", "IY"],
+    'ns': ["N", "SH"],
+    'of': ["UH", "F"],
+    'ok': ["UH", "K"],
+    'ol': ["UH", "L"],
+    'om': ["UH", "M"],
+    'omf': ["UH", "M", "F"],
+    'omo': ["UH", "M", "UH"],
+    'oq': ["UH", "K"],
+    'osh': ["UH", "SH"],
+    'oth': ["UH", "TH"],
+    'ov': ["UH", "V"],
+    'oz': ["UH", "Z"],
+    'ozh': ["UH", "ZH"],
+    'po': ["P", "AO"],
+    'pr': ["P", "R"],
+    'pz': ["P", "ZH"],
+    'ro': ["R", "AO"],
+    'ros': ["R", "AO", "SH"],
+    'rush': ["R", "UH", "SH"],
+    'se': ["S", "EH"],
+    'sek': ["S", "EH", "K"],
+    'sh': ["SH"],
+    'shk': ["SH", "K"],
+    'so': ["S", "AO"],
+    'sof': ["S", "AO", "F"],
+    'sol': ["S", "AO", "L"],
+    'sov': ["S", "AO", "V"],
+    'ta': ["T", "AH"],
+    'tak': ["T", "AH", "K"],
+    'th': ["TH"],
+    'tho': ["TH", "AO"],
+    'uch': ["UH", "CH", "SH"],
+    'ucha': ["UH", "CH", "AA"],
+    'uth': ["UH", "TH"],
+    'vo': ["V", "AO"],
+    'vot': ["VO", "AO", "T"],
+    'voth': ["VO", "AO", "TH"],
+    'vr': ["V", "R"],
+    'vro': ["V", "R", "AO"],
+    'wr': ["W", "R"],
+    'yi': ["Y", "IY"],
+    'zh': ["ZH"]
+}
 # from future import nicht uniforme zufallsvariable hier
 ####################################################
 #    (alphabet:oz_sylls) : rand pick probability   #

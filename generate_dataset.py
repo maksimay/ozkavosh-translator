@@ -1,6 +1,7 @@
 import os
 import glob
 import pandas as pd
+import numpy as np
 import csv
 import math
 import random
@@ -182,6 +183,7 @@ oz_phoneme_mapping = {
 'as': ["AA", "S"],
 'ash': ["AA", "SH"],
 'ath': ["AA", "TH"],
+'atho': ["AA", "TH", "UH"],
 'ch': ["CH"],
 'cha': ["CH", "AA"],
 'do': ["D", "UH"],
@@ -376,12 +378,16 @@ for lines in poem:
                     audioisvalid = False
                     print("Sample not found in recombine loop")
 
-            # update the lexicon dataframe
-            if not df4['oz_word'].eq(oz_word).any():
-                df4.loc[len(df4.index)] = [oz_word, flat_phonemes_list]
             export_word()
             # make sure audio segment is empty for next word
             combined_audio = AudioSegment.empty()
+
+            phonemes = str(phonemes).replace('[', '').replace(']', '').replace("'", '').replace('"', '').replace(',', '')
+            print(phonemes)
+
+            # update the lexicon dataframe if the word is not already known
+            if not df4['oz_word'].eq(oz_word).any():
+                df4.loc[len(df4.index)] = [oz_word, phonemes]
 
         else:
             # print(en_word, " - no translation found in dataframe")
@@ -424,7 +430,7 @@ for lines in poem:
                 oz_syllable_pick = str(re.sub(r'\W+', '', oz_syllable_pick))
                 oz_syllables.append(oz_syllable_pick)
                 oz_phonemes_pick = str(oz_phoneme_mapping.get(oz_syllable_pick))
-                oz_phonemes_pick = str(re.sub(r'\W+', '', oz_phonemes_pick))
+                # oz_phonemes_pick = str(re.sub(r'\W+', '', oz_phonemes_pick))
                 phonemes.append(oz_phonemes_pick)
                 # create clean string to look for audio
                 audio_name = str(re.sub(r'\W+', '', oz_syllable_pick))
@@ -451,11 +457,9 @@ for lines in poem:
             # update the translation dataframe
             df1.loc[len(df1.index)] = [en_word, oz_word, oz_syllables]
             # update the lexicon dataframe
-            flat_phonemes_list = []
-            for sublist in phonemes:
-                for item in sublist:
-                    flat_phonemes_list.append(item)
-            df4.loc[len(df4.index)] = [oz_word, flat_phonemes_list]
+            phonemes = str(phonemes).replace('[', '').replace(']', '').replace("'", '').replace('"', '').replace(',', '')
+            print(phonemes)
+            df4.loc[len(df4.index)] = [oz_word, phonemes]
             export_word()
             audio_pathlist = []
             combined_audio = AudioSegment.empty()

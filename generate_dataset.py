@@ -27,14 +27,14 @@ def random_pick():
     global randompick
     rdm_audiopick_list = []
     for filename in glob.glob('./audio_input/' + audio_name + '.wav'):
-        print('FILENAME IS' + filename)
+        # print('FILENAME IS' + filename)
         rdm_audiopick_list.append(filename)
     for filename in glob.glob('./audio_input/' + audio_name + '[0-9]' + '.wav'):
         rdm_audiopick_list.append(filename)
-        print('FILENAME IS' + filename)
-        print(rdm_audiopick_list)
+        # print('FILENAME IS' + filename)
+        # print(rdm_audiopick_list)
     randompick = str(random.choices(rdm_audiopick_list)).replace('[', '').replace(']', '').replace("'", '')
-    print(randompick, "is random pick!")
+    # print(randompick, "is random pick!")
 
 
 def combine_syllables():
@@ -70,10 +70,20 @@ def combine_sentence():
     global word_audio
     global full_sentence_audio
     full_sentence_audio = AudioSegment.empty()
-    silence = AudioSegment.silent(duration=800)
+    silence = AudioSegment.silent(duration=322)
     for filename in glob.glob('./TEMP/'+'*.wav'):
         word_audio = AudioSegment.from_wav(filename)
         full_sentence_audio += word_audio + silence
+
+
+def combine_all_sentences():
+    global sentence_audio
+    global torch_training_audio
+    torch_training_audio = AudioSegment.empty()
+    silence = AudioSegment.silent(duration=999)
+    for filename in glob.glob('./training_audio/'+'*.wav'):
+        sentence_audio = AudioSegment.from_wav(filename)
+        torch_training_audio += sentence_audio + silence
 
 
 def delete_tempwords():
@@ -86,7 +96,7 @@ def delete_tempwords():
 #               alphabet : oz_sylls                #
 ####################################################
 oz_syllable_mapping = {
-    'a': ["ac", "ach", "ah", "ahm", "al", "ar", "as", "ash", "ath"], # 9
+    'a': ["ac", "ach", "ah", "ahm", "al", "ar", "as", "ash", "ath", "atho"], # 10
     'c': ["ch", "cha"],
     'd': ["do", "dom"],
     'e': ["ek", "en", "ey"],
@@ -104,117 +114,168 @@ oz_syllable_mapping = {
     'r': ["ro", "ros", "rush"],
     's': ["se", "sek", "sh", "shk", "so", "sof", "sol", "sov"],
     't': ["ta", "tak", "th", "tho"],
-    'u': ["uch", "ucha", "uth"],
+    'u': ["uch", "uth", "ul"],
     'v': ["vo", "vot", "voth", "vr", "vro"],
     'w': ["wr"],
     'y': ["yi"],
-    'z': ["zh"]}
-
-oz_phoneme_mapping = {
-    'ac': ["AA", "K"],
-    'ach': ["AA", "K", "H"],
-    'ah': ["AA", "H"],
-    'ahm': ["AA", "H", "M"],
-    'al': ["AA", "L"],
-    'ar': ["AA", "R"],
-    'as': ["AA", "S"],
-    'ash': ["AA", "SH"],
-    'ath': ["AA", "TH"],
-    'ch': ["CH"],
-    'cha': ["CH", "AA"],
-    'do': ["D", "UH"],
-    'dom': ["D", "UH", "M"],
-    'ek': ["EH", "K"],
-    'en': ["EH", "N"],
-    'ey': ["EH", "Y"],
-    'fa': ["F", "AA"],
-    'fe': ["F", "EH"],
-    'fek': ["F", "EH", "K"],
-    'fi': ["F", "IY"],
-    'fo': ["F", "AO"],
-    'gl': ["G", "L"],
-    'glu': ["G", "L", "UH"],
-    'gr': ["G", "R"],
-    'gro': ["G", "R", "OH"],
-    'ha': ["H", "AA"],
-    'hag': ["H", "AA", "G"],
-    'has': ["H", "AA", "SH"],
-    'he': ["H", "EH"],
-    'hm': ["H", "M"],
-    'ho': ["H", "UH"],
-    'hol': ["H", "UH", "L"],
-    'hro': ["H", "R", "UH"],
-    'ich': ["IH", "SH"],
-    'ik': ["IH", "K"],
-    'iru': ["IH", "R", "UH"],
-    'is': ["IH", "SH"],
-    'isk': ["IH", "SH", "K"],
-    'iz': ["IH", "Z"],
-    'izh': ["IH", "ZH"],
-    'ka': ["K", "AA", "H"],
-    'kala': ["K", "AA", "L", "AA"],
-    'kath': ["K", "AA", "TH"],
-    'ko': ["K", "UH"],
-    'lo': ["L", "UH"],
-    'lof': ["L", "UH", "F"],
-    'lom': ["L", "UH", "M"],
-    'mi': ["M", "IY"],
-    'mis': ["M", "IY", "S"],
-    'mo': ["M", "UH"],
-    'moz': ["M", "UH", "ZH"],
-    'ne': ["N", "EH"],
-    'ni': ["N", "IY"],
-    'ns': ["N", "SH"],
-    'of': ["UH", "F"],
-    'ok': ["UH", "K"],
-    'ol': ["UH", "L"],
-    'om': ["UH", "M"],
-    'omf': ["UH", "M", "F"],
-    'omo': ["UH", "M", "UH"],
-    'oq': ["UH", "K"],
-    'osh': ["UH", "SH"],
-    'oth': ["UH", "TH"],
-    'ov': ["UH", "V"],
-    'oz': ["UH", "Z"],
-    'ozh': ["UH", "ZH"],
-    'po': ["P", "AO"],
-    'pr': ["P", "R"],
-    'pz': ["P", "ZH"],
-    'ro': ["R", "AO"],
-    'ros': ["R", "AO", "SH"],
-    'rush': ["R", "UH", "SH"],
-    'se': ["S", "EH"],
-    'sek': ["S", "EH", "K"],
-    'sh': ["SH"],
-    'shk': ["SH", "K"],
-    'so': ["S", "AO"],
-    'sof': ["S", "AO", "F"],
-    'sol': ["S", "AO", "L"],
-    'sov': ["S", "AO", "V"],
-    'ta': ["T", "AH"],
-    'tak': ["T", "AH", "K"],
-    'th': ["TH"],
-    'tho': ["TH", "AO"],
-    'uch': ["UH", "CH", "SH"],
-    'ucha': ["UH", "CH", "AA"],
-    'uth': ["UH", "TH"],
-    'vo': ["V", "AO"],
-    'vot': ["VO", "AO", "T"],
-    'voth': ["VO", "AO", "TH"],
-    'vr': ["V", "R"],
-    'vro': ["V", "R", "AO"],
-    'wr': ["W", "R"],
-    'yi': ["Y", "IY"],
-    'zh': ["ZH"]
+    'z': ["zh"]
 }
 
+oz_phoneme_mapping = {
+'izhai': ["IY", "ZH", "AA", "Y"],
+'ozkavosh': ["UH", "ZH", "K", "AA", "V", "UH", "SH"],
+'sa': ["S", "AA"],
+'vu': ["V", "UH"],
+'doq': ["D", "UH", "K"],
+'roq': ["R", "UH", "K"],
+'doz': ["D", "UH", "K"],
+'ahm': ["AA", "H", "M"],
+'ashm': ["AA", "SH", "M"],
+'vo': ["V", "UH"],
+'vom': ["V", "UH", "M"],
+'acha': ["AA", "K", "H", "AA"],
+'icha': ["IY", "ZH", "AA"],
+'ucha': ["UW", "ZH", "AA"],
+'hollom': ["H", "UH", "L", "UH", "M"],
+'wroth': ["W", "R", "UH", "TH"],
+'lash': ["L", "AA", "SH"],
+'alatho': ["AA", "L", "AA", "TH", "UH"],
+'ulatho': ["UW", "L", "AA", "TH", "UH"],
+'tho': ["TH", "UW"],
+'sek': ["S", "EH", "K"],
+'thok': ["TH", "UW", "K"],
+'fek': ["F", "EH", "K"],
+'ses': ["S", "EH", "S"],
+'hahsh': ["H", "AA", "SH"],
+'eyik': ["EH", "Y", "IY", "K"],
+'zomfa': ["Z", "UH", "M", "F", "AH"],
+'domosh': ["D", "UH", "M", "UH", "SH"],
+'arkosh': ["AA", "R", "K", "UH", "SH"],
+'voth': ["V", "UH", "TH"],
+'hedoq': ["H", "EH", "D", "UH", "K"],
+'nith': ["N", "IY", "TH"],
+'gluth': ["G", "L", "UH", "TH"],
+'omoz': ["UH", "M", "UH", "S"],
+'nesh': ["N", "EH", "SH"],
+'safras': ["S", "AA", "F", "R", "AA", "S"],
+'poz': ["P", "UH", "Z"],
+'irush': ["IY", "R", "UW", "SH"],
+'groth': ["G", "R", "UH", "TH"],
+'greesh': ["G", "R", "IY", "SH"],
+'lieyev': ["L", "IY", "EH", "EH", "V"],
+'chron': ["K", "R", "UH", "N"],
+'rast': ["R", "AA", "S", "T"],
+'miskath': ["M", "IH", "S", "K", "AA", "TH"],
+'fol': ["F", "AO", "L"],
+'ensh': ["EH", "N", "SH"],
+'ov': ["AO", "V"],
+'sav': ["S", "AA", "V"],
+'sol': ["S", "AO", "L"],
+'sovoz': ["S", "AO", "V", "AO", "S"],
+'kish': ["K", "IY", "SH"],
+'ac': ["AA", "K"],
+'ach': ["AA", "K", "H"],
+'ah': ["AA", "H"],
+'ahm': ["AA", "H", "M"],
+'al': ["AA", "L"],
+'ar': ["AA", "R"],
+'as': ["AA", "S"],
+'ash': ["AA", "SH"],
+'ath': ["AA", "TH"],
+'ch': ["CH"],
+'cha': ["CH", "AA"],
+'do': ["D", "UH"],
+'dom': ["D", "UH", "M"],
+'ek': ["EH", "K"],
+'en': ["EH", "N"],
+'ey': ["EH", "Y"],
+'fa': ["F", "AA"],
+'fe': ["F", "EH"],
+'fek': ["F", "EH", "K"],
+'fi': ["F", "IY"],
+'fo': ["F", "AO"],
+'gl': ["G", "L"],
+'glu': ["G", "L", "UH"],
+'gr': ["G", "R"],
+'gro': ["G", "R", "OH"],
+'ha': ["H", "AA"],
+'hag': ["H", "AA", "G"],
+'has': ["H", "AA", "SH"],
+'he': ["H", "EH"],
+'hm': ["H", "M"],
+'ho': ["H", "UH"],
+'hol': ["H", "UH", "L"],
+'hro': ["H", "R", "UH"],
+'ich': ["IH", "SH"],
+'ik': ["IH", "K"],
+'iru': ["IH", "R", "UH"],
+'is': ["IH", "SH"],
+'isk': ["IH", "SH", "K"],
+'iz': ["IH", "Z"],
+'izh': ["IH", "ZH"],
+'ka': ["K", "AA", "H"],
+'kala': ["K", "AA", "L", "AA"],
+'kath': ["K", "AA", "TH"],
+'ko': ["K", "UH"],
+'lo': ["L", "UH"],
+'lof': ["L", "UH", "F"],
+'lom': ["L", "UH", "M"],
+'mi': ["M", "IY"],
+'mis': ["M", "IY", "S"],
+'mo': ["M", "UH"],
+'moz': ["M", "UH", "ZH"],
+'ne': ["N", "EH"],
+'ni': ["N", "IY"],
+'ns': ["N", "SH"],
+'of': ["UH", "F"],
+'ok': ["UH", "K"],
+'ol': ["UH", "L"],
+'om': ["UH", "M"],
+'omf': ["UH", "M", "F"],
+'omo': ["UH", "M", "UH"],
+'oq': ["UH", "K"],
+'osh': ["UH", "SH"],
+'oth': ["UH", "TH"],
+'ov': ["UH", "V"],
+'oz': ["UH", "Z"],
+'ozh': ["UH", "ZH"],
+'po': ["P", "AO"],
+'pr': ["P", "R"],
+'pz': ["P", "ZH"],
+'ro': ["R", "AO"],
+'ros': ["R", "AO", "SH"],
+'rush': ["R", "UH", "SH"],
+'se': ["S", "EH"],
+'sek': ["S", "EH", "K"],
+'sh': ["SH"],
+'shk': ["SH", "K"],
+'so': ["S", "AO"],
+'sof': ["S", "AO", "F"],
+'sol': ["S", "AO", "L"],
+'sov': ["S", "AO", "V"],
+'ta': ["T", "AH"],
+'tak': ["T", "AH", "K"],
+'th': ["TH"],
+'tho': ["TH", "AO"],
+'uch': ["UH", "CH", "SH"],
+'ucha': ["UH", "CH", "AA"],
+'uth': ["UH", "TH"],
+'vo': ["V", "AO"],
+'vot': ["VO", "AO", "T"],
+'voth': ["VO", "AO", "TH"],
+'vr': ["V", "R"],
+'vro': ["V", "R", "AO"],
+'wr': ["W", "R"],
+'yi': ["Y", "IY"],
+'zh': ["ZH"]
+}
 
 # from future import nicht uniforme zufallsvariable hier
 ####################################################
 #    (alphabet:oz_sylls) : rand pick probability   #
 ####################################################
 weight_mapping = {
-    "a": [1, 2, 1, 2, 2, 2, 2, 3, 2], # 9
+    "a": [1, 2, 1, 2, 2, 2, 2, 3, 2, 2], # 9
     "c": [1, 2],
     "d": [1, 2],
     "e": [2, 3, 2],
@@ -263,11 +324,10 @@ wav_count = len(files)
 print(wav_count, "is number of files")
 wav_export_id = wav_count
 oz_sentence = []
-
+kaldi_lexicon = {}
 # init audio vars
 # combined_word_audio = AudioSegment.empty()
 combined_audio = AudioSegment.empty()
-
 
 # load dataframes
 df = pd.read_pickle('df_translation.pkl')
@@ -280,7 +340,7 @@ poem = f.readlines()
 for lines in poem:
     lines = lines.lower()
     sentence = lines.split()
-    print(sentence)
+    # print(sentence)
     for en_word in sentence:
         en_word = [character for character in str.lower(en_word) if character.isalnum()]
         en_word = "".join(en_word)
@@ -293,12 +353,15 @@ for lines in poem:
             recombine_sylls = entry.iloc[0].iloc[2]
             # make sure audio file is there, append syllable segments and export the word
             audio_pathlist = []
+            phonemes = []
             for i in recombine_sylls:
                 audiostring = str(i)
                 # print(audiostring, "is audio string")
                 audio_filepath = './audio/' + audiostring + '.wav'
                 audio_pathlist.append(audio_filepath)
-                print("searching for audio", audiostring, "in path", audio_filepath)
+                # print("searching for audio", audiostring, "in path", audio_filepath)
+                oz_phoneme_pick = str(oz_phoneme_mapping.get(i))
+                phonemes.append(oz_phoneme_pick)
 
             for i in audio_pathlist:
                 audio_filepath = i
@@ -306,17 +369,22 @@ for lines in poem:
                 if audio_name in oz_available_audio:
                     audioisvalid = True
                     random_pick()
-                    print("Sample", randompick, "found! Trimming and Appending Syllable...")
+                    # print("Sample", randompick, "found! Trimming and Appending Syllable...")
+
                     combine_syllables()
                 else:
                     audioisvalid = False
                     print("Sample not found in recombine loop")
+
+            # update the lexicon dataframe
+            if not df4['oz_word'].eq(oz_word).any():
+                df4.loc[len(df4.index)] = [oz_word, phonemes]
             export_word()
             # make sure audio segment is empty for next word
             combined_audio = AudioSegment.empty()
 
         else:
-            print(en_word, " - no translation found in dataframe")
+            # print(en_word, " - no translation found in dataframe")
             en_hyphens = hyphenate_word(en_word)
             trl_word = en_word
             trl_hyphens = en_hyphens
@@ -327,7 +395,7 @@ for lines in poem:
                 temp_hyphens.append(hyphen)
             for key in forbidden_letters.keys():
                 trl_word = trl_word.replace(key, forbidden_letters[key])
-            print(trl_word)
+            # print(trl_word)
             hyphens = temp_hyphens
             if len(en_hyphens) == 1:
                 word_len = len(str(en_word))
@@ -337,7 +405,7 @@ for lines in poem:
                     hyphens_rounded += 1
                 hyphens = [trl_word[i:i + hyphens_rounded] for i in
                            range(0, word_len, hyphens_rounded)]
-                print(hyphens, "are hyphens in custom translate condition")
+                # print(hyphens, "are hyphens in custom translate condition")
 
             char_amt = []
             start_chars = []
@@ -356,13 +424,12 @@ for lines in poem:
                 oz_syllable_pick = str(re.sub(r'\W+', '', oz_syllable_pick))
                 oz_syllables.append(oz_syllable_pick)
                 oz_phoneme_pick = str(oz_phoneme_mapping.get(oz_syllable_pick))
-                oz_phoneme_pick = str(re.sub(r'\W+', '', oz_phoneme_pick))
-                print(oz_phoneme_pick, "!!!!!!")
+                # oz_phoneme_pick = str(re.sub(r'\W+', '', oz_phoneme_pick))
                 phonemes.append(oz_phoneme_pick)
                 # create clean string to look for audio
                 audio_name = str(re.sub(r'\W+', '', oz_syllable_pick))
                 audio_filepath = './audio/' + audio_name + '.wav'
-                print("searching for audio name", audio_name, "in path", audio_filepath)
+                # print("searching for audio name", audio_name, "in path", audio_filepath)
                 audio_pathlist.append(audio_filepath)
 
             oz_word = str(oz_syllables)
@@ -379,7 +446,7 @@ for lines in poem:
                     combine_syllables()
                 else:
                     audioisvalid = False
-                    print("Sample not found in translation loop")
+                    print("Sample", audio_name, "not found in translation loop")
             
             # update the translation dataframe
             df.loc[len(df.index)] = [en_word, oz_word, oz_syllables]
@@ -406,8 +473,15 @@ for lines in poem:
     norm_oz_transcription = oz_transcription
     norm_transcription = lines
     norm_transcription = norm_transcription.rstrip('\n')
-    newaudio = full_sentence_audio.set_frame_rate(22050)
-    newaudio.export("./training_audio/" + "LJ001-" + wav_exp_id + ".wav", format="wav")
+    newaudio = full_sentence_audio.set_frame_rate(48000)
+
+    octaves = +0.666
+
+    new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
+
+    highpitch_sound = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
+    newaudio = full_sentence_audio.set_frame_rate(11025)
+    highpitch_sound.export("./training_audio/" + "LJ001-" + wav_exp_id + ".wav", format="wav")
     taco_training_wav_path = "LJ001-" + wav_exp_id
     kaldi_file_id = wav_exp_id
     kaldi_wav_path = "./training_audio/" + wav_exp_id + ".wav"
@@ -425,6 +499,8 @@ for lines in poem:
     # update taco training df
     df3.loc[len(df3.index)] = [taco_training_wav_path, oz_transcription, norm_oz_transcription]
 
+
+
 print(df4)
 # save the dataframes
 df.to_pickle('df_translation.pkl')
@@ -434,3 +510,8 @@ df4.to_pickle('df_lexicon_kaldi.pkl')
 # replace (overwrite) csv
 compression_opts = dict(method='infer', archive_name='metadata.csv')
 df3.to_csv(r'metadata.csv', sep='|', index=False, compression=compression_opts)
+
+# combine_all_sentences()
+
+# torch_export = torch_training_audio.set_frame_rate(11025)
+# torch_export.export("./training_audio/" + "torch" + ".wav", format="wav")

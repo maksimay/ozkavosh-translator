@@ -96,7 +96,7 @@ DictWikiSylls = {
             "roq": ["roq"],
             "doz": ["doz"],
             "ahm": ["ahm"],
-            "ashm": ["ashm"],
+            "ashm": ["ash", "hm"],
             "vo": ["vo"],
             "vom": ["vom"],
             "acha": ["ach", "ah"],
@@ -156,7 +156,7 @@ for i in range(len(df)):
     syllval = DictWikiSylls[syllkey]
 
     df.iat[i, 2] = syllval
-    #print(syllval)
+    # print(syllval)
 print(df)
 
 df.to_pickle('df_translation.pkl')
@@ -178,12 +178,12 @@ df.to_pickle('df_translation.pkl')
 
 # lexicon: generates from translation df + syll:phoneme dict
 
-df2 = pd.DataFrame({'file_id': pd.Series([], dtype='object'), #
-                    'wav_path': pd.Series([], dtype='object'), #
-                    'speaker_id': pd.Series([], dtype='object'), #
-                    'utt_id': pd.Series([], dtype='object'), #
-                    'utt_seg_start_end': pd.Series([], dtype='object'), #
-                    'transcription': pd.Series([], dtype='object'), #
+df2 = pd.DataFrame({'file_id': pd.Series([], dtype='object'),
+                    'wav_path': pd.Series([], dtype='object'),
+                    'speaker_id': pd.Series([], dtype='object'),
+                    'utt_id': pd.Series([], dtype='object'),
+                    'utt_seg_start_end': pd.Series([], dtype='object'),
+                    'transcription': pd.Series([], dtype='object'),
                     })
 
 

@@ -202,3 +202,8 @@ df4 = pd.DataFrame({'oz_word': pd.Series([], dtype='object'),
                     })
 
 df4.to_pickle('df_lexicon_kaldi.pkl')
+
+df5 = pd.DataFrame({'nonsilent_phones': pd.Series([], dtype='object')
+                    })
+
+df5.to_pickle('nonsilent_phones.pkl')

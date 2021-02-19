@@ -81,3 +81,5 @@ GOAL: get mfa to detect something in preprocessing,
 19/02/20
 back to tacotron:
 finish lexicon, finish phoneme mapping ✔
+DEBUG: None bug in phonemes: there is no mapping!
+add silence to start and end of utterance

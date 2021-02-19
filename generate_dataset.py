@@ -41,6 +41,7 @@ def random_pick():
 def combine_syllables():
     global combined_audio
     src_audio = AudioSegment.from_wav(randompick)
+    src_audio = match_target_amplitude(src_audio, -30.0)
     # print("Trimming Audiofiles..")
     duration = len(src_audio)
     start_trim = detect_silence(src_audio)
@@ -71,10 +72,11 @@ def combine_sentence():
     global word_audio
     global full_sentence_audio
     full_sentence_audio = AudioSegment.empty()
-    silence = AudioSegment.silent(duration=322)
+    silence = AudioSegment.silent(duration=888)
     for filename in glob.glob('./TEMP/'+'*.wav'):
         word_audio = AudioSegment.from_wav(filename)
         full_sentence_audio += word_audio + silence
+    full_sentence_audio = silence + full_sentence_audio
 
 
 def combine_all_sentences():
@@ -90,6 +92,11 @@ def combine_all_sentences():
 def delete_tempwords():
     for files in glob.glob('./TEMP/'+'*.wav'):
         os.remove(files)
+
+
+def match_target_amplitude(sound, target_dBFS):
+    change_in_dBFS = target_dBFS - sound.dBFS
+    return sound.apply_gain(change_in_dBFS)
 
 
 # init mappings
@@ -123,153 +130,154 @@ oz_syllable_mapping = {
 }
 
 oz_phoneme_mapping = {
-'izhai': ["IY", "ZH", "AA", "Y"],
-'ozkavosh': ["UH", "ZH", "K", "AA", "V", "UH", "SH"],
-'sa': ["S", "AA"],
-'vu': ["V", "UH"],
-'doq': ["D", "UH", "K"],
-'roq': ["R", "UH", "K"],
-'doz': ["D", "UH", "K"],
-'ahm': ["AA", "H", "M"],
-'ashm': ["AA", "SH", "M"],
-'vo': ["V", "UH"],
-'vom': ["V", "UH", "M"],
-'acha': ["AA", "K", "H", "AA"],
-'icha': ["IY", "ZH", "AA"],
-'ucha': ["UW", "ZH", "AA"],
-'hollom': ["H", "UH", "L", "UH", "M"],
-'wroth': ["W", "R", "UH", "TH"],
-'lash': ["L", "AA", "SH"],
-'alatho': ["AA", "L", "AA", "TH", "UH"],
-'ulatho': ["UW", "L", "AA", "TH", "UH"],
-'tho': ["TH", "UW"],
-'sek': ["S", "EH", "K"],
-'thok': ["TH", "UW", "K"],
-'fek': ["F", "EH", "K"],
-'ses': ["S", "EH", "S"],
-'hahsh': ["H", "AA", "SH"],
-'eyik': ["EH", "Y", "IY", "K"],
-'zomfa': ["Z", "UH", "M", "F", "AH"],
-'domosh': ["D", "UH", "M", "UH", "SH"],
-'arkosh': ["AA", "R", "K", "UH", "SH"],
-'voth': ["V", "UH", "TH"],
-'hedoq': ["H", "EH", "D", "UH", "K"],
-'nith': ["N", "IY", "TH"],
-'gluth': ["G", "L", "UH", "TH"],
-'omoz': ["UH", "M", "UH", "S"],
-'nesh': ["N", "EH", "SH"],
-'safras': ["S", "AA", "F", "R", "AA", "S"],
-'poz': ["P", "UH", "Z"],
-'irush': ["IY", "R", "UW", "SH"],
-'groth': ["G", "R", "UH", "TH"],
-'greesh': ["G", "R", "IY", "SH"],
-'lieyev': ["L", "IY", "EH", "EH", "V"],
-'chron': ["K", "R", "UH", "N"],
-'rast': ["R", "AA", "S", "T"],
-'miskath': ["M", "IH", "S", "K", "AA", "TH"],
-'fol': ["F", "AO", "L"],
-'ensh': ["EH", "N", "SH"],
-'ov': ["AO", "V"],
-'sav': ["S", "AA", "V"],
-'sol': ["S", "AO", "L"],
-'sovoz': ["S", "AO", "V", "AO", "S"],
-'kish': ["K", "IY", "SH"],
-'ac': ["AA", "K"],
-'ach': ["AA", "K", "H"],
-'ah': ["AA", "H"],
-'ahm': ["AA", "H", "M"],
-'al': ["AA", "L"],
-'ar': ["AA", "R"],
-'as': ["AA", "S"],
-'ash': ["AA", "SH"],
-'ath': ["AA", "TH"],
-'atho': ["AA", "TH", "UH"],
-'ch': ["CH"],
-'cha': ["CH", "AA"],
-'do': ["D", "UH"],
-'dom': ["D", "UH", "M"],
-'ek': ["EH", "K"],
-'en': ["EH", "N"],
-'ey': ["EH", "Y"],
-'fa': ["F", "AA"],
-'fe': ["F", "EH"],
-'fek': ["F", "EH", "K"],
-'fi': ["F", "IY"],
-'fo': ["F", "AO"],
-'gl': ["G", "L"],
-'glu': ["G", "L", "UH"],
-'gr': ["G", "R"],
-'gro': ["G", "R", "OH"],
-'ha': ["H", "AA"],
-'hag': ["H", "AA", "G"],
-'has': ["H", "AA", "SH"],
-'he': ["H", "EH"],
-'hm': ["H", "M"],
-'ho': ["H", "UH"],
-'hol': ["H", "UH", "L"],
-'hro': ["H", "R", "UH"],
-'ich': ["IH", "SH"],
-'ik': ["IH", "K"],
-'iru': ["IH", "R", "UH"],
-'is': ["IH", "SH"],
-'isk': ["IH", "SH", "K"],
-'iz': ["IH", "Z"],
-'izh': ["IH", "ZH"],
-'ka': ["K", "AA", "H"],
-'kala': ["K", "AA", "L", "AA"],
-'kath': ["K", "AA", "TH"],
-'ko': ["K", "UH"],
-'lo': ["L", "UH"],
-'lof': ["L", "UH", "F"],
-'lom': ["L", "UH", "M"],
-'mi': ["M", "IY"],
-'mis': ["M", "IY", "S"],
-'mo': ["M", "UH"],
-'moz': ["M", "UH", "ZH"],
-'ne': ["N", "EH"],
-'ni': ["N", "IY"],
-'ns': ["N", "SH"],
-'of': ["UH", "F"],
-'ok': ["UH", "K"],
-'ol': ["UH", "L"],
-'om': ["UH", "M"],
-'omf': ["UH", "M", "F"],
-'omo': ["UH", "M", "UH"],
-'oq': ["UH", "K"],
-'osh': ["UH", "SH"],
-'oth': ["UH", "TH"],
-'ov': ["UH", "V"],
-'oz': ["UH", "Z"],
-'ozh': ["UH", "ZH"],
-'po': ["P", "AO"],
-'pr': ["P", "R"],
-'pz': ["P", "ZH"],
-'ro': ["R", "AO"],
-'ros': ["R", "AO", "SH"],
-'rush': ["R", "UH", "SH"],
-'se': ["S", "EH"],
-'sek': ["S", "EH", "K"],
-'sh': ["SH"],
-'shk': ["SH", "K"],
-'so': ["S", "AO"],
-'sof': ["S", "AO", "F"],
-'sol': ["S", "AO", "L"],
-'sov': ["S", "AO", "V"],
-'ta': ["T", "AH"],
-'tak': ["T", "AH", "K"],
-'th': ["TH"],
-'tho': ["TH", "AO"],
-'uch': ["UH", "CH", "SH"],
-'ucha': ["UH", "CH", "AA"],
-'uth': ["UH", "TH"],
-'vo': ["V", "AO"],
-'vot': ["VO", "AO", "T"],
-'voth': ["VO", "AO", "TH"],
-'vr': ["V", "R"],
-'vro': ["V", "R", "AO"],
-'wr': ["W", "R"],
-'yi': ["Y", "IY"],
-'zh': ["ZH"]
+    'izhai': ["IY", "ZH", "AA1", "Y"],
+    'ozkavosh': ["UH", "ZH", "K", "AA1", "V", "UH", "SH"],
+    'sa': ["S", "AA"],
+    'vu': ["V", "UH"],
+    'doq': ["D", "UH", "K"],
+    'roq': ["R", "UH", "K"],
+    'doz': ["D", "UH", "K"],
+    'ahm': ["AA", "H", "M"],
+    'ashm': ["AA", "SH", "M"],
+    'vo': ["V", "UH"],
+    'vom': ["V", "UH", "M"],
+    'acha': ["AA", "K", "H", "AA"],
+    'icha': ["IY", "ZH", "AA"],
+    'ucha': ["UW", "ZH", "AA"],
+    'hollom': ["H", "UH", "L", "UH", "M"],
+    'wroth': ["W", "R", "UH", "TH"],
+    'lash': ["L", "AA", "SH"],
+    'alatho': ["AA", "L", "AA", "TH", "UH"],
+    'ulatho': ["UW", "L", "AA", "TH", "UH"],
+    'tho': ["TH", "UW"],
+    'sek': ["S", "EH", "K"],
+    'thok': ["TH", "UW", "K"],
+    'fek': ["F", "EH", "K"],
+    'ses': ["S", "EH", "S"],
+    'hahsh': ["H", "AA", "SH"],
+    'eyik': ["EH", "Y", "IY", "K"],
+    'zomfa': ["Z", "UH", "M", "F", "AH"],
+    'domosh': ["D", "UH", "M", "UH", "SH"],
+    'arkosh': ["AA", "R", "K", "UH", "SH"],
+    'voth': ["V", "UH", "TH"],
+    'hedoq': ["H", "EH", "D", "UH", "K"],
+    'nith': ["N", "IY", "TH"],
+    'gluth': ["G", "L", "UH", "TH"],
+    'omoz': ["UH", "M", "UH", "S"],
+    'nesh': ["N", "EH", "SH"],
+    'safras': ["S", "AA", "F", "R", "AA", "S"],
+    'poz': ["P", "UH", "Z"],
+    'irush': ["IY", "R", "UW", "SH"],
+    'groth': ["G", "R", "UH", "TH"],
+    'greesh': ["G", "R", "IY", "SH"],
+    'lieyev': ["L", "IY", "EH", "EH", "V"],
+    'chron': ["K", "R", "UH", "N"],
+    'rast': ["R", "AA", "S", "T"],
+    'miskath': ["M", "IH", "S", "K", "AA", "TH"],
+    'fol': ["F", "AO", "L"],
+    'ensh': ["EH", "N", "SH"],
+    'ov': ["AO", "V"],
+    'sav': ["S", "AA", "V"],
+    'sol': ["S", "AO", "L"],
+    'sovoz': ["S", "AO", "V", "AO", "S"],
+    'kish': ["K", "IY", "SH"],
+    'ac': ["AA", "K"],
+    'ach': ["AA", "K", "H"],
+    'ah': ["AA", "H"],
+    'ahm': ["AA", "H", "M"],
+    'al': ["AA", "L"],
+    'ar': ["AA", "R"],
+    'as': ["AA", "S"],
+    'ash': ["AA", "SH"],
+    'ath': ["AA", "TH"],
+    'atho': ["AA", "TH", "UH"],
+    'ch': ["CH"],
+    'cha': ["CH", "AA"],
+    'do': ["D", "UH"],
+    'dom': ["D", "UH", "M"],
+    'ek': ["EH", "K"],
+    'en': ["EH", "N"],
+    'ey': ["EH", "Y"],
+    'fa': ["F", "AA"],
+    'fe': ["F", "EH"],
+    'fek': ["F", "EH", "K"],
+    'fi': ["F", "IY"],
+    'fo': ["F", "AO"],
+    'gl': ["G", "L"],
+    'glu': ["G", "L", "UH"],
+    'gr': ["G", "R"],
+    'gro': ["G", "R", "OH"],
+    'ha': ["H", "AA"],
+    'hag': ["H", "AA", "G"],
+    'has': ["H", "AA", "SH"],
+    'he': ["H", "EH"],
+    'hm': ["H", "M"],
+    'ho': ["H", "UH"],
+    'hol': ["H", "UH", "L"],
+    'hro': ["H", "R", "UH"],
+    'ich': ["IH", "SH"],
+    'ik': ["IH", "K"],
+    'iru': ["IH", "R", "UH"],
+    'is': ["IH", "SH"],
+    'isk': ["IH", "SH", "K"],
+    'iz': ["IH", "Z"],
+    'izh': ["IH", "ZH"],
+    'ka': ["K", "AA", "H"],
+    'kala': ["K", "AA", "L", "AA"],
+    'kath': ["K", "AA", "TH"],
+    'ko': ["K", "UH"],
+    'lo': ["L", "UH"],
+    'lof': ["L", "UH", "F"],
+    'lom': ["L", "UH", "M"],
+    'mi': ["M", "IY"],
+    'mis': ["M", "IY", "S"],
+    'mo': ["M", "UH"],
+    'moz': ["M", "UH", "ZH"],
+    'ne': ["N", "EH"],
+    'ni': ["N", "IY"],
+    'ns': ["N", "SH"],
+    'of': ["UH", "F"],
+    'ok': ["UH", "K"],
+    'ol': ["UH", "L"],
+    'om': ["UH", "M"],
+    'omf': ["UH", "M", "F"],
+    'omo': ["UH", "M", "UH"],
+    'oq': ["UH", "K"],
+    'osh': ["UH", "SH"],
+    'oth': ["UH", "TH"],
+    'ov': ["UH", "V"],
+    'oz': ["UH", "Z"],
+    'ozh': ["UH", "ZH"],
+    'po': ["P", "AO"],
+    'pr': ["P", "R"],
+    'pz': ["P", "ZH"],
+    'ro': ["R", "AO"],
+    'ros': ["R", "AO", "SH"],
+    'rush': ["R", "UH", "SH"],
+    'se': ["S", "EH"],
+    'sek': ["S", "EH", "K"],
+    'sh': ["SH"],
+    'shk': ["SH", "K"],
+    'so': ["S", "AO"],
+    'sof': ["S", "AO", "F"],
+    'sol': ["S", "AO", "L"],
+    'sov': ["S", "AO", "V"],
+    'ta': ["T", "AH"],
+    'tak': ["T", "AH", "K"],
+    'th': ["TH"],
+    'tho': ["TH", "AO"],
+    'uch': ["UH", "CH", "SH"],
+    'ucha': ["UH", "CH", "AA"],
+    'ul': ["UH", "L"],
+    'uth': ["UH", "TH"],
+    'vo': ["V", "AO"],
+    'vot': ["VO", "AO", "T"],
+    'voth': ["VO", "AO", "TH"],
+    'vr': ["V", "R"],
+    'vro': ["V", "R", "AO"],
+    'wr': ["W", "R"],
+    'yi': ["Y", "IY"],
+    'zh': ["ZH"]
 }
 
 # from future import nicht uniforme zufallsvariable hier
@@ -331,14 +339,22 @@ kaldi_lexicon = {}
 # combined_word_audio = AudioSegment.empty()
 combined_audio = AudioSegment.empty()
 
+nonsilent_phones = []
+for key, value in oz_phoneme_mapping.items():
+    for i in value:
+        nonsilent_phones.append(i)
+nonsilent_phones = np.unique(nonsilent_phones)
+print(nonsilent_phones)
+
 # load dataframes
 df1 = pd.read_pickle('df_translation.pkl')
 df2 = pd.read_pickle('df_training_kaldi.pkl')
 df3 = pd.read_pickle('df_training_taco.pkl')
 df4 = pd.read_pickle('df_lexicon_kaldi.pkl')
+df5 = pd.read_pickle('nonsilent_phones.pkl')
+
 f = open('test.txt', 'r')
 poem = f.readlines()
-
 for lines in poem:
     lines = lines.lower()
     sentence = lines.split()
@@ -517,7 +533,9 @@ df4.to_pickle('df_lexicon_kaldi.pkl')
 compression_opts = dict(method='infer', archive_name='metadata.csv')
 df3.to_csv(r'metadata.csv', sep='|', index=False, compression=compression_opts)
 
-# combine_all_sentences()
 
+
+
+# combine_all_sentences()
 # torch_export = torch_training_audio.set_frame_rate(11025)
 # torch_export.export("./training_audio/" + "torch" + ".wav", format="wav")

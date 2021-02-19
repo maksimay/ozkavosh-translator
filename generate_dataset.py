@@ -38,10 +38,17 @@ def random_pick():
     # print(randompick, "is random pick!")
 
 
+
 def combine_syllables():
     global combined_audio
     src_audio = AudioSegment.from_wav(randompick)
     src_audio = match_target_amplitude(src_audio, -30.0)
+    octaves = random.uniform(0, 0.123)
+    newaudio = src_audio
+    new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
+    highpitch_sound = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
+    src_audio = highpitch_sound
+
     # print("Trimming Audiofiles..")
     duration = len(src_audio)
     start_trim = detect_silence(src_audio)
@@ -72,9 +79,11 @@ def combine_sentence():
     global word_audio
     global full_sentence_audio
     full_sentence_audio = AudioSegment.empty()
-    silence = AudioSegment.silent(duration=888)
+    silence_duration = random.randrange(322, 999)
+    silence = AudioSegment.silent(duration=silence_duration)
     for filename in glob.glob('./TEMP/'+'*.wav'):
         word_audio = AudioSegment.from_wav(filename)
+        word_audio = match_target_amplitude(word_audio, -20.0)
         full_sentence_audio += word_audio + silence
     full_sentence_audio = silence + full_sentence_audio
 

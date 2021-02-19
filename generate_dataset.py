@@ -330,7 +330,7 @@ kaldi_lexicon = {}
 combined_audio = AudioSegment.empty()
 
 # load dataframes
-df = pd.read_pickle('df_translation.pkl')
+df1 = pd.read_pickle('df_translation.pkl')
 df2 = pd.read_pickle('df_training_kaldi.pkl')
 df3 = pd.read_pickle('df_training_taco.pkl')
 df4 = pd.read_pickle('df_lexicon_kaldi.pkl')
@@ -345,9 +345,9 @@ for lines in poem:
         en_word = [character for character in str.lower(en_word) if character.isalnum()]
         en_word = "".join(en_word)
         # if translation dataframe column english already contains an exact equal match of the word
-        if df['english'].eq(en_word).any():
+        if df1['english'].eq(en_word).any():
             # get the stored syllables
-            entry = df.loc[df['english'] == en_word]
+            entry = df1.loc[df1['english'] == en_word]
             oz_word = entry.iloc[0].iloc[1]
             oz_sentence.append(oz_word)
             recombine_sylls = entry.iloc[0].iloc[2]
@@ -378,7 +378,7 @@ for lines in poem:
 
             # update the lexicon dataframe
             if not df4['oz_word'].eq(oz_word).any():
-                df4.loc[len(df4.index)] = [oz_word, phonemes]
+                df4.loc[len(df4.index)] = [oz_word, flat_phonemes_list]
             export_word()
             # make sure audio segment is empty for next word
             combined_audio = AudioSegment.empty()
@@ -423,9 +423,9 @@ for lines in poem:
                 # create clean string for syllable list
                 oz_syllable_pick = str(re.sub(r'\W+', '', oz_syllable_pick))
                 oz_syllables.append(oz_syllable_pick)
-                oz_phoneme_pick = str(oz_phoneme_mapping.get(oz_syllable_pick))
-                # oz_phoneme_pick = str(re.sub(r'\W+', '', oz_phoneme_pick))
-                phonemes.append(oz_phoneme_pick)
+                oz_phonemes_pick = str(oz_phoneme_mapping.get(oz_syllable_pick))
+                oz_phonemes_pick = str(re.sub(r'\W+', '', oz_phonemes_pick))
+                phonemes.append(oz_phonemes_pick)
                 # create clean string to look for audio
                 audio_name = str(re.sub(r'\W+', '', oz_syllable_pick))
                 audio_filepath = './audio/' + audio_name + '.wav'
@@ -449,9 +449,13 @@ for lines in poem:
                     print("Sample", audio_name, "not found in translation loop")
             
             # update the translation dataframe
-            df.loc[len(df.index)] = [en_word, oz_word, oz_syllables]
+            df1.loc[len(df1.index)] = [en_word, oz_word, oz_syllables]
             # update the lexicon dataframe
-            df4.loc[len(df4.index)] = [oz_word, phonemes]
+            flat_phonemes_list = []
+            for sublist in phonemes:
+                for item in sublist:
+                    flat_phonemes_list.append(item)
+            df4.loc[len(df4.index)] = [oz_word, flat_phonemes_list]
             export_word()
             audio_pathlist = []
             combined_audio = AudioSegment.empty()
@@ -499,11 +503,9 @@ for lines in poem:
     # update taco training df
     df3.loc[len(df3.index)] = [taco_training_wav_path, oz_transcription, norm_oz_transcription]
 
-
-
 print(df4)
 # save the dataframes
-df.to_pickle('df_translation.pkl')
+df1.to_pickle('df_translation.pkl')
 df2.to_pickle('df_training_kaldi.pkl')
 df3.to_pickle('df_training_taco.pkl')
 df4.to_pickle('df_lexicon_kaldi.pkl')

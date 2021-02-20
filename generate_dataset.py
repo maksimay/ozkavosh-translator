@@ -487,12 +487,12 @@ for lines in input_text:
             # end translation loop
     # print("Exporting sentence audio to disk ...")
     combine_sentence()
+
     wav_export_id += 1
     wav_exp_id = str(wav_export_id)
     wav_exp_id = wav_exp_id.zfill(5)
     transcription = lines
     transcription = transcription.rstrip('\n')
-
     separator = ', '
     oz_sentence = separator.join(oz_sentence)
     oz_transcription = str(oz_sentence)
@@ -500,21 +500,12 @@ for lines in input_text:
     norm_oz_transcription = oz_transcription
     norm_transcription = lines
     norm_transcription = norm_transcription.rstrip('\n')
-    newaudio = full_sentence_audio.set_frame_rate(48000)
-
-    octaves = random.uniform(0.322, 0.666)
-
-    new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
-
-    highpitch_sound = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
-    newaudio = full_sentence_audio.set_frame_rate(11025)
-    highpitch_sound.export("./training_audio/" + "LJ001-" + wav_exp_id + ".wav", format="wav")
     taco_training_wav_path = "LJ001-" + wav_exp_id
-    kaldi_file_id = wav_exp_id
-    kaldi_wav_path = "./training_audio/" + wav_exp_id + ".wav"
     kaldi_speaker_id = 1
     kaldi_speaker_id = str(kaldi_speaker_id)
     kaldi_speaker_id = kaldi_speaker_id.zfill(3)
+    kaldi_file_id = wav_exp_id
+    kaldi_wav_path = "./training_audio/" + wav_exp_id + '_' + kaldi_speaker_id + ".wav"
     kaldi_utt_id = wav_exp_id + '_' + kaldi_speaker_id
     kaldi_utt_segment_start = 0
     kaldi_utt_segment_end = 1
@@ -523,6 +514,14 @@ for lines in input_text:
     word_temp_id = 0
     sentence_index = 0
     oz_sentence = []
+
+    newaudio = full_sentence_audio.set_frame_rate(48000)
+    octaves = random.uniform(0.322, 0.666)
+    new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
+    highpitch_sound = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
+    newaudio = full_sentence_audio.set_frame_rate(11025)
+    highpitch_sound.export("./training_audio/" + "LJ001-" + kaldi_utt_id + ".wav", format="wav")
+
     # update kaldi training df
     df2.loc[len(df2.index)] = [kaldi_file_id, kaldi_wav_path, kaldi_speaker_id, kaldi_utt_id, kaldi_segment_times, oz_transcription]
     # update taco training df
@@ -548,11 +547,14 @@ with open('text.txt', 'w') as f:
         df2[['file_id', 'transcription']].to_string(header=False, index=False)
             )
             '''
-
+# text.txt
 np.savetxt(r'text.txt', df2[['utt_id', 'transcription']].values, fmt='%s')
+# utt2spk
+np.savetxt(r'spk2utt.txt', df2[['utt_id', 'speaker_id']].values, fmt='%s')
+# spk2utt
 
-
-
+# wav.scp
+np.savetxt(r'wav.scp', df2[['file_id', 'wav_path']].values, fmt='%s')
 
 
 f = open('silent_phones.txt', 'w')

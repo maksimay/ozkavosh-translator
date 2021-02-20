@@ -6,6 +6,8 @@ import speech_recognition as sr
 
 import pyglet
 
+# get mic input for english input
+
 
 print("Translator initializing...")
 

@@ -84,3 +84,8 @@ finish lexicon, finish phoneme mapping ✔
 add silence to start and end of utterance ✔
 AT SOME POINT: add stresses to phonemes, put similar phonemes on a single line for nonsilent phones list !!!
 
+text ✔
+segments ✔
+wav.scp ✔
+utt2spk X
+spk2utt ✔

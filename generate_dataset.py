@@ -77,6 +77,7 @@ def export_word():
 def combine_sentence():
     global word_audio
     global full_sentence_audio
+    global silence_duration
     full_sentence_audio = AudioSegment.empty()
     silence_duration = random.randrange(123, 321)
     silence = AudioSegment.silent(duration=silence_duration)
@@ -507,9 +508,8 @@ for lines in input_text:
     kaldi_file_id = wav_exp_id
     kaldi_wav_path = "./training_audio/" + wav_exp_id + '_' + kaldi_speaker_id + ".wav"
     kaldi_utt_id = wav_exp_id + '_' + kaldi_speaker_id
-    kaldi_utt_segment_start = 0
-    kaldi_utt_segment_end = 1
-    kaldi_segment_times = [kaldi_utt_segment_start, kaldi_utt_segment_end]
+    kaldi_utt_segment_start = silence_duration
+    kaldi_utt_segment_end = len(full_sentence_audio) - silence_duration
     delete_tempwords()
     word_temp_id = 0
     sentence_index = 0
@@ -523,7 +523,7 @@ for lines in input_text:
     highpitch_sound.export("./training_audio/" + "LJ001-" + kaldi_utt_id + ".wav", format="wav")
 
     # update kaldi training df
-    df2.loc[len(df2.index)] = [kaldi_file_id, kaldi_wav_path, kaldi_speaker_id, kaldi_utt_id, kaldi_segment_times, oz_transcription]
+    df2.loc[len(df2.index)] = [kaldi_file_id, kaldi_wav_path, kaldi_speaker_id, kaldi_utt_id, kaldi_utt_segment_start, kaldi_utt_segment_end, oz_transcription]
     # update taco training df
     df3.loc[len(df3.index)] = [taco_training_wav_path, oz_transcription, norm_oz_transcription]
 
@@ -533,34 +533,24 @@ df1.to_pickle('df_translation.pkl')
 df2.to_pickle('df_training_kaldi.pkl')
 df3.to_pickle('df_training_taco.pkl')
 df4.to_pickle('df_lexicon_kaldi.pkl')
-# replace (overwrite) csv
+# metadata.csv
 compression_opts = dict(method='infer', archive_name='metadata.csv')
 df3.to_csv(r'metadata.csv', sep='|', index=False, compression=compression_opts)
-
-
-
-
-
-'''
-with open('text.txt', 'w') as f:
-    f.write(
-        df2[['file_id', 'transcription']].to_string(header=False, index=False)
-            )
-            '''
 # text.txt
 np.savetxt(r'text.txt', df2[['utt_id', 'transcription']].values, fmt='%s')
 # utt2spk
 np.savetxt(r'spk2utt.txt', df2[['utt_id', 'speaker_id']].values, fmt='%s')
 # spk2utt
-
+#                           to do!!!
 # wav.scp
 np.savetxt(r'wav.scp', df2[['file_id', 'wav_path']].values, fmt='%s')
-
-
+# segments.txt utt_id file_id start_time end_time
+np.savetxt(r'segments.txt', df2[['utt_id', 'file_id', 'utt_seg_start', 'utt_seg_end']].values, fmt='%s')
+# silent_phones.txt
 f = open('silent_phones.txt', 'w')
 L = ["SIL\n", "oov"]
 f.writelines(L)
-
+# optional_silence.txt
 f = open('optional_silence.txt', 'w')
 L = ["SIL"]
 f.writelines(L)

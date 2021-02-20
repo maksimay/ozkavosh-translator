@@ -182,7 +182,8 @@ df2 = pd.DataFrame({'file_id': pd.Series([], dtype='object'),
                     'wav_path': pd.Series([], dtype='object'),
                     'speaker_id': pd.Series([], dtype='object'),
                     'utt_id': pd.Series([], dtype='object'),
-                    'utt_seg_start_end': pd.Series([], dtype='object'),
+                    'utt_seg_start': pd.Series([], dtype='object'),
+                    'utt_seg_end': pd.Series([], dtype='object'),
                     'transcription': pd.Series([], dtype='object'),
                     })
 

@@ -159,7 +159,7 @@ for i in range(len(df)):
     # print(syllval)
 print(df)
 
-df.to_pickle('df_translation.pkl')
+df.to_pickle('./dataframes/df_translation.pkl')
 
 # create an !empty! training dataframe with KALDI training formatting
 # use data in this to:
@@ -188,7 +188,7 @@ df2 = pd.DataFrame({'file_id': pd.Series([], dtype='object'),
                     })
 
 
-df2.to_pickle('df_training_kaldi.pkl')
+df2.to_pickle('./dataframes/df_training_kaldi.pkl')
 
 # create an !empty! training dataframe with tacotron training formatting
 df3 = pd.DataFrame({'wav_path': pd.Series([], dtype='object'),
@@ -196,15 +196,15 @@ df3 = pd.DataFrame({'wav_path': pd.Series([], dtype='object'),
                     'oz_normalized_transcription': pd.Series([], dtype='object')
                     })
 
-df3.to_pickle('df_training_taco.pkl')
+df3.to_pickle('./dataframes/df_training_taco.pkl')
 
 df4 = pd.DataFrame({'oz_word': pd.Series([], dtype='object'),
                     'phonemes': pd.Series([], dtype='object'),
                     })
 
-df4.to_pickle('df_lexicon_kaldi.pkl')
+df4.to_pickle('./dataframes/df_lexicon_kaldi.pkl')
 
 df5 = pd.DataFrame({'nonsilent_phones': pd.Series([], dtype='object')
                     })
 
-df5.to_pickle('nonsilent_phones.pkl')
+df5.to_pickle('./dataframes/nonsilent_phones.pkl')

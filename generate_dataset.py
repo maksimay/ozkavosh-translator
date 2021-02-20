@@ -185,15 +185,12 @@ oz_phoneme_mapping = {
     'miskath': ["M", "IH", "S", "K", "AA", "TH"],
     'fol': ["F", "AO", "L"],
     'ensh': ["EH", "N", "SH"],
-    'ov': ["AO", "V"],
     'sav': ["S", "AA", "V"],
-    'sol': ["S", "AO", "L"],
     'sovoz': ["S", "AO", "V", "AO", "S"],
     'kish': ["K", "IY", "SH"],
     'ac': ["AA", "K"],
     'ach': ["AA", "K", "H"],
     'ah': ["AA", "H"],
-    'ahm': ["AA", "H", "M"],
     'al': ["AA", "L"],
     'ar': ["AA", "R"],
     'as': ["AA", "S"],
@@ -209,7 +206,6 @@ oz_phoneme_mapping = {
     'ey': ["EH", "Y"],
     'fa': ["F", "AA"],
     'fe': ["F", "EH"],
-    'fek': ["F", "EH", "K"],
     'fi': ["F", "IY"],
     'fo': ["F", "AO"],
     'gl': ["G", "L"],
@@ -264,7 +260,6 @@ oz_phoneme_mapping = {
     'ros': ["R", "AO", "SH"],
     'rush': ["R", "UH", "SH"],
     'se': ["S", "EH"],
-    'sek': ["S", "EH", "K"],
     'sh': ["SH"],
     'shk': ["SH", "K"],
     'so': ["S", "AO"],
@@ -274,14 +269,10 @@ oz_phoneme_mapping = {
     'ta': ["T", "AH"],
     'tak': ["T", "AH", "K"],
     'th': ["TH"],
-    'tho': ["TH", "AO"],
     'uch': ["UH", "CH", "SH"],
-    'ucha': ["UH", "CH", "AA"],
     'ul': ["UH", "L"],
     'uth': ["UH", "TH"],
-    'vo': ["V", "AO"],
     'vot': ["VO", "AO", "T"],
-    'voth': ["VO", "AO", "TH"],
     'vr': ["V", "R"],
     'vro': ["V", "R", "AO"],
     'wr': ["W", "R"],
@@ -333,7 +324,16 @@ with open(oz_sample_file) as csvfile:
     for row in dictionary:
         oz_available_audio.append(','.join(row))
 
-# init vars
+# init vars and create folders
+
+if not os.path.exists('./kaldi'):
+    os.makedirs('./kaldi')
+
+if not os.path.exists('./taco'):
+    os.makedirs('./taco')
+
+if not os.path.exists('./dataframes'):
+    os.makedirs('./dataframes')
 
 word_temp_id = 0
 sentence_index = 0
@@ -356,11 +356,11 @@ nonsilent_phones = np.unique(nonsilent_phones)
 
 
 # load dataframes
-df1 = pd.read_pickle('df_translation.pkl')
-df2 = pd.read_pickle('df_training_kaldi.pkl')
-df3 = pd.read_pickle('df_training_taco.pkl')
-df4 = pd.read_pickle('df_lexicon_kaldi.pkl')
-df5 = pd.read_pickle('nonsilent_phones.pkl')
+df1 = pd.read_pickle('./dataframes/df_translation.pkl')
+df2 = pd.read_pickle('./dataframes/df_training_kaldi.pkl')
+df3 = pd.read_pickle('./dataframes/df_training_taco.pkl')
+df4 = pd.read_pickle('./dataframes/df_lexicon_kaldi.pkl')
+df5 = pd.read_pickle('./dataframes/nonsilent_phones.pkl')
 
 f = open('input_text.txt', 'r')
 input_text = f.readlines()
@@ -529,28 +529,28 @@ for lines in input_text:
 
 print(df4)
 # save the dataframes
-df1.to_pickle('df_translation.pkl')
-df2.to_pickle('df_training_kaldi.pkl')
-df3.to_pickle('df_training_taco.pkl')
-df4.to_pickle('df_lexicon_kaldi.pkl')
+df1.to_pickle('./dataframes/df_translation.pkl')
+df2.to_pickle('./dataframes/df_training_kaldi.pkl')
+df3.to_pickle('./dataframes/df_training_taco.pkl')
+df4.to_pickle('./dataframes/df_lexicon_kaldi.pkl')
 # metadata.csv
 compression_opts = dict(method='infer', archive_name='metadata.csv')
-df3.to_csv(r'metadata_unclean.csv', sep='|', index=False, compression=compression_opts)
+df3.to_csv(r'./taco/metadata_unclean.csv', sep='|', index=False, compression=compression_opts)
 
-with open("metadata_unclean.csv", 'r') as f:
-    with open("metadata.csv", 'w') as f1:
+with open("./taco/metadata_unclean.csv", 'r') as f:
+    with open("./taco/metadata.csv", 'w') as f1:
         next(f)
         for line in f:
             f1.write(line)
-if os.path.exists("metadata_unclean.csv"):
-    os.remove("metadata_unclean.csv")
+if os.path.exists("./taco/metadata_unclean.csv"):
+    os.remove("./taco/metadata_unclean.csv")
 
 
 # text.txt # right now blank line at end of file
-np.savetxt(r'text.txt', df2[['utt_id', 'transcription']].values, fmt='%s')
+np.savetxt(r'./kaldi/text.txt', df2[['utt_id', 'transcription']].values, fmt='%s')
 
 # utt2spk # right now blank line at end of file
-np.savetxt(r'utt2spk.txt', df2[['utt_id', 'speaker_id']].values, fmt='%s')
+np.savetxt(r'./kaldi/utt2spk.txt', df2[['utt_id', 'speaker_id']].values, fmt='%s')
 
 # spk2utt
 # to do later:
@@ -566,35 +566,35 @@ for column in df2[['utt_id']]:
     columnSeriesObj = df2[column]
     utt_ids.append(str(columnSeriesObj.values))
 
-f = open('spk2utt.txt', 'w')
+f = open('./kaldi/spk2utt.txt', 'w')
 L = "001 " + str(utt_ids).replace('[', '').replace(']', '').replace("'", '').replace('"', '')
 f.writelines(L)
 
-f = open('spk2utt.txt', 'r')
+f = open('./kaldi/spk2utt.txt', 'r')
 line = f.readlines()
 line = str(line).replace('\\n', '').replace("['", '').replace("']", '').replace('\\', '')
 
-f = open('spk2utt.txt', 'w')
+f = open('./kaldi/spk2utt.txt', 'w')
 f.writelines(line)
 
 # wav.scp
-np.savetxt(r'wav.scp', df2[['file_id', 'wav_path']].values, fmt='%s')
+np.savetxt(r'./kaldi/wav.scp', df2[['file_id', 'wav_path']].values, fmt='%s')
 
 # segments.txt utt_id file_id start_time end_time
-np.savetxt(r'segments.txt', df2[['utt_id', 'file_id', 'utt_seg_start', 'utt_seg_end']].values, fmt='%s')
+np.savetxt(r'./kaldi/segments.txt', df2[['utt_id', 'file_id', 'utt_seg_start', 'utt_seg_end']].values, fmt='%s')
 
 # silent_phones.txt
-f = open('silent_phones.txt', 'w')
+f = open('./kaldi/silent_phones.txt', 'w')
 L = ["SIL\n", "oov"]
 f.writelines(L)
 
 # optional_silence.txt
-f = open('optional_silence.txt', 'w')
+f = open('./kaldi/optional_silence.txt', 'w')
 L = ["SIL"]
 f.writelines(L)
 
 # lexicon.txt # right now blank line at end of file
-np.savetxt(r'lexicon.txt', df4[['oz_word', 'phonemes']].values, fmt='%s')
+np.savetxt(r'./kaldi/lexicon.txt', df4[['oz_word', 'phonemes']].values, fmt='%s')
 
 
 # combine_all_sentences()

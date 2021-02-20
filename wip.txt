@@ -55,7 +55,7 @@ GOAL: get mfa to detect something in preprocessing,
 
 1) syllable : phoneme mapping ✔
 2) make a pronunciation LEXICON.txt -> oz_word : phonemes ARKOSH AA R K OH SH ✔
-3) understand what an utterance is and save start and end points for each utterance in wav
+3) understand what an utterance is and save start and end points for each utterance in wav ✔
 
 
 

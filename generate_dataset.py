@@ -27,10 +27,10 @@ def random_pick():
     global rdm_audiopick_list
     global randompick
     rdm_audiopick_list = []
-    for filename in glob.glob('./audio_input/' + audio_name + '.wav'):
+    for filename in glob.glob('./audio/audio_input/' + audio_name + '.wav'):
         # print('FILENAME IS' + filename)
         rdm_audiopick_list.append(filename)
-    for filename in glob.glob('./audio_input/' + audio_name + '[0-9]' + '.wav'):
+    for filename in glob.glob('./audio/audio_input/' + audio_name + '[0-9]' + '.wav'):
         rdm_audiopick_list.append(filename)
         # print('FILENAME IS' + filename)
         # print(rdm_audiopick_list)
@@ -62,8 +62,8 @@ def combine_syllables():
 def export_word():
     global word_temp_id
     global sentence_index
-    if not os.path.exists('./TEMP'):
-        os.makedirs('./TEMP')
+    if not os.path.exists('./audio/TEMP'):
+        os.makedirs('./audio/TEMP')
     word_temp_id += 1
     temp_id = str(word_temp_id)
     temp_id = temp_id.zfill(3)
@@ -71,7 +71,7 @@ def export_word():
     str_sentence_index = str(sentence_index)
     str_sentence_index = str_sentence_index.zfill(3)
     # print("Word", str_sentence_index, "exported")
-    combined_audio.export("./TEMP/" + str(str_sentence_index) + str(oz_word) + str(temp_id) + ".wav", format="wav")
+    combined_audio.export("./audio/TEMP/" + str(str_sentence_index) + str(oz_word) + str(temp_id) + ".wav", format="wav")
 
 
 def combine_sentence():
@@ -81,7 +81,7 @@ def combine_sentence():
     full_sentence_audio = AudioSegment.empty()
     silence_duration = random.randrange(123, 321)
     silence = AudioSegment.silent(duration=silence_duration)
-    for filename in glob.glob('./TEMP/'+'*.wav'):
+    for filename in glob.glob('./audio/TEMP/'+'*.wav'):
         word_audio = AudioSegment.from_wav(filename)
         word_audio = match_target_amplitude(word_audio, -20.0)
         full_sentence_audio += word_audio + silence
@@ -93,13 +93,13 @@ def combine_all_sentences():
     global torch_training_audio
     torch_training_audio = AudioSegment.empty()
     silence = AudioSegment.silent(duration=999)
-    for filename in glob.glob('./training_audio/'+'*.wav'):
+    for filename in glob.glob('./audio/audio_output/'+'*.wav'):
         sentence_audio = AudioSegment.from_wav(filename)
         torch_training_audio += sentence_audio + silence
 
 
 def delete_tempwords():
-    for files in glob.glob('./TEMP/'+'*.wav'):
+    for files in glob.glob('./audio/TEMP/'+'*.wav'):
         os.remove(files)
 
 
@@ -107,6 +107,27 @@ def match_target_amplitude(sound, target_dBFS):
     change_in_dBFS = target_dBFS - sound.dBFS
     return sound.apply_gain(change_in_dBFS)
 
+
+if not os.path.exists('./kaldi/data/local/lang/'):
+    os.makedirs('./kaldi/data/local/lang/')
+
+if not os.path.exists('./taco'):
+    os.makedirs('./taco')
+
+if not os.path.exists('./dataframes'):
+    os.makedirs('./dataframes')
+
+
+if not os.path.exists('./audio/audio_output'):
+    os.makedirs('./audio/audio_output')
+
+
+# load dataframes
+df1 = pd.read_pickle('./dataframes/df_translation.pkl')
+df2 = pd.read_pickle('./dataframes/df_training_kaldi.pkl')
+df3 = pd.read_pickle('./dataframes/df_training_taco.pkl')
+df4 = pd.read_pickle('./dataframes/df_lexicon_kaldi.pkl')
+df5 = pd.read_pickle('./dataframes/nonsilence_phones.pkl')
 
 # init mappings
 ####################################################
@@ -139,8 +160,8 @@ oz_syllable_mapping = {
 }
 
 oz_phoneme_mapping = {
-    'izhai': ["IY", "ZH", "AA1", "Y"],
-    'ozkavosh': ["UH", "ZH", "K", "AA1", "V", "UH", "SH"],
+    'izhai': ["IY", "ZH", "AA", "Y"],
+    'ozkavosh': ["UH", "ZH", "K", "AA", "V", "UH", "SH"],
     'sa': ["S", "AA"],
     'vu': ["V", "UH"],
     'doq': ["D", "UH", "K"],
@@ -316,9 +337,9 @@ forbidden_letters = {'b': 'q', 'j': 'o', 'x': 'o'}
 ####################################################
 #  check available audio files                     #
 ####################################################
-audio_dir = "audio_input"
+audio_dir = "./audio/audio_input"
 oz_available_audio = []
-oz_sample_file = "./oz_audiolist.csv"
+oz_sample_file = "./audio/oz_audiolist.csv"
 with open(oz_sample_file) as csvfile:
     dictionary = csv.reader(csvfile, delimiter=' ')
     for row in dictionary:
@@ -326,41 +347,20 @@ with open(oz_sample_file) as csvfile:
 
 # init vars and create folders
 
-if not os.path.exists('./kaldi'):
-    os.makedirs('./kaldi')
-
-if not os.path.exists('./taco'):
-    os.makedirs('./taco')
-
-if not os.path.exists('./dataframes'):
-    os.makedirs('./dataframes')
-
+kaldi_lexicon = {}
 word_temp_id = 0
 sentence_index = 0
 # do this in order to not overwrite previously created sentence audio
-path, dirs, files = next(os.walk("./training_audio"))
+path, dirs, files = next(os.walk("./audio/audio_output"))
 wav_count = len(files)
 print(wav_count, "is number of files")
 wav_export_id = wav_count
 oz_sentence = []
-kaldi_lexicon = {}
+
 # init audio vars
 # combined_word_audio = AudioSegment.empty()
 combined_audio = AudioSegment.empty()
 
-nonsilent_phones = []
-for key, value in oz_phoneme_mapping.items():
-    for i in value:
-        nonsilent_phones.append(i)
-nonsilent_phones = np.unique(nonsilent_phones)
-
-
-# load dataframes
-df1 = pd.read_pickle('./dataframes/df_translation.pkl')
-df2 = pd.read_pickle('./dataframes/df_training_kaldi.pkl')
-df3 = pd.read_pickle('./dataframes/df_training_taco.pkl')
-df4 = pd.read_pickle('./dataframes/df_lexicon_kaldi.pkl')
-df5 = pd.read_pickle('./dataframes/nonsilent_phones.pkl')
 
 f = open('input_text.txt', 'r')
 input_text = f.readlines()
@@ -486,8 +486,10 @@ for lines in input_text:
             oz_syllables = []
             phonemes = []
             # end translation loop
-    # print("Exporting sentence audio to disk ...")
+    # print("Exporting sentence audio to disk soon...")
     combine_sentence()
+
+    # update counters and create clean sentence transcription for kaldi
 
     wav_export_id += 1
     wav_exp_id = str(wav_export_id)
@@ -502,32 +504,34 @@ for lines in input_text:
     norm_transcription = lines
     norm_transcription = norm_transcription.rstrip('\n')
     taco_training_wav_path = "LJ001-" + wav_exp_id
-    kaldi_speaker_id = 1
-    kaldi_speaker_id = str(kaldi_speaker_id)
-    kaldi_speaker_id = kaldi_speaker_id.zfill(3)
-    kaldi_file_id = wav_exp_id
-    kaldi_wav_path = "./training_audio/" + kaldi_speaker_id + '_' + wav_exp_id + ".wav"
-    kaldi_utt_id = kaldi_speaker_id + '_' + wav_exp_id
-    kaldi_utt_segment_start = silence_duration
-    kaldi_utt_segment_end = len(full_sentence_audio) - silence_duration
+    speaker_id = 1
+    speaker_id = str(speaker_id)
+    speaker_id = speaker_id.zfill(3)
+    file_id = wav_exp_id
+    wav_path = "./audio/audio_output/" + speaker_id + '_' + wav_exp_id + ".wav"
+    utt_id = speaker_id + '_' + wav_exp_id
+    utt_segment_start = silence_duration
+    utt_segment_end = len(full_sentence_audio) - silence_duration
     delete_tempwords()
     word_temp_id = 0
     sentence_index = 0
     oz_sentence = []
+
+    # random audio pitch then export
 
     newaudio = full_sentence_audio.set_frame_rate(48000)
     octaves = random.uniform(0.322, 0.666)
     new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
     highpitch_sound = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
     newaudio = full_sentence_audio.set_frame_rate(11025)
-    highpitch_sound.export("./training_audio/" + "LJ001-" + kaldi_utt_id + ".wav", format="wav")
+    highpitch_sound.export("./audio/audio_output/" + "LJ001-" + utt_id + ".wav", format="wav")
 
     # update kaldi training df
-    df2.loc[len(df2.index)] = [kaldi_file_id, kaldi_wav_path, kaldi_speaker_id, kaldi_utt_id, kaldi_utt_segment_start, kaldi_utt_segment_end, oz_transcription]
+    df2.loc[len(df2.index)] = [file_id, wav_path, speaker_id, utt_id, utt_segment_start, utt_segment_end, oz_transcription]
     # update taco training df
     df3.loc[len(df3.index)] = [taco_training_wav_path, oz_transcription, norm_oz_transcription]
 
-print(df4)
+# print(df4)
 # save the dataframes
 df1.to_pickle('./dataframes/df_translation.pkl')
 df2.to_pickle('./dataframes/df_training_kaldi.pkl')
@@ -560,14 +564,15 @@ np.savetxt(r'./kaldi/utt2spk.txt', df2[['utt_id', 'speaker_id']].values, fmt='%s
 # check if speaker_id is in last 3 characters of utt_id
 # if it is, map that utt_id to the corresponding speaker id key in dict
 # write dict to file
-# but for now:
+# but for now do this junk:
 utt_ids = []
 for column in df2[['utt_id']]:
     columnSeriesObj = df2[column]
     utt_ids.append(str(columnSeriesObj.values))
+utt_ids = str(utt_ids).replace('[', '').replace(']', '').replace("'", '').replace('"', '')
 
 f = open('./kaldi/spk2utt.txt', 'w')
-L = "001 " + str(utt_ids).replace('[', '').replace(']', '').replace("'", '').replace('"', '')
+L = "001 " + utt_ids
 f.writelines(L)
 
 f = open('./kaldi/spk2utt.txt', 'r')
@@ -583,20 +588,52 @@ np.savetxt(r'./kaldi/wav.scp', df2[['file_id', 'wav_path']].values, fmt='%s')
 # segments.txt utt_id file_id start_time end_time
 np.savetxt(r'./kaldi/segments.txt', df2[['utt_id', 'file_id', 'utt_seg_start', 'utt_seg_end']].values, fmt='%s')
 
-# silent_phones.txt
-f = open('./kaldi/silent_phones.txt', 'w')
+# silence_phones.txt
+f = open('./kaldi/data/local/lang/silence_phones.txt', 'w')
 L = ["SIL\n", "oov"]
 f.writelines(L)
 
+# nonsilence_phones.txt
+nonsilence_phones = []
+for key, value in oz_phoneme_mapping.items():
+    for i in value:
+        nonsilence_phones.append(i)
+nonsilence_phones = np.unique(nonsilence_phones)
+for i in nonsilence_phones:
+    df5.loc[len(df5.index)] = [i]
+np.savetxt(r'./kaldi/data/local/lang/nonsilence_phones.txt', df5['nonsilence_phones'].values, fmt='%s')
+
 # optional_silence.txt
-f = open('./kaldi/optional_silence.txt', 'w')
+f = open('./kaldi/data/local/lang/optional_silence.txt', 'w')
 L = ["SIL"]
 f.writelines(L)
 
 # lexicon.txt # right now blank line at end of file
-np.savetxt(r'./kaldi/lexicon.txt', df4[['oz_word', 'phonemes']].values, fmt='%s')
+np.savetxt(r'./kaldi/data/local/lang/lexicon.txt', df4[['oz_word', 'phonemes']].values, fmt='%s')
 
 
+print(df2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+####################################################################################
+# T O R C H R N N / \ / \ / \ / \ U N U S E D / \ / \ / \ / \ / \ / \ / \ / \ / \ / \
+######################################################################################
 # combine_all_sentences()
 # torch_export = torch_training_audio.set_frame_rate(11025)
-# torch_export.export("./training_audio/" + "torch" + ".wav", format="wav")
+# torch_export.export("./audio/audio_output/" + "torch" + ".wav", format="wav")
+####################################################################################

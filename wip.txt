@@ -90,3 +90,15 @@ wav.scp ✔
 utt2spk ✔
 spk2utt ✔
 lexicon ✔
+nonsilence phones ✔
+silence phones ✔
+
+remove linebreak last line:
+
+NEWLINE_SIZE_IN_BYTES = -1  # -2 on Windows?
+with open('data.dat', 'wb') as fout:  # Note 'wb' instead of 'w'
+    np.savetxt(fout, model, delimiter=",", fmt='%.3f')
+    fout.seek(NEWLINE_SIZE_IN_BYTES, 2)
+    fout.truncate()
+    
+create audiolist_csv with glob.glob / remove this altogether =)

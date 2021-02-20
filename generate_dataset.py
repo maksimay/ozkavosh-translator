@@ -506,8 +506,8 @@ for lines in input_text:
     kaldi_speaker_id = str(kaldi_speaker_id)
     kaldi_speaker_id = kaldi_speaker_id.zfill(3)
     kaldi_file_id = wav_exp_id
-    kaldi_wav_path = "./training_audio/" + wav_exp_id + '_' + kaldi_speaker_id + ".wav"
-    kaldi_utt_id = wav_exp_id + '_' + kaldi_speaker_id
+    kaldi_wav_path = "./training_audio/" + kaldi_speaker_id + '_' + wav_exp_id + ".wav"
+    kaldi_utt_id = kaldi_speaker_id + '_' + wav_exp_id
     kaldi_utt_segment_start = silence_duration
     kaldi_utt_segment_end = len(full_sentence_audio) - silence_duration
     delete_tempwords()
@@ -539,9 +539,35 @@ df3.to_csv(r'metadata.csv', sep='|', index=False, compression=compression_opts)
 # text.txt
 np.savetxt(r'text.txt', df2[['utt_id', 'transcription']].values, fmt='%s')
 # utt2spk
-np.savetxt(r'spk2utt.txt', df2[['utt_id', 'speaker_id']].values, fmt='%s')
+np.savetxt(r'utt2spk.txt', df2[['utt_id', 'speaker_id']].values, fmt='%s')
 # spk2utt
-#                           to do!!!
+# to do later:
+# make dictionary
+# iterate over items in df
+# count amount of unique speaker_ids
+# check if speaker_id is in last 3 characters of utt_id
+# if it is, map that utt_id to the corresponding speaker id key in dict
+# write dict to file
+# but for now:
+utt_ids = []
+for column in df2[['utt_id']]:
+    columnSeriesObj = df2[column]
+    utt_ids.append(str(columnSeriesObj.values))
+
+
+f = open('spk2utt.txt', 'w')
+L = "001 " + str(utt_ids).replace('[', '').replace(']', '').replace("'", '').replace('"', '')
+f.writelines(L)
+
+f = open('spk2utt.txt', 'r')
+line = f.readlines()
+line = str(line).replace('\\n', '').replace("['", '').replace("']", '').replace('\\', '')
+
+f = open('spk2utt.txt', 'w')
+f.writelines(line)
+
+
+
 # wav.scp
 np.savetxt(r'wav.scp', df2[['file_id', 'wav_path']].values, fmt='%s')
 # segments.txt utt_id file_id start_time end_time

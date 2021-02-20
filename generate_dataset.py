@@ -38,7 +38,6 @@ def random_pick():
     # print(randompick, "is random pick!")
 
 
-
 def combine_syllables():
     global combined_audio
     src_audio = AudioSegment.from_wav(randompick)
@@ -353,7 +352,7 @@ for key, value in oz_phoneme_mapping.items():
     for i in value:
         nonsilent_phones.append(i)
 nonsilent_phones = np.unique(nonsilent_phones)
-print(nonsilent_phones)
+
 
 # load dataframes
 df1 = pd.read_pickle('df_translation.pkl')
@@ -362,9 +361,9 @@ df3 = pd.read_pickle('df_training_taco.pkl')
 df4 = pd.read_pickle('df_lexicon_kaldi.pkl')
 df5 = pd.read_pickle('nonsilent_phones.pkl')
 
-f = open('test.txt', 'r')
-poem = f.readlines()
-for lines in poem:
+f = open('input_text.txt', 'r')
+input_text = f.readlines()
+for lines in input_text:
     lines = lines.lower()
     sentence = lines.split()
     # print(sentence)
@@ -402,14 +401,10 @@ for lines in poem:
                 else:
                     audioisvalid = False
                     print("Sample not found in recombine loop")
-
             export_word()
             # make sure audio segment is empty for next word
             combined_audio = AudioSegment.empty()
-
             phonemes = str(phonemes).replace('[', '').replace(']', '').replace("'", '').replace('"', '').replace(',', '')
-            print(phonemes)
-
             # update the lexicon dataframe if the word is not already known
             if not df4['oz_word'].eq(oz_word).any():
                 df4.loc[len(df4.index)] = [oz_word, phonemes]
@@ -483,7 +478,6 @@ for lines in poem:
             df1.loc[len(df1.index)] = [en_word, oz_word, oz_syllables]
             # update the lexicon dataframe
             phonemes = str(phonemes).replace('[', '').replace(']', '').replace("'", '').replace('"', '').replace(',', '')
-            print(phonemes)
             df4.loc[len(df4.index)] = [oz_word, phonemes]
             export_word()
             audio_pathlist = []
@@ -519,7 +513,9 @@ for lines in poem:
     kaldi_file_id = wav_exp_id
     kaldi_wav_path = "./training_audio/" + wav_exp_id + ".wav"
     kaldi_speaker_id = 1
-    kaldi_utt_id = wav_exp_id
+    kaldi_speaker_id = str(kaldi_speaker_id)
+    kaldi_speaker_id = kaldi_speaker_id.zfill(3)
+    kaldi_utt_id = wav_exp_id + '_' + kaldi_speaker_id
     kaldi_utt_segment_start = 0
     kaldi_utt_segment_end = 1
     kaldi_segment_times = [kaldi_utt_segment_start, kaldi_utt_segment_end]
@@ -532,7 +528,7 @@ for lines in poem:
     # update taco training df
     df3.loc[len(df3.index)] = [taco_training_wav_path, oz_transcription, norm_oz_transcription]
 
-print(df4)
+print(df2)
 # save the dataframes
 df1.to_pickle('df_translation.pkl')
 df2.to_pickle('df_training_kaldi.pkl')
@@ -543,6 +539,22 @@ compression_opts = dict(method='infer', archive_name='metadata.csv')
 df3.to_csv(r'metadata.csv', sep='|', index=False, compression=compression_opts)
 
 
+
+
+
+'''
+with open('text.txt', 'w') as f:
+    f.write(
+        df2[['file_id', 'transcription']].to_string(header=False, index=False)
+            )
+            '''
+
+np.savetxt(r'text.txt', df2[['utt_id', 'transcription']].values, fmt='%s')
+
+
+
+
+
 f = open('silent_phones.txt', 'w')
 L = ["SIL\n", "oov"]
 f.writelines(L)
@@ -550,6 +562,7 @@ f.writelines(L)
 f = open('optional_silence.txt', 'w')
 L = ["SIL"]
 f.writelines(L)
+
 
 # combine_all_sentences()
 # torch_export = torch_training_audio.set_frame_rate(11025)

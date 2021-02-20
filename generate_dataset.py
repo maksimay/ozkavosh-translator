@@ -527,7 +527,7 @@ for lines in input_text:
     # update taco training df
     df3.loc[len(df3.index)] = [taco_training_wav_path, oz_transcription, norm_oz_transcription]
 
-print(df2)
+print(df4)
 # save the dataframes
 df1.to_pickle('df_translation.pkl')
 df2.to_pickle('df_training_kaldi.pkl')
@@ -536,10 +536,13 @@ df4.to_pickle('df_lexicon_kaldi.pkl')
 # metadata.csv
 compression_opts = dict(method='infer', archive_name='metadata.csv')
 df3.to_csv(r'metadata.csv', sep='|', index=False, compression=compression_opts)
-# text.txt
+
+# text.txt # right now blank line at end of file
 np.savetxt(r'text.txt', df2[['utt_id', 'transcription']].values, fmt='%s')
-# utt2spk
+
+# utt2spk # right now blank line at end of file
 np.savetxt(r'utt2spk.txt', df2[['utt_id', 'speaker_id']].values, fmt='%s')
+
 # spk2utt
 # to do later:
 # make dictionary
@@ -554,7 +557,6 @@ for column in df2[['utt_id']]:
     columnSeriesObj = df2[column]
     utt_ids.append(str(columnSeriesObj.values))
 
-
 f = open('spk2utt.txt', 'w')
 L = "001 " + str(utt_ids).replace('[', '').replace(']', '').replace("'", '').replace('"', '')
 f.writelines(L)
@@ -566,20 +568,24 @@ line = str(line).replace('\\n', '').replace("['", '').replace("']", '').replace(
 f = open('spk2utt.txt', 'w')
 f.writelines(line)
 
-
-
 # wav.scp
 np.savetxt(r'wav.scp', df2[['file_id', 'wav_path']].values, fmt='%s')
+
 # segments.txt utt_id file_id start_time end_time
 np.savetxt(r'segments.txt', df2[['utt_id', 'file_id', 'utt_seg_start', 'utt_seg_end']].values, fmt='%s')
+
 # silent_phones.txt
 f = open('silent_phones.txt', 'w')
 L = ["SIL\n", "oov"]
 f.writelines(L)
+
 # optional_silence.txt
 f = open('optional_silence.txt', 'w')
 L = ["SIL"]
 f.writelines(L)
+
+# lexicon.txt # right now blank line at end of file
+np.savetxt(r'lexicon.txt', df4[['oz_word', 'phonemes']].values, fmt='%s')
 
 
 # combine_all_sentences()

@@ -87,5 +87,6 @@ AT SOME POINT: add stresses to phonemes, put similar phonemes on a single line f
 text ✔
 segments ✔
 wav.scp ✔
-utt2spk X
+utt2spk ✔
 spk2utt ✔
+lexicon ✔

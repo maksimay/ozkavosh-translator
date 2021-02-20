@@ -79,7 +79,7 @@ def combine_sentence():
     global word_audio
     global full_sentence_audio
     full_sentence_audio = AudioSegment.empty()
-    silence_duration = random.randrange(322, 999)
+    silence_duration = random.randrange(123, 321)
     silence = AudioSegment.silent(duration=silence_duration)
     for filename in glob.glob('./TEMP/'+'*.wav'):
         word_audio = AudioSegment.from_wav(filename)
@@ -508,7 +508,7 @@ for lines in poem:
     norm_transcription = norm_transcription.rstrip('\n')
     newaudio = full_sentence_audio.set_frame_rate(48000)
 
-    octaves = +0.666
+    octaves = random.uniform(0.322, 0.666)
 
     new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
 
@@ -543,7 +543,13 @@ compression_opts = dict(method='infer', archive_name='metadata.csv')
 df3.to_csv(r'metadata.csv', sep='|', index=False, compression=compression_opts)
 
 
+f = open('silent_phones.txt', 'w')
+L = ["SIL\n", "oov"]
+f.writelines(L)
 
+f = open('optional_silence.txt', 'w')
+L = ["SIL"]
+f.writelines(L)
 
 # combine_all_sentences()
 # torch_export = torch_training_audio.set_frame_rate(11025)

@@ -78,8 +78,9 @@ GOAL: get mfa to detect something in preprocessing,
 "processor_name": "ThorstenProcessor"}
 
 
-19/02/20
-back to tacotron:
+19/02/20 - back to tacotron & kaldi
+DEBUG: 'None' bug in phoneme df: there is no mapping!
 finish lexicon, finish phoneme mapping ✔
-DEBUG: None bug in phonemes: there is no mapping!
-add silence to start and end of utterance
+add silence to start and end of utterance ✔
+AT SOME POINT: add stresses to phonemes, put similar phonemes on a single line for nonsilent phones list !!!
+

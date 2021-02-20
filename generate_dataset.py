@@ -535,7 +535,16 @@ df3.to_pickle('df_training_taco.pkl')
 df4.to_pickle('df_lexicon_kaldi.pkl')
 # metadata.csv
 compression_opts = dict(method='infer', archive_name='metadata.csv')
-df3.to_csv(r'metadata.csv', sep='|', index=False, compression=compression_opts)
+df3.to_csv(r'metadata_unclean.csv', sep='|', index=False, compression=compression_opts)
+
+with open("metadata_unclean.csv", 'r') as f:
+    with open("metadata.csv", 'w') as f1:
+        next(f)
+        for line in f:
+            f1.write(line)
+if os.path.exists("metadata_unclean.csv"):
+    os.remove("metadata_unclean.csv")
+
 
 # text.txt # right now blank line at end of file
 np.savetxt(r'text.txt', df2[['utt_id', 'transcription']].values, fmt='%s')

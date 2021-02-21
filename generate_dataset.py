@@ -104,26 +104,42 @@ def delete_tempwords():
         os.remove(files)
 
 
-def match_target_amplitude(sound, target_dbfs):
-    change_in_dbfs = target_dbfs - sound.dbfs
-    return sound.apply_gain(change_in_dbfs)
+def match_target_amplitude(sound, target_dBFS):
+    change_in_dBFS = target_dBFS - sound.dBFS
+    return sound.apply_gain(change_in_dBFS)
+
+# kaldi acoustic model directory structure
 
 
-if not os.path.exists('./kaldi/data/local/lang/'):
-    os.makedirs('./kaldi/data/local/lang/')
+if not os.path.exists('./mycorpus'):
+    os.makedirs('./mycorpus')
 
-if not os.path.exists('./kaldi/data/train'):
-    os.makedirs('./kaldi/data/train')
+if not os.path.exists('./mycorpus/conf'):
+    os.makedirs('./mycorpus/conf')
 
+if not os.path.exists('./mycorpus/exp'):
+    os.makedirs('./mycorpus/exp')
+
+if not os.path.exists('./mycorpus/data'):
+    os.makedirs('./mycorpus/data')
+
+if not os.path.exists('./mycorpus/data/train'):
+    os.makedirs('./mycorpus/data/train')
+
+if not os.path.exists('./mycorpus/data/lang'):
+    os.makedirs('./mycorpus/data/lang')
+
+if not os.path.exists('./mycorpus/data/local/lang/'):
+    os.makedirs('./mycorpus/data/local/lang/')
+# taco and dataframes
 if not os.path.exists('./taco'):
     os.makedirs('./taco')
 
 if not os.path.exists('./dataframes'):
     os.makedirs('./dataframes')
-
-
-if not os.path.exists('./audio/audio_output'):
-    os.makedirs('./audio/audio_output')
+# audio export now goes to mycorpus/data/train
+# if not os.path.exists('./audio/audio_output'):
+#   os.makedirs('./audio/audio_output')
 
 
 # load dataframes
@@ -534,14 +550,13 @@ for lines in tqdm(input_text):
     new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
     highpitch_sentence = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
     highpitch_sentence = highpitch_sentence.set_frame_rate(22050)
-    highpitch_sentence.export("./kaldi/data/train/" + utt_id + ".wav", format="wav")
+    highpitch_sentence.export("./mycorpus/data/train/" + utt_id + ".wav", format="wav")
 
     # update kaldi training df
     df2.loc[len(df2.index)] = [file_id, wav_path, speaker_id, utt_id, utt_seg_start, utt_seg_end, oz_transcription]
     # update taco training df
     df3.loc[len(df3.index)] = [wav_path, oz_transcription, norm_oz_transcription]
 
-# print(df4)
 # save the dataframes
 df1.to_pickle('./dataframes/df_translation.pkl')
 df2.to_pickle('./dataframes/df_training_kaldi.pkl')
@@ -561,14 +576,14 @@ if os.path.exists("./taco/metadata_unclean.csv"):
 
 
 # text # right now blank line at end of file
-np.savetxt(r'./kaldi/data/train/text', df2[['utt_id', 'transcription']].values, fmt='%s')
+np.savetxt(r'./mycorpus/data/train/text', df2[['utt_id', 'transcription']].values, fmt='%s')
 
 # words.txt
-np.savetxt(r'./kaldi/data/train/words.txt', df4.oz_word.unique(), fmt='%s')
+np.savetxt(r'./mycorpus/data/train/words.txt', df4.oz_word.unique(), fmt='%s')
 
 
 # utt2spk # right now blank line at end of file
-np.savetxt(r'./kaldi/data/train/utt2spk', df2[['utt_id', 'speaker_id']].values, fmt='%s')
+np.savetxt(r'./mycorpus/data/train/utt2spk', df2[['utt_id', 'speaker_id']].values, fmt='%s')
 
 # spk2utt
 # to do later:
@@ -585,25 +600,25 @@ for column in df2[['utt_id']]:
     utt_ids.append(str(columnSeriesObj.values))
 utt_ids = str(utt_ids).replace('[', '').replace(']', '').replace("'", '').replace('"', '')
 
-f = open('./kaldi/data/train/spk2utt', 'w')
+f = open('./mycorpus/data/train/spk2utt', 'w')
 L = "001 " + utt_ids
 f.writelines(L)
 
-f = open('./kaldi/data/train/spk2utt', 'r')
+f = open('./mycorpus/data/train/spk2utt', 'r')
 line = f.readlines()
 line = str(line).replace('\\n', '').replace("['", '').replace("']", '').replace('\\', '')
 
-f = open('./kaldi/data/train/spk2utt', 'w')
+f = open('./mycorpus/data/train/spk2utt', 'w')
 f.writelines(line)
 
 # wav.scp
-np.savetxt(r'./kaldi/data/train/wav.scp', df2[['file_id', 'wav_path']].values, fmt='%s')
+np.savetxt(r'./mycorpus/data/train/wav.scp', df2[['file_id', 'wav_path']].values, fmt='%s')
 
 # segments utt_id file_id start_time end_time
-np.savetxt(r'./kaldi/data/train/segments', df2[['utt_id', 'file_id', 'utt_seg_start', 'utt_seg_end']].values, fmt='%s')
+np.savetxt(r'./mycorpus/data/train/segments', df2[['utt_id', 'file_id', 'utt_seg_start', 'utt_seg_end']].values, fmt='%s')
 
 # silence_phones.txt
-f = open('./kaldi/data/local/lang/silence_phones.txt', 'w')
+f = open('./mycorpus/data/local/lang/silence_phones.txt', 'w')
 L = ["SIL\n", "oov"]
 f.writelines(L)
 
@@ -615,20 +630,20 @@ for key, value in oz_phoneme_mapping.items():
 nonsilence_phones = np.unique(nonsilence_phones)
 for i in nonsilence_phones:
     df5.loc[len(df5.index)] = [i]
-np.savetxt(r'./kaldi/data/local/lang/nonsilence_phones.txt', df5['nonsilence_phones'].values, fmt='%s')
+np.savetxt(r'./mycorpus/data/local/lang/nonsilence_phones.txt', df5['nonsilence_phones'].values, fmt='%s')
 
 # optional_silence.txt
-f = open('./kaldi/data/local/lang/optional_silence.txt', 'w')
+f = open('./mycorpus/data/local/lang/optional_silence.txt', 'w')
 L = ["SIL"]
 f.writelines(L)
 
 # lexicon # right now blank line at end of file
-np.savetxt(r'./kaldi/data/local/lang/lexicon', df4[['oz_word', 'phonemes']].values, fmt='%s')
+np.savetxt(r'./mycorpus/data/local/lang/lexicon', df4[['oz_word', 'phonemes']].values, fmt='%s')
 
 ref = dict()
 phones = dict()
 
-with open("./kaldi/data/local/lang/lexicon") as f:
+with open("./mycorpus/data/local/lang/lexicon") as f:
     for line in f:
         line = line.strip()
         columns = line.split(" ", 1)
@@ -640,9 +655,9 @@ with open("./kaldi/data/local/lang/lexicon") as f:
             ref[word] = list()
             ref[word].append(pron)
 
-lex = open("./kaldi/data/local/lang/lexicon.txt", "w")
+lex = open("./mycorpus/data/local/lang/lexicon.txt", "w")
 
-with open("./kaldi/data/train/words.txt") as f:
+with open("./mycorpus/data/train/words.txt") as f:
     for line in f:
         line = line.strip()
         if line in ref.keys():
@@ -651,9 +666,9 @@ with open("./kaldi/data/train/words.txt") as f:
         else:
             print("Word not in lexicon:" + line)
 
-with open('./kaldi/data/local/lang/lexicon.txt', 'r') as original:
+with open('./mycorpus/data/local/lang/lexicon.txt', 'r') as original:
     data = original.read()
-with open('./kaldi/data/local/lang/lexicon.txt', 'w') as modified:
+with open('./mycorpus/data/local/lang/lexicon.txt', 'w') as modified:
     modified.write("<oov> <oov>\n" + data)
 
 

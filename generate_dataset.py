@@ -519,7 +519,7 @@ for lines in input_text:
     taco_training_wav_path = "LJ001-" + wav_exp_id
 
     file_id = wav_exp_id
-    wav_path = "./audio/audio_output/" + speaker_id + '_' + file_id + ".wav"
+    wav_path = "~/gans/jannis/kaldi/egs/mycorpus/data/train" + speaker_id + '_' + file_id + ".wav"
     utt_id = speaker_id + '_' + file_id
     utt_segment_start = silence_duration / 1000
     utt_segment_end = (len(full_sentence_audio) - silence_duration) / 1000

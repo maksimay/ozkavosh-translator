@@ -488,48 +488,56 @@ for lines in input_text:
             # end translation loop
     # print("Exporting sentence audio to disk soon...")
     combine_sentence()
-
+    word_temp_id = 0
+    sentence_index = 0
     # update counters and create clean sentence transcription for kaldi
+
+    speaker_id = 1
+    speaker_id = str(speaker_id)
+    speaker_id = speaker_id.zfill(3)
 
     wav_export_id += 1
     wav_exp_id = str(wav_export_id)
     wav_exp_id = wav_exp_id.zfill(5)
+
     transcription = lines
     transcription = transcription.rstrip('\n')
+
     separator = ', '
     oz_sentence = separator.join(oz_sentence)
     oz_transcription = str(oz_sentence)
     oz_transcription = oz_transcription.replace(',', '')
+
+    oz_sentence = []
+    delete_tempwords()
+
     norm_oz_transcription = oz_transcription
+
     norm_transcription = lines
     norm_transcription = norm_transcription.rstrip('\n')
+
     taco_training_wav_path = "LJ001-" + wav_exp_id
-    speaker_id = 1
-    speaker_id = str(speaker_id)
-    speaker_id = speaker_id.zfill(3)
+
     file_id = wav_exp_id
-    wav_path = "./audio/audio_output/" + speaker_id + '_' + wav_exp_id + ".wav"
-    utt_id = speaker_id + '_' + wav_exp_id
-    utt_segment_start = silence_duration
-    utt_segment_end = len(full_sentence_audio) - silence_duration
-    delete_tempwords()
-    word_temp_id = 0
-    sentence_index = 0
-    oz_sentence = []
+    wav_path = "./audio/audio_output/" + speaker_id + '_' + file_id + ".wav"
+    utt_id = speaker_id + '_' + file_id
+    utt_segment_start = silence_duration / 1000
+    utt_segment_end = (len(full_sentence_audio) - silence_duration) / 1000
+
 
     # random audio pitch then export
 
     newaudio = full_sentence_audio.set_frame_rate(48000)
     octaves = random.uniform(0.322, 0.666)
     new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
-    highpitch_sound = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
-    newaudio = full_sentence_audio.set_frame_rate(11025)
-    highpitch_sound.export("./audio/audio_output/" + "LJ001-" + utt_id + ".wav", format="wav")
+    highpitch_sentence = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
+    highpitch_sentence = highpitch_sentence.set_frame_rate(22050)
+    highpitch_sentence.export("./audio/audio_output/" + utt_id + ".wav", format="wav")
 
     # update kaldi training df
     df2.loc[len(df2.index)] = [file_id, wav_path, speaker_id, utt_id, utt_segment_start, utt_segment_end, oz_transcription]
     # update taco training df
-    df3.loc[len(df3.index)] = [taco_training_wav_path, oz_transcription, norm_oz_transcription]
+    df3.loc[len(df3.index)] = [wav_path, oz_transcription, norm_oz_transcription]
 
 # print(df4)
 # save the dataframes

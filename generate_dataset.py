@@ -560,15 +560,15 @@ if os.path.exists("./taco/metadata_unclean.csv"):
     os.remove("./taco/metadata_unclean.csv")
 
 
-# text.txt # right now blank line at end of file
-np.savetxt(r'./kaldi/data/train/text.txt', df2[['utt_id', 'transcription']].values, fmt='%s')
+# text # right now blank line at end of file
+np.savetxt(r'./kaldi/data/train/text', df2[['utt_id', 'transcription']].values, fmt='%s')
 
 # words.txt
 np.savetxt(r'./kaldi/data/train/words.txt', df4.oz_word.unique(), fmt='%s')
 
 
 # utt2spk # right now blank line at end of file
-np.savetxt(r'./kaldi/data/train/utt2spk.txt', df2[['utt_id', 'speaker_id']].values, fmt='%s')
+np.savetxt(r'./kaldi/data/train/utt2spk', df2[['utt_id', 'speaker_id']].values, fmt='%s')
 
 # spk2utt
 # to do later:
@@ -585,22 +585,22 @@ for column in df2[['utt_id']]:
     utt_ids.append(str(columnSeriesObj.values))
 utt_ids = str(utt_ids).replace('[', '').replace(']', '').replace("'", '').replace('"', '')
 
-f = open('./kaldi/data/train/spk2utt.txt', 'w')
+f = open('./kaldi/data/train/spk2utt', 'w')
 L = "001 " + utt_ids
 f.writelines(L)
 
-f = open('./kaldi/data/train/spk2utt.txt', 'r')
+f = open('./kaldi/data/train/spk2utt', 'r')
 line = f.readlines()
 line = str(line).replace('\\n', '').replace("['", '').replace("']", '').replace('\\', '')
 
-f = open('./kaldi/data/train/spk2utt.txt', 'w')
+f = open('./kaldi/data/train/spk2utt', 'w')
 f.writelines(line)
 
 # wav.scp
 np.savetxt(r'./kaldi/data/train/wav.scp', df2[['file_id', 'wav_path']].values, fmt='%s')
 
-# segments.txt utt_id file_id start_time end_time
-np.savetxt(r'./kaldi/data/train/segments.txt', df2[['utt_id', 'file_id', 'utt_seg_start', 'utt_seg_end']].values, fmt='%s')
+# segments utt_id file_id start_time end_time
+np.savetxt(r'./kaldi/data/train/segments', df2[['utt_id', 'file_id', 'utt_seg_start', 'utt_seg_end']].values, fmt='%s')
 
 # silence_phones.txt
 f = open('./kaldi/data/local/lang/silence_phones.txt', 'w')

@@ -111,6 +111,9 @@ def match_target_amplitude(sound, target_dBFS):
 if not os.path.exists('./kaldi/data/local/lang/'):
     os.makedirs('./kaldi/data/local/lang/')
 
+if not os.path.exists('./kaldi/data/train'):
+    os.makedirs('./kaldi/data/train')
+
 if not os.path.exists('./taco'):
     os.makedirs('./taco')
 

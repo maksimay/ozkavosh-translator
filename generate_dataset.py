@@ -386,7 +386,7 @@ for lines in input_text:
                 # print(audiostring, "is audio string")
                 audio_filepath = './audio/' + audiostring + '.wav'
                 audio_pathlist.append(audio_filepath)
-                # print("searching for audio", audiostring, "in path", audio_filepath)
+                print("searching for audio", audiostring, "in path", audio_filepath)
                 oz_phoneme_pick = str(oz_phoneme_mapping.get(i))
                 phonemes.append(oz_phoneme_pick)
 
@@ -456,7 +456,7 @@ for lines in input_text:
                 # create clean string to look for audio
                 audio_name = str(re.sub(r'\W+', '', oz_syllable_pick))
                 audio_filepath = './audio/' + audio_name + '.wav'
-                # print("searching for audio name", audio_name, "in path", audio_filepath)
+                print("searching for audio name", audio_name, "in path", audio_filepath)
                 audio_pathlist.append(audio_filepath)
 
             oz_word = str(oz_syllables)
@@ -532,7 +532,7 @@ for lines in input_text:
     new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
     highpitch_sentence = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
     highpitch_sentence = highpitch_sentence.set_frame_rate(22050)
-    highpitch_sentence.export("./audio/audio_output/" + utt_id + ".wav", format="wav")
+    highpitch_sentence.export("./audio/audio_output" + utt_id + ".wav", format="wav")
 
     # update kaldi training df
     df2.loc[len(df2.index)] = [file_id, wav_path, speaker_id, utt_id, utt_segment_start, utt_segment_end, oz_transcription]

@@ -179,7 +179,7 @@ df.to_pickle('./dataframes/df_translation.pkl')
 # lexicon: generates from translation df + syll:phoneme dict
 
 df2 = pd.DataFrame({'file_id': pd.Series([], dtype='object'),
-                    'wav_path': pd.Series([], dtype='object'),
+                    'kaldi_wav_path': pd.Series([], dtype='object'),
                     'speaker_id': pd.Series([], dtype='object'),
                     'utt_id': pd.Series([], dtype='object'),
                     'utt_seg_start': pd.Series([], dtype='object'),

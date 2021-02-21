@@ -8,6 +8,7 @@ import random
 import re
 from hyphenate import hyphenate_word
 from pydub import AudioSegment
+from tqdm import tqdm
 
 
 def detect_silence(sound, silence_threshold=-70.0, chunk_size=10):
@@ -103,9 +104,9 @@ def delete_tempwords():
         os.remove(files)
 
 
-def match_target_amplitude(sound, target_dBFS):
-    change_in_dBFS = target_dBFS - sound.dBFS
-    return sound.apply_gain(change_in_dBFS)
+def match_target_amplitude(sound, target_dbfs):
+    change_in_dbfs = target_dbfs - sound.dbfs
+    return sound.apply_gain(change_in_dbfs)
 
 
 if not os.path.exists('./kaldi/data/local/lang/'):
@@ -137,19 +138,19 @@ df5 = pd.read_pickle('./dataframes/nonsilence_phones.pkl')
 #               alphabet : oz_sylls                #
 ####################################################
 oz_syllable_mapping = {
-    'a': ["ac", "ach", "ah", "ahm", "al", "ar", "as", "ash", "ath", "atho"], # 10
+    'a': ["ac", "ach", "ah", "ahm", "al", "ar", "as", "ash", "ath", "atho"],  # 10
     'c': ["ch", "cha"],
     'd': ["do", "dom"],
     'e': ["ek", "en", "ey"],
     'f': ["fa", "fe", "fek", "fi", "fo"],
     'g': ["gl", "glu", "gr", "gro"],
-    'h': ["ha", "hag", "has", "he", "hm", "ho", "hol", "hro"], # 8
+    'h': ["ha", "hag", "has", "he", "hm", "ho", "hol", "hro"],  # 8
     'i': ["ich", "ik", "iru", "is", "isk", "iz", "izh"],
     'k': ["ka", "kala", "kath", "ko"],
     'l': ["lo", "lof", "lom"],
     'm': ["mi", "mis", "mo", "moz"],
     'n': ["ne", "ni", "ns"],
-    'o': ["of", "ok", "ol", "om", "omf", "omo", "oq", "osh", "oth", "ov", "oz", "ozh"], # 12
+    'o': ["of", "ok", "ol", "om", "omf", "omo", "oq", "osh", "oth", "ov", "oz", "ozh"],  # 12
     'p': ["po", "pr", "pz"],
     'q': ["oq", "ok"],
     'r': ["ro", "ros", "rush"],
@@ -309,19 +310,19 @@ oz_phoneme_mapping = {
 #    (alphabet:oz_sylls) : rand pick probability   #
 ####################################################
 weight_mapping = {
-    "a": [1, 2, 1, 2, 2, 2, 2, 3, 2, 2], # 9
+    "a": [1, 2, 1, 2, 2, 2, 2, 3, 2, 2],  # 9
     "c": [1, 2],
     "d": [1, 2],
     "e": [2, 3, 2],
     "f": [1, 2, 2, 3, 2],
     "g": [3, 2, 2, 2],
-    "h": [1, 2, 2, 2, 2, 1, 2, 2], # 8
+    "h": [1, 2, 2, 2, 2, 1, 2, 2],  # 8
     "i": [2, 3, 3, 2, 2, 3, 2],
     "k": [1, 2, 2, 1],
     "l": [1, 2, 2],
     "m": [1, 1, 1, 2],
     "n": [2, 2, 1],
-    "o": [2, 2, 3, 3, 2, 2, 2, 1, 2, 3, 3, 2], # 12
+    "o": [2, 2, 3, 3, 2, 2, 2, 1, 2, 3, 3, 2],  # 12
     "p": [1, 2, 2],
     "q": [1, 2],
     "r": [1, 2, 2],
@@ -363,10 +364,10 @@ oz_sentence = []
 # combined_word_audio = AudioSegment.empty()
 combined_audio = AudioSegment.empty()
 
-
 f = open('input_text.txt', 'r')
 input_text = f.readlines()
-for lines in input_text:
+# tqdm = progressbar
+for lines in tqdm(input_text):
     lines = lines.lower()
     sentence = lines.split()
     # print(sentence)
@@ -388,7 +389,7 @@ for lines in input_text:
                 # print(audiostring, "is audio string")
                 audio_filepath = './audio/' + audiostring + '.wav'
                 audio_pathlist.append(audio_filepath)
-                print("searching for audio", audiostring, "in path", audio_filepath)
+                # print("searching for audio", audiostring, "in path", audio_filepath)
                 oz_phoneme_pick = str(oz_phoneme_mapping.get(i))
                 phonemes.append(oz_phoneme_pick)
 
@@ -458,7 +459,7 @@ for lines in input_text:
                 # create clean string to look for audio
                 audio_name = str(re.sub(r'\W+', '', oz_syllable_pick))
                 audio_filepath = './audio/' + audio_name + '.wav'
-                print("searching for audio name", audio_name, "in path", audio_filepath)
+                # print("searching for audio name", audio_name, "in path", audio_filepath)
                 audio_pathlist.append(audio_filepath)
 
             oz_word = str(oz_syllables)
@@ -523,9 +524,8 @@ for lines in input_text:
     file_id = wav_exp_id
     wav_path = "/home/ki-lab/gans/jannis/kaldi/egs/mycorpus/data/train" + speaker_id + '_' + file_id + ".wav"
     utt_id = speaker_id + '_' + file_id
-    utt_segment_start = silence_duration / 1000
-    utt_segment_end = (len(full_sentence_audio) - silence_duration) / 1000
-
+    utt_seg_start = silence_duration / 1000
+    utt_seg_end = (len(full_sentence_audio) - silence_duration) / 1000
 
     # random audio pitch then export
 
@@ -537,7 +537,7 @@ for lines in input_text:
     highpitch_sentence.export("./kaldi/data/train/" + utt_id + ".wav", format="wav")
 
     # update kaldi training df
-    df2.loc[len(df2.index)] = [file_id, wav_path, speaker_id, utt_id, utt_segment_start, utt_segment_end, oz_transcription]
+    df2.loc[len(df2.index)] = [file_id, wav_path, speaker_id, utt_id, utt_seg_start, utt_seg_end, oz_transcription]
     # update taco training df
     df3.loc[len(df3.index)] = [wav_path, oz_transcription, norm_oz_transcription]
 
@@ -640,8 +640,6 @@ with open("./kaldi/data/local/lang/lexicon") as f:
             ref[word] = list()
             ref[word].append(pron)
 
-print(ref)
-
 lex = open("./kaldi/data/local/lang/lexicon.txt", "w")
 
 with open("./kaldi/data/train/words.txt") as f:
@@ -660,22 +658,6 @@ with open('./kaldi/data/local/lang/lexicon.txt', 'w') as modified:
 
 
 print(df2)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ####################################################################################
 # T O R C H R N N / \ / \ / \ / \ U N U S E D / \ / \ / \ / \ / \ / \ / \ / \ / \ / \

@@ -350,7 +350,6 @@ with open(oz_sample_file) as csvfile:
 
 # init vars and create folders
 
-kaldi_lexicon = {}
 word_temp_id = 0
 sentence_index = 0
 # do this in order to not overwrite previously created sentence audio
@@ -535,7 +534,7 @@ for lines in input_text:
     new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
     highpitch_sentence = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
     highpitch_sentence = highpitch_sentence.set_frame_rate(22050)
-    highpitch_sentence.export("./kaldi/data/train" + utt_id + ".wav", format="wav")
+    highpitch_sentence.export("./kaldi/data/train/" + utt_id + ".wav", format="wav")
 
     # update kaldi training df
     df2.loc[len(df2.index)] = [file_id, wav_path, speaker_id, utt_id, utt_segment_start, utt_segment_end, oz_transcription]
@@ -563,6 +562,10 @@ if os.path.exists("./taco/metadata_unclean.csv"):
 
 # text.txt # right now blank line at end of file
 np.savetxt(r'./kaldi/data/train/text.txt', df2[['utt_id', 'transcription']].values, fmt='%s')
+
+# words.txt
+np.savetxt(r'./kaldi/data/train/words.txt', df4.oz_word.unique(), fmt='%s')
+
 
 # utt2spk # right now blank line at end of file
 np.savetxt(r'./kaldi/data/train/utt2spk.txt', df2[['utt_id', 'speaker_id']].values, fmt='%s')
@@ -622,6 +625,10 @@ f.writelines(L)
 # lexicon.txt # right now blank line at end of file
 np.savetxt(r'./kaldi/data/local/lang/lexicon.txt', df4[['oz_word', 'phonemes']].values, fmt='%s')
 
+with open('./kaldi/data/local/lang/lexicon.txt', 'r') as original:
+    data = original.read()
+with open('./kaldi/data/local/lang/lexicon.txt', 'w') as modified:
+    modified.write("<oov> <oov>\n" + data)
 
 print(df2)
 

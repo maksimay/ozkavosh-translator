@@ -590,14 +590,14 @@ f = open('./kaldi/data/train/spk2utt.txt', 'r')
 line = f.readlines()
 line = str(line).replace('\\n', '').replace("['", '').replace("']", '').replace('\\', '')
 
-f = open('./data/train/kaldi/spk2utt.txt', 'w')
+f = open('./kaldi/data/train/spk2utt.txt', 'w')
 f.writelines(line)
 
 # wav.scp
-np.savetxt(r'./data/train/kaldi/wav.scp', df2[['file_id', 'wav_path']].values, fmt='%s')
+np.savetxt(r'./kaldi/data/train/wav.scp', df2[['file_id', 'wav_path']].values, fmt='%s')
 
 # segments.txt utt_id file_id start_time end_time
-np.savetxt(r'./data/train/kaldi/segments.txt', df2[['utt_id', 'file_id', 'utt_seg_start', 'utt_seg_end']].values, fmt='%s')
+np.savetxt(r'./kaldi/data/train/segments.txt', df2[['utt_id', 'file_id', 'utt_seg_start', 'utt_seg_end']].values, fmt='%s')
 
 # silence_phones.txt
 f = open('./kaldi/data/local/lang/silence_phones.txt', 'w')

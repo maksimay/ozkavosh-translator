@@ -622,13 +622,42 @@ f = open('./kaldi/data/local/lang/optional_silence.txt', 'w')
 L = ["SIL"]
 f.writelines(L)
 
-# lexicon.txt # right now blank line at end of file
-np.savetxt(r'./kaldi/data/local/lang/lexicon.txt', df4[['oz_word', 'phonemes']].values, fmt='%s')
+# lexicon # right now blank line at end of file
+np.savetxt(r'./kaldi/data/local/lang/lexicon', df4[['oz_word', 'phonemes']].values, fmt='%s')
+
+ref = dict()
+phones = dict()
+
+with open("./kaldi/data/local/lang/lexicon") as f:
+    for line in f:
+        line = line.strip()
+        columns = line.split(" ", 1)
+        word = columns[0]
+        pron = columns[1]
+        try:
+            ref[word].append(pron)
+        except:
+            ref[word] = list()
+            ref[word].append(pron)
+
+print(ref)
+
+lex = open("./kaldi/data/local/lang/lexicon.txt", "w")
+
+with open("./kaldi/data/train/words.txt") as f:
+    for line in f:
+        line = line.strip()
+        if line in ref.keys():
+            for pron in ref[line]:
+                lex.write(line + " " + pron+"\n")
+        else:
+            print("Word not in lexicon:" + line)
 
 with open('./kaldi/data/local/lang/lexicon.txt', 'r') as original:
     data = original.read()
 with open('./kaldi/data/local/lang/lexicon.txt', 'w') as modified:
     modified.write("<oov> <oov>\n" + data)
+
 
 print(df2)
 

@@ -176,7 +176,7 @@ oz_syllable_mapping = {
     'v': ["vo", "vot", "voth", "vr", "vro"],
     'w': ["wr"],
     'y': ["yi"],
-    'z': ["zh"]
+    'z': ["zh", "zom"]
 }
 
 oz_phoneme_mapping = {
@@ -348,7 +348,7 @@ weight_mapping = {
     "v": [1, 2, 3, 2, 3],
     "w": [1],
     "y": [1],
-    "z": [2]
+    "z": [2, 1]
 }
 ####################################################
 #  letters don't appear in the wiki translations   #

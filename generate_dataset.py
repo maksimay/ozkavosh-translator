@@ -519,7 +519,7 @@ for lines in input_text:
     taco_training_wav_path = "LJ001-" + wav_exp_id
 
     file_id = wav_exp_id
-    wav_path = "~/gans/jannis/kaldi/egs/mycorpus/data/train" + speaker_id + '_' + file_id + ".wav"
+    wav_path = "/home/ki-lab/gans/jannis/kaldi/egs/mycorpus/data/train" + speaker_id + '_' + file_id + ".wav"
     utt_id = speaker_id + '_' + file_id
     utt_segment_start = silence_duration / 1000
     utt_segment_end = (len(full_sentence_audio) - silence_duration) / 1000
@@ -532,7 +532,7 @@ for lines in input_text:
     new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
     highpitch_sentence = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
     highpitch_sentence = highpitch_sentence.set_frame_rate(22050)
-    highpitch_sentence.export("./audio/audio_output" + utt_id + ".wav", format="wav")
+    highpitch_sentence.export("./kaldi/data/train" + utt_id + ".wav", format="wav")
 
     # update kaldi training df
     df2.loc[len(df2.index)] = [file_id, wav_path, speaker_id, utt_id, utt_segment_start, utt_segment_end, oz_transcription]
@@ -559,10 +559,10 @@ if os.path.exists("./taco/metadata_unclean.csv"):
 
 
 # text.txt # right now blank line at end of file
-np.savetxt(r'./kaldi/text.txt', df2[['utt_id', 'transcription']].values, fmt='%s')
+np.savetxt(r'./kaldi/data/train/text.txt', df2[['utt_id', 'transcription']].values, fmt='%s')
 
 # utt2spk # right now blank line at end of file
-np.savetxt(r'./kaldi/utt2spk.txt', df2[['utt_id', 'speaker_id']].values, fmt='%s')
+np.savetxt(r'./kaldi/data/train/utt2spk.txt', df2[['utt_id', 'speaker_id']].values, fmt='%s')
 
 # spk2utt
 # to do later:
@@ -579,22 +579,22 @@ for column in df2[['utt_id']]:
     utt_ids.append(str(columnSeriesObj.values))
 utt_ids = str(utt_ids).replace('[', '').replace(']', '').replace("'", '').replace('"', '')
 
-f = open('./kaldi/spk2utt.txt', 'w')
+f = open('./kaldi/data/train/spk2utt.txt', 'w')
 L = "001 " + utt_ids
 f.writelines(L)
 
-f = open('./kaldi/spk2utt.txt', 'r')
+f = open('./kaldi/data/train/spk2utt.txt', 'r')
 line = f.readlines()
 line = str(line).replace('\\n', '').replace("['", '').replace("']", '').replace('\\', '')
 
-f = open('./kaldi/spk2utt.txt', 'w')
+f = open('./data/train/kaldi/spk2utt.txt', 'w')
 f.writelines(line)
 
 # wav.scp
-np.savetxt(r'./kaldi/wav.scp', df2[['file_id', 'wav_path']].values, fmt='%s')
+np.savetxt(r'./data/train/kaldi/wav.scp', df2[['file_id', 'wav_path']].values, fmt='%s')
 
 # segments.txt utt_id file_id start_time end_time
-np.savetxt(r'./kaldi/segments.txt', df2[['utt_id', 'file_id', 'utt_seg_start', 'utt_seg_end']].values, fmt='%s')
+np.savetxt(r'./data/train/kaldi/segments.txt', df2[['utt_id', 'file_id', 'utt_seg_start', 'utt_seg_end']].values, fmt='%s')
 
 # silence_phones.txt
 f = open('./kaldi/data/local/lang/silence_phones.txt', 'w')

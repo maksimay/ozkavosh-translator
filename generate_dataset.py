@@ -420,7 +420,7 @@ for lines in tqdm(input_text):
                     combine_syllables()
                 else:
                     audioisvalid = False
-                    print("Sample not found in recombine loop")
+                    print("Sample", audio_name, "not found in recombine loop", audio_pathlist, "was pathlist", en_word, "is", oz_word)
             export_word()
             # make sure audio segment is empty for next word
             combined_audio = AudioSegment.empty()
@@ -612,7 +612,7 @@ f = open('./mycorpus/data/train/spk2utt', 'w')
 f.writelines(line)
 
 # wav.scp
-np.savetxt(r'./mycorpus/data/train/wav.scp', df2[['file_id', 'wav_path']].values, fmt='%s')
+np.savetxt(r'./mycorpus/data/train/wav.scp', df2[['file_id', 'kaldi_wav_path']].values, fmt='%s')
 
 # segments utt_id file_id start_time end_time
 np.savetxt(r'./mycorpus/data/train/segments', df2[['utt_id', 'file_id', 'utt_seg_start', 'utt_seg_end']].values, fmt='%s')

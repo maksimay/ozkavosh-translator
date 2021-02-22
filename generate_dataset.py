@@ -667,12 +667,12 @@ with open("./mycorpus/data/train/words.txt") as f:
                 lex.write(line + " " + pron+"\n")
         else:
             print("Word not in lexicon:" + line)
-
+'''
 with open('./mycorpus/data/local/lang/lexicon.txt', 'r') as original:
     data = original.read()
 with open('./mycorpus/data/local/lang/lexicon.txt', 'w') as modified:
     modified.write("OOV OOV\n" + "<unk> UNK\n" + data)
-
+'''
 print(df2)
 
 ####################################################################################

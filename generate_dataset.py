@@ -371,7 +371,7 @@ with open(oz_sample_file) as csvfile:
 word_temp_id = 0
 sentence_index = 0
 # do this in order to not overwrite previously created sentence audio
-path, dirs, files = next(os.walk("./audio/audio_output"))
+path, dirs, files = next(os.walk("./mycorpus/data/train/"))
 wav_count = len(files)
 print(wav_count, "is number of files")
 wav_export_id = wav_count

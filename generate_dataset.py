@@ -671,8 +671,7 @@ with open("./mycorpus/data/train/words.txt") as f:
 with open('./mycorpus/data/local/lang/lexicon.txt', 'r') as original:
     data = original.read()
 with open('./mycorpus/data/local/lang/lexicon.txt', 'w') as modified:
-    modified.write("<oov> <oov>\n" + data)
-
+    modified.write("'OOV' 'OOV'\n" + data)
 
 print(df2)
 

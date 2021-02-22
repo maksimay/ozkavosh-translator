@@ -550,8 +550,8 @@ for lines in tqdm(input_text):
     octaves = random.uniform(0.322, 0.666)
     new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
     highpitch_sentence = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
-    highpitch_sentence = highpitch_sentence.set_frame_rate(22050)
-    highpitch_sentence.export("./mycorpus/data/train/" + utt_id + ".wav", format="wav")
+    highpitch_sentence = highpitch_sentence.set_frame_rate(8000)
+    highpitch_sentence.export("./mycorpus/data/train/" + utt_id + ".wav", format="s16be")
 
     # update kaldi training df
     df2.loc[len(df2.index)] = [file_id, wav_path, speaker_id, utt_id, utt_seg_start, utt_seg_end, oz_transcription]

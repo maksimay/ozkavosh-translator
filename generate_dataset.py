@@ -620,7 +620,7 @@ np.savetxt(r'./mycorpus/data/train/segments', df2[['utt_id', 'file_id', 'utt_seg
 
 # silence_phones.txt
 f = open('./mycorpus/data/local/lang/silence_phones.txt', 'w')
-L = ["'SIL'\n", "'oov'"]
+L = ["SIL\n", "OOV", "UNK"]
 f.writelines(L)
 
 # nonsilence_phones.txt
@@ -635,7 +635,7 @@ np.savetxt(r'./mycorpus/data/local/lang/nonsilence_phones.txt', df5['nonsilence_
 
 # optional_silence.txt
 f = open('./mycorpus/data/local/lang/optional_silence.txt', 'w')
-L = ["'SIL'"]
+L = ["SIL"]
 f.writelines(L)
 
 # lexicon # right now blank line at end of file
@@ -671,7 +671,7 @@ with open("./mycorpus/data/train/words.txt") as f:
 with open('./mycorpus/data/local/lang/lexicon.txt', 'r') as original:
     data = original.read()
 with open('./mycorpus/data/local/lang/lexicon.txt', 'w') as modified:
-    modified.write("'OOV' 'OOV'\n" + data)
+    modified.write("OOV OOV\n" + "<unk> UNK\n" + data)
 
 print(df2)
 

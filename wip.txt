@@ -107,4 +107,9 @@ create audiolist_csv with glob.glob / remove this altogether =)
 -> fix index out of range bug randompick (file does not exist in folder)
 
 
-LEXICON RANDOM LINEBREAK ERROR?!
+LEXICON RANDOM LINEBREAK ERROR?! -> fixed by manually adding:
+OOV OOV
+<unk> UNK
+
+silence.txt & utt2spk files complaining about whitespace/newlines:
+open the file, add a newline, remove the change, re-save the file OKAYDOKAY

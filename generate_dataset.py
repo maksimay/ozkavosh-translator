@@ -373,7 +373,7 @@ sentence_index = 0
 # do this in order to not overwrite previously created sentence audio
 path, dirs, files = next(os.walk("./mycorpus/data/train/"))
 wav_count = len(files)
-print(wav_count, "is number of files")
+print(wav_count, "already existing audio files found in mycorpus/data/train")
 wav_export_id = wav_count
 oz_sentence = []
 
@@ -539,7 +539,7 @@ for lines in tqdm(input_text):
     taco_training_wav_path = "LJ001-" + wav_exp_id
 
     file_id = wav_exp_id
-    wav_path = "/home/ki-lab/gans/jannis/kaldi/egs/mycorpus/data/train" + speaker_id + '_' + file_id + ".wav"
+    wav_path = "/home/ki-lab/gans/jannis/kaldi/egs/mycorpus/data/train/" + speaker_id + '_' + file_id + ".wav"
     utt_id = speaker_id + '_' + file_id
     utt_seg_start = silence_duration / 1000
     utt_seg_end = (len(full_sentence_audio) - silence_duration) / 1000

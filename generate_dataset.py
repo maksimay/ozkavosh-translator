@@ -620,7 +620,7 @@ np.savetxt(r'./mycorpus/data/train/segments', df2[['utt_id', 'file_id', 'utt_seg
 
 # silence_phones.txt
 f = open('./mycorpus/data/local/lang/silence_phones.txt', 'w')
-L = ["SIL\n", "OOV", "UNK"]
+L = ["SIL\n", "OOV\n", "UNK"]
 f.writelines(L)
 
 # nonsilence_phones.txt

@@ -318,7 +318,8 @@ oz_phoneme_mapping = {
     'vro': ["V", "R", "AO"],
     'wr': ["W", "R"],
     'yi': ["Y", "IY"],
-    'zh': ["ZH"]
+    'zh': ["ZH"],
+    'zom': ["ZH", "UH", "M"]
 }
 
 # from future import nicht uniforme zufallsvariable hier

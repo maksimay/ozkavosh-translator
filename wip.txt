@@ -84,14 +84,16 @@ finish lexicon, finish phoneme mapping ✔
 add silence to start and end of utterance ✔
 AT SOME POINT: add stresses to phonemes, put similar phonemes on a single line for nonsilent phones list !!!
 
-text ✔
+text.txt ✔ -> words.txt ✔
+lexicon ✔ -> filter lexicon ?✔?
 segments ✔
 wav.scp ✔
 utt2spk ✔
 spk2utt ✔
-lexicon ✔
 nonsilence phones ✔
 silence phones ✔
+
+add <oov> to first line of dict ✔
 
 remove linebreak last line:
 
@@ -100,5 +102,7 @@ with open('data.dat', 'wb') as fout:  # Note 'wb' instead of 'w'
     np.savetxt(fout, model, delimiter=",", fmt='%.3f')
     fout.seek(NEWLINE_SIZE_IN_BYTES, 2)
     fout.truncate()
-    
+
 create audiolist_csv with glob.glob / remove this altogether =)
+-> fix index out of range bug randompick (file does not exist in folder)
+

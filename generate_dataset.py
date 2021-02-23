@@ -559,7 +559,7 @@ for lines in tqdm(input_text):
     highpitch_sentence.export("./taco/" "LJ" + speaker_id + "_" + utt_id + ".wav", format="s16be")
     # the path to be found on KI-LAB training machine for training kaldi acoustic model
     wav_path_kaldi = "/home/ki-lab/gans/jannis/kaldi/egs/mycorpus/data/train/" + speaker_id + '_' + utt_id + ".wav"
-    wav_path_taco = "LJ" + speaker_id + '_' + utt_id + ".wav"
+    wav_path_taco = "LJ" + speaker_id + '_' + utt_id
     # update kaldi training df
     df2.loc[len(df2.index)] = [file_id, wav_path_kaldi, speaker_id, utt_id, utt_seg_start, utt_seg_end, oz_transcription]
     # update taco training df

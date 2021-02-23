@@ -370,11 +370,13 @@ with open(oz_sample_file) as csvfile:
 
 word_temp_id = 0
 sentence_index = 0
+'''
 # do this in order to not overwrite previously created sentence audio
 path, dirs, files = next(os.walk("./mycorpus/data/train/"))
 wav_count = len(files)
 print(wav_count, "already existing audio files found in mycorpus/data/train")
-file_id = wav_count
+'''
+file_id = 0
 oz_sentence = []
 
 # init audio vars
@@ -516,7 +518,7 @@ for lines in tqdm(input_text):
     file_id_str = str(file_id)
     file_id_str = file_id_str.zfill(5)
 
-    # in order to not have a global speaker id, the file id aka utterance id is also the speaker id now
+    # in order to not have a global speaker id, the file id aka utt id is also the speaker id now -> 0001_0001 utt_spkr
     speaker_id = file_id_str
     transcription = lines
     transcription = transcription.rstrip('\n')
@@ -536,10 +538,12 @@ for lines in tqdm(input_text):
 
     taco_training_wav_path = "LJ001-" + file_id_str
 
-    wav_path = "/home/ki-lab/gans/jannis/kaldi/egs/mycorpus/data/train/" + file_id_str + '_' + file_id_str + ".wav"
     utt_id = file_id_str
     utt_seg_start = silence_duration / 1000
     utt_seg_end = (len(full_sentence_audio) - silence_duration) / 1000
+
+
+
 
     # random audio pitch then export
 
@@ -548,8 +552,9 @@ for lines in tqdm(input_text):
     new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
     highpitch_sentence = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
     highpitch_sentence = highpitch_sentence.set_frame_rate(8000)
-    highpitch_sentence.export("./mycorpus/data/train/" + utt_id + ".wav", format="wav")
-
+    highpitch_sentence.export("./mycorpus/data/train/" + utt_id + "_" + speaker_id + ".wav", format="wav")
+    # the path to be found on KI-LAB training machine for training kaldi acoustic model
+    wav_path = "/home/ki-lab/gans/jannis/kaldi/egs/mycorpus/data/train/" + utt_id + '_' + speaker_id + ".wav"
     # update kaldi training df
     df2.loc[len(df2.index)] = [file_id, wav_path, speaker_id, utt_id, utt_seg_start, utt_seg_end, oz_transcription]
     # update taco training df
@@ -560,6 +565,7 @@ df1.to_pickle('./dataframes/df_translation.pkl')
 df2.to_pickle('./dataframes/df_training_kaldi.pkl')
 df3.to_pickle('./dataframes/df_training_taco.pkl')
 df4.to_pickle('./dataframes/df_lexicon_kaldi.pkl')
+
 # metadata.csv
 compression_opts = dict(method='infer', archive_name='metadata.csv')
 df3.to_csv(r'./taco/metadata_unclean.csv', sep='|', index=False, compression=compression_opts)
@@ -579,12 +585,12 @@ np.savetxt(r'./mycorpus/data/train/text', df2[['utt_id', 'transcription']].value
 # words.txt
 np.savetxt(r'./mycorpus/data/train/words.txt', df4.oz_word.unique(), fmt='%s')
 
-
 # utt2spk # right now blank line at end of file
 np.savetxt(r'./mycorpus/data/train/utt2spk', df2[['utt_id', 'speaker_id']].values, fmt='%s')
 
-# spk2utt
-# to do later:
+# spk2utt # right now blank line at end of file
+np.savetxt(r'./mycorpus/data/train/spk2utt', df2[['speaker_id', 'utt_id']].values, fmt='%s')
+# !!! to do later:
 # make dictionary
 # iterate over items in df
 # count amount of unique speaker_ids
@@ -592,6 +598,7 @@ np.savetxt(r'./mycorpus/data/train/utt2spk', df2[['utt_id', 'speaker_id']].value
 # if it is, map that utt_id to the corresponding speaker id key in dict
 # write dict to file
 # but for now do this junk:
+'''
 utt_ids = []
 for column in df2[['utt_id']]:
     columnSeriesObj = df2[column]
@@ -608,7 +615,7 @@ line = str(line).replace('\\n', '').replace("['", '').replace("']", '').replace(
 
 f = open('./mycorpus/data/train/spk2utt', 'w')
 f.writelines(line)
-
+'''
 # wav.scp
 np.savetxt(r'./mycorpus/data/train/wav.scp', df2[['file_id', 'kaldi_wav_path']].values, fmt='%s')
 
@@ -639,9 +646,10 @@ f.writelines(L)
 df4 = df4.drop_duplicates()
 np.savetxt(r'./mycorpus/data/local/lang/lexicon', df4[['oz_word', 'phonemes']].values, fmt='%s')
 
+
+# create lexicon oz_word PH OU N EH M ES
 ref = dict()
 phones = dict()
-
 with open("./mycorpus/data/local/lang/lexicon") as f:
     for line in f:
         line = line.strip()
@@ -654,8 +662,9 @@ with open("./mycorpus/data/local/lang/lexicon") as f:
             ref[word] = list()
             ref[word].append(pron)
 
-lex = open("./mycorpus/data/local/lang/lexicon.txt", "w")
 
+# words from lexicon keys become words.txt
+lex = open("./mycorpus/data/local/lang/lexicon.txt", "w")
 with open("./mycorpus/data/train/words.txt") as f:
     for line in f:
         line = line.strip()
@@ -664,6 +673,8 @@ with open("./mycorpus/data/train/words.txt") as f:
                 lex.write(line + " " + pron+"\n")
         else:
             print("Word not in lexicon:" + line)
+
+# would be neat if this worked but it breaks the file when opening it on linux :(
 '''
 with open('./mycorpus/data/local/lang/lexicon.txt', 'r') as original:
     data = original.read()

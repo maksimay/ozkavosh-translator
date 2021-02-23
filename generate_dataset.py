@@ -552,9 +552,9 @@ for lines in tqdm(input_text):
     new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
     highpitch_sentence = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
     highpitch_sentence = highpitch_sentence.set_frame_rate(8000)
-    highpitch_sentence.export("./mycorpus/data/train/" + utt_id + "_" + speaker_id + ".wav", format="wav")
+    highpitch_sentence.export("./mycorpus/data/train/" + speaker_id + "_" + utt_id + ".wav", format="wav")
     # the path to be found on KI-LAB training machine for training kaldi acoustic model
-    wav_path = "/home/ki-lab/gans/jannis/kaldi/egs/mycorpus/data/train/" + utt_id + '_' + speaker_id + ".wav"
+    wav_path = "/home/ki-lab/gans/jannis/kaldi/egs/mycorpus/data/train/" + speaker_id + '_' + utt_id + ".wav"
     # update kaldi training df
     df2.loc[len(df2.index)] = [file_id, wav_path, speaker_id, utt_id, utt_seg_start, utt_seg_end, oz_transcription]
     # update taco training df

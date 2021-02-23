@@ -556,7 +556,7 @@ for lines in tqdm(input_text):
     # export kaldi
     # highpitch_sentence.export("./mycorpus/data/train/" + speaker_id + "_" + utt_id + ".wav", format="wav")
     # export taco
-    highpitch_sentence.export("./taco/" "LJ" + speaker_id + "_" + utt_id + ".wav", format="wav")
+    highpitch_sentence.export("./taco/" "LJ" + speaker_id + "_" + utt_id + ".wav", format="s16be")
     # the path to be found on KI-LAB training machine for training kaldi acoustic model
     wav_path_kaldi = "/home/ki-lab/gans/jannis/kaldi/egs/mycorpus/data/train/" + speaker_id + '_' + utt_id + ".wav"
     wav_path_taco = "LJ" + speaker_id + '_' + utt_id + ".wav"

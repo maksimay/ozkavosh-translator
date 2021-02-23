@@ -9,7 +9,7 @@ CUDA_VISIBLE_DEVICES=0,1 python examples/tacotron2/train_tacotron2.py \
   --mixed_precision 0 \
   --resume ""
 
-
+tensorflow-tts-preprocess --rootdir ./ljspeech --outdir ./dump_ljspeech --config preprocess/ljspeech_preprocess.yaml --dataset ljspeech
 
 
 ####### YAML PREPROCESS -> 22050

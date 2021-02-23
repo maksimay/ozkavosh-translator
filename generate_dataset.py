@@ -551,14 +551,19 @@ for lines in tqdm(input_text):
     octaves = random.uniform(0.322, 0.666)
     new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
     highpitch_sentence = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
-    highpitch_sentence = highpitch_sentence.set_frame_rate(8000)
-    highpitch_sentence.export("./mycorpus/data/train/" + speaker_id + "_" + utt_id + ".wav", format="wav")
+    highpitch_sentence = highpitch_sentence.set_frame_rate(22050)
+
+    # export kaldi
+    # highpitch_sentence.export("./mycorpus/data/train/" + speaker_id + "_" + utt_id + ".wav", format="wav")
+    # export taco
+    highpitch_sentence.export("./taco/" "LJ" + speaker_id + "_" + utt_id + ".wav", format="wav")
     # the path to be found on KI-LAB training machine for training kaldi acoustic model
-    wav_path = "/home/ki-lab/gans/jannis/kaldi/egs/mycorpus/data/train/" + speaker_id + '_' + utt_id + ".wav"
+    wav_path_kaldi = "/home/ki-lab/gans/jannis/kaldi/egs/mycorpus/data/train/" + speaker_id + '_' + utt_id + ".wav"
+    wav_path_taco = "LJ" + speaker_id + '_' + utt_id + ".wav"
     # update kaldi training df
-    df2.loc[len(df2.index)] = [file_id, wav_path, speaker_id, utt_id, utt_seg_start, utt_seg_end, oz_transcription]
+    df2.loc[len(df2.index)] = [file_id, wav_path_kaldi, speaker_id, utt_id, utt_seg_start, utt_seg_end, oz_transcription]
     # update taco training df
-    df3.loc[len(df3.index)] = [wav_path, oz_transcription, norm_oz_transcription]
+    df3.loc[len(df3.index)] = [wav_path_taco, oz_transcription, norm_oz_transcription]
 
 # save the dataframes
 df1.to_pickle('./dataframes/df_translation.pkl')

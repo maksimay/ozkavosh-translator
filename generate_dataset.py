@@ -94,7 +94,7 @@ def combine_all_sentences():
     global torch_training_audio
     torch_training_audio = AudioSegment.empty()
     silence = AudioSegment.silent(duration=999)
-    for filename in glob.glob('./audio/audio_output/'+'*.wav'):
+    for filename in glob.glob('./mycorpus/data/train/'+'*.wav'):
         sentence_audio = AudioSegment.from_wav(filename)
         torch_training_audio += sentence_audio + silence
 
@@ -374,7 +374,7 @@ sentence_index = 0
 path, dirs, files = next(os.walk("./mycorpus/data/train/"))
 wav_count = len(files)
 print(wav_count, "already existing audio files found in mycorpus/data/train")
-wav_export_id = wav_count
+file_id = wav_count
 oz_sentence = []
 
 # init audio vars
@@ -512,14 +512,12 @@ for lines in tqdm(input_text):
     sentence_index = 0
     # update counters and create clean sentence transcription for kaldi
 
-    speaker_id = 1
-    speaker_id = str(speaker_id)
-    speaker_id = speaker_id.zfill(3)
+    file_id += 1
+    file_id_str = str(file_id)
+    file_id_str = file_id_str.zfill(5)
 
-    wav_export_id += 1
-    wav_exp_id = str(wav_export_id)
-    wav_exp_id = wav_exp_id.zfill(5)
-
+    # in order to not have a global speaker id, the file id aka utterance id is also the speaker id now
+    speaker_id = file_id_str
     transcription = lines
     transcription = transcription.rstrip('\n')
 
@@ -536,11 +534,10 @@ for lines in tqdm(input_text):
     norm_transcription = lines
     norm_transcription = norm_transcription.rstrip('\n')
 
-    taco_training_wav_path = "LJ001-" + wav_exp_id
+    taco_training_wav_path = "LJ001-" + file_id_str
 
-    file_id = wav_exp_id
-    wav_path = "/home/ki-lab/gans/jannis/kaldi/egs/mycorpus/data/train/" + speaker_id + '_' + file_id + ".wav"
-    utt_id = speaker_id + '_' + file_id
+    wav_path = "/home/ki-lab/gans/jannis/kaldi/egs/mycorpus/data/train/" + file_id_str + '_' + file_id_str + ".wav"
+    utt_id = file_id_str
     utt_seg_start = silence_duration / 1000
     utt_seg_end = (len(full_sentence_audio) - silence_duration) / 1000
 

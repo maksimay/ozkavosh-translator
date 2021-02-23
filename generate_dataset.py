@@ -573,15 +573,15 @@ df4.to_pickle('./dataframes/df_lexicon_kaldi.pkl')
 
 # metadata.csv
 compression_opts = dict(method='infer', archive_name='metadata.csv')
-df3.to_csv(r'./taco/metadata_unclean.csv', sep='|', index=False, compression=compression_opts)
+df3.to_csv(r'./metadata_unclean.csv', sep='|', index=False, compression=compression_opts)
 
-with open("./taco/metadata_unclean.csv", 'r') as f:
-    with open("./taco/metadata.csv", 'w') as f1:
+with open("./metadata_unclean.csv", 'r') as f:
+    with open("./metadata.csv", 'w') as f1:
         next(f)
         for line in f:
             f1.write(line)
-if os.path.exists("./taco/metadata_unclean.csv"):
-    os.remove("./taco/metadata_unclean.csv")
+if os.path.exists("./metadata_unclean.csv"):
+    os.remove("./metadata_unclean.csv")
 
 
 # text # right now blank line at end of file

@@ -108,7 +108,7 @@ DictWikiSylls = {
             "hollom": ["hol", "lom"],
             "tak": ["tak"],
             "wroth": ["wr", "oth"],
-            "lash": ["lash"],
+            "lash": ["lo", "sh"],
             "alatho": ["al", "ah", "tho"],
             "ulatho": ["ul", "ah", "tho"],
             "tho": ["tho"],

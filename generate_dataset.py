@@ -16,7 +16,6 @@ def detect_silence(sound, silence_threshold=-70.0, chunk_size=10):
     # chunk_size in ms
     # iterate over chunks until you find the first one with sound
     trim_ms = 0
-    # to avoid infinite loop
     assert chunk_size > 0
     while sound[trim_ms:trim_ms + chunk_size].dBFS < silence_threshold and trim_ms < len(sound):
         trim_ms += chunk_size
@@ -47,13 +46,10 @@ def combine_syllables():
         octaves = random.uniform(0.123, 0.322)
     else:
         octaves = random.uniform(-0.322, 0)
-
-
     newaudio = src_audio
     new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
     highpitch_sound = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
     src_audio = highpitch_sound
-
     # print("Trimming Audiofiles..")
     duration = len(src_audio)
     start_trim = detect_silence(src_audio)
@@ -94,16 +90,6 @@ def combine_sentence():
         word_audio = match_target_amplitude(word_audio, -20.0)
         full_sentence_audio += word_audio + silence
     full_sentence_audio = silence + full_sentence_audio
-
-
-def combine_all_sentences():
-    global sentence_audio
-    global torch_training_audio
-    torch_training_audio = AudioSegment.empty()
-    silence = AudioSegment.silent(duration=999)
-    for filename in glob.glob('./mycorpus/data/train/'+'*.wav'):
-        sentence_audio = AudioSegment.from_wav(filename)
-        torch_training_audio += sentence_audio + silence
 
 
 def delete_tempwords():
@@ -405,11 +391,6 @@ for lines in tqdm(input_text):
     a = classifier(lines)
     result = a[0]
     label_sentence = result['label']
-    if label_sentence == "POSITIVE":
-        print(":)")
-    else:
-        print("x(")
-    # print(sentence)
     for en_word in sentence:
         en_word = [character for character in str.lower(en_word) if character.isalnum()]
         en_word = "".join(en_word)
@@ -566,9 +547,6 @@ for lines in tqdm(input_text):
     utt_seg_start = silence_duration / 1000
     utt_seg_end = (len(full_sentence_audio) - silence_duration) / 1000
 
-
-
-
     # random audio pitch then export
     if label_sentence == "POSITIVE":
         octaves_min = random.uniform(0.069, 0.123)
@@ -704,11 +682,3 @@ with open('./mycorpus/data/local/lang/lexicon.txt', 'w') as modified:
     modified.write("OOV OOV\n" + "<unk> UNK\n" + data)
 '''
 # print(df2)
-
-####################################################################################
-# T O R C H R N N / \ / \ / \ / \ U N U S E D / \ / \ / \ / \ / \ / \ / \ / \ / \ / \
-######################################################################################
-# combine_all_sentences()
-# torch_export = torch_training_audio.set_frame_rate(11025)
-# torch_export.export("./audio/audio_output/" + "torch" + ".wav", format="wav")
-####################################################################################

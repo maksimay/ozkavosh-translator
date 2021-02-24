@@ -85,10 +85,13 @@ DictWikiSyns = {
                 "sol": ["hope", "light", "brightness", "sun", "fire"],
                 "sovoz": ["sandwich", "snack"],
                 }
+
+# bugs be here!
+
 DictWikiSylls = {
             "ozh": ["ozh"],
             "izh": ["izh"],
-            "izhai": ["izhai"],
+            "izhai": ["izh", "ha", "yi"],
             "ozkavosh": ["ozh", "ka", "vo", "sh"],
             "sa": ["sa"],
             "vu": ["vu"],
@@ -98,7 +101,7 @@ DictWikiSylls = {
             "ahm": ["ahm"],
             "ashm": ["ash", "hm"],
             "vo": ["vo"],
-            "vom": ["vom"],
+            "vom": ["vo", "hm"],
             "acha": ["ach", "ah"],
             "icha": ["ich", "ah"],
             "ucha": ["uch", "ah"],
@@ -124,20 +127,20 @@ DictWikiSylls = {
             "gluth": ["gl", "uth"],
             "omoz": ["om", "oz"],
             "nesh": ["ne", "sh"],
-            "safras": ["safras"],
+            "safras": ["sav", "ro", "zh"],
             "poz": ["po", "oz"],
             "irush": ["iru", "sh"],
             "groth": ["gr", "oth"],
-            "greesh": ["greesh"],
-            "lieyev": ["lieyev"],
-            "chron": ["chron"],
-            "rast": ["rast"],
+            "greesh": ["gr", "izh"],
+            "lieyev": ["lo", "ey", "ov"],
+            "chron": ["uch", "ro", "ne"],
+            "rast": ["gr", "as", "th"],
             "miskath": ["mi", "is", "kath"],
-            "fol": ["fol"],
+            "fol": ["fo", "hol"],
             "ensh": ["en", "sh"],
             "ov": ["ov"],
             "sav": ["sav"],
-            "kish": ["kish"],
+            "kish": ["ka", "sh"],
             "sol": ["sol"],
             "sovoz": ["so", "vo", "oz"]
             }

@@ -44,11 +44,10 @@ def combine_syllables():
     src_audio = AudioSegment.from_wav(randompick)
     src_audio = match_target_amplitude(src_audio, -30.0)
     if label_word == "POSITIVE":
-        print("syll :)")
         octaves = random.uniform(0.123, 0.322)
     else:
         octaves = random.uniform(-0.322, 0)
-        print("x(")
+
 
     newaudio = src_audio
     new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
@@ -402,7 +401,7 @@ input_text = f.readlines()
 for lines in tqdm(input_text):
     lines = lines.lower()
     sentence = lines.split()
-    print(lines)
+    # print(lines)
     a = classifier(lines)
     result = a[0]
     label_sentence = result['label']
@@ -493,7 +492,6 @@ for lines in tqdm(input_text):
             for chars in start_chars:
                 char_map = oz_syllable_mapping.get(chars)
                 weights_map = weight_mapping.get(chars)
-                print(chars)
                 oz_syllable_pick = str(random.choices(population=char_map, weights=weights_map, k=1))
                 # create clean string for syllable list
                 oz_syllable_pick = str(re.sub(r'\W+', '', oz_syllable_pick))
@@ -573,13 +571,11 @@ for lines in tqdm(input_text):
 
     # random audio pitch then export
     if label_sentence == "POSITIVE":
-        print(":)")
         octaves_min = random.uniform(0.069, 0.123)
         octaves_max = random.uniform(0.123, 0.322)
     else:
         octaves_min = random.uniform(-0.321, 0.0322)
         octaves_max = random.uniform(0.1, 0.123)
-        print("x(")
     silence_duration = 100
     silence_export = AudioSegment.silent(duration=silence_duration)
     newaudio = full_sentence_audio.set_frame_rate(48000)

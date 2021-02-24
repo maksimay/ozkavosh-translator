@@ -9,7 +9,7 @@ import re
 from hyphenate import hyphenate_word
 from pydub import AudioSegment
 from tqdm import tqdm
-
+from transformers import pipeline
 
 def detect_silence(sound, silence_threshold=-70.0, chunk_size=10):
     # silence_threshold in dB
@@ -43,7 +43,13 @@ def combine_syllables():
     global combined_audio
     src_audio = AudioSegment.from_wav(randompick)
     src_audio = match_target_amplitude(src_audio, -30.0)
-    octaves = random.uniform(0, 0.123)
+    if label_word == "POSITIVE":
+        print("syll :)")
+        octaves = random.uniform(0.123, 0.322)
+    else:
+        octaves = random.uniform(-0.322, 0)
+        print("x(")
+
     newaudio = src_audio
     new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
     highpitch_sound = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
@@ -55,9 +61,11 @@ def combine_syllables():
     end_trim = detect_silence(src_audio.reverse())
     trimmed_audio = src_audio[start_trim:duration - end_trim]
     trim_dur = len(trimmed_audio)
-    end_offset = trim_dur * 0.5
+    end_offset = trim_dur * 0.420
+    offset_in = int(end_offset / 1.322)
+    offset_out = int(end_offset / 3)
     end = trimmed_audio[-end_offset:]
-    combined_audio += trimmed_audio.append(end, crossfade=(end_offset-1))
+    combined_audio += trimmed_audio.append(end, crossfade=(end_offset-1)).fade_in(offset_in).fade_out(offset_out)
 
 
 def export_word():
@@ -80,7 +88,7 @@ def combine_sentence():
     global full_sentence_audio
     global silence_duration
     full_sentence_audio = AudioSegment.empty()
-    silence_duration = random.randrange(123, 321)
+    silence_duration = random.randrange(100, 123)
     silence = AudioSegment.silent(duration=silence_duration)
     for filename in glob.glob('./audio/TEMP/'+'*.wav'):
         word_audio = AudioSegment.from_wav(filename)
@@ -154,9 +162,9 @@ df5 = pd.read_pickle('./dataframes/nonsilence_phones.pkl')
 #               alphabet : oz_sylls                #
 ####################################################
 oz_syllable_mapping = {
-    'a': ["ac", "ach", "ah", "ahm", "al", "ar", "as", "ash", "ath", "atho"],  # 10
+    'a': ["ac", "ach", "ah", "ahm", "al", "ar", "ark", "as", "ash", "ath", "atho"],  # 11
     'c': ["ch", "cha"],
-    'd': ["do", "dom"],
+    'd': ["do", "dom", "doq", "doz"],
     'e': ["ek", "en", "ey"],
     'f': ["fa", "fe", "fek", "fi", "fo"],
     'g': ["gl", "glu", "gr", "gro"],
@@ -166,14 +174,14 @@ oz_syllable_mapping = {
     'l': ["lo", "lof", "lom"],
     'm': ["mi", "mis", "mo", "moz"],
     'n': ["ne", "ni", "ns"],
-    'o': ["of", "ok", "ol", "om", "omf", "omo", "oq", "osh", "oth", "ov", "oz", "ozh"],  # 12
+    'o': ["of", "ok", "ol", "om", "omf", "omo", "oq", "os", "osh", "oth", "ov", "oz", "ozh"],  # 13
     'p': ["po", "pr", "pz"],
     'q': ["oq", "ok"],
-    'r': ["ro", "ros", "rush"],
-    's': ["se", "sek", "sh", "shk", "so", "sof", "sol", "sov"],
+    'r': ["ro", "ros", "roq"],
+    's': ["sa", "sav", "se", "sek", "ses", "sh", "shk", "so", "sof", "sol", "sov"],
     't': ["ta", "tak", "th", "tho"],
-    'u': ["uch", "uth", "ul"],
-    'v': ["vo", "vot", "voth", "vr", "vro"],
+    'u': ["uch", "ul", "uth"],
+    'v': ["vo", "voz", "vr", "vro", "vu"],
     'w': ["wr"],
     'y': ["yi"],
     'z': ["zh", "zom"]
@@ -327,9 +335,9 @@ oz_phoneme_mapping = {
 #    (alphabet:oz_sylls) : rand pick probability   #
 ####################################################
 weight_mapping = {
-    "a": [1, 2, 1, 2, 2, 2, 2, 3, 2, 2],  # 9
+    "a": [1, 2, 1, 2, 2, 2, 2, 3, 2, 2, 2, 2],  # 9
     "c": [1, 2],
-    "d": [1, 2],
+    "d": [1, 2, 2, 1],
     "e": [2, 3, 2],
     "f": [1, 2, 2, 3, 2],
     "g": [3, 2, 2, 2],
@@ -339,11 +347,11 @@ weight_mapping = {
     "l": [1, 2, 2],
     "m": [1, 1, 1, 2],
     "n": [2, 2, 1],
-    "o": [2, 2, 3, 3, 2, 2, 2, 1, 2, 3, 3, 2],  # 12
+    "o": [2, 2, 3, 3, 2, 2, 2, 1, 2, 3, 3, 2],  # 13
     "p": [1, 2, 2],
     "q": [1, 2],
     "r": [1, 2, 2],
-    "s": [1, 2, 3, 3, 3, 3, 3, 3],
+    "s": [1, 2, 3, 3, 3, 3, 3, 3, 2, 2, 2],
     "t": [1, 2, 2, 1],
     "u": [1, 2, 2],
     "v": [1, 2, 3, 2, 3],
@@ -383,16 +391,31 @@ oz_sentence = []
 # combined_word_audio = AudioSegment.empty()
 combined_audio = AudioSegment.empty()
 
+
+classifier = pipeline('sentiment-analysis')
+
 f = open('input_text.txt', 'r')
 input_text = f.readlines()
 # tqdm = progressbar
 for lines in tqdm(input_text):
     lines = lines.lower()
     sentence = lines.split()
+    print(lines)
+    a = classifier(lines)
+    result = a[0]
+    label_sentence = result['label']
+    if label_sentence == "POSITIVE":
+        print(":)")
+    else:
+        print("x(")
     # print(sentence)
     for en_word in sentence:
         en_word = [character for character in str.lower(en_word) if character.isalnum()]
         en_word = "".join(en_word)
+        b = classifier(en_word)
+        result = b[0]
+        label_word = result['label']
+
         # if translation dataframe column english already contains an exact equal match of the word
         if df1['english'].eq(en_word).any():
             # get the stored syllables
@@ -546,14 +569,26 @@ for lines in tqdm(input_text):
 
 
     # random audio pitch then export
-
+    if label_sentence == "POSITIVE":
+        print(":)")
+        octaves_min = random.uniform(0.069, 0.123)
+        octaves_max = random.uniform(0.123, 0.322)
+    else:
+        octaves_min = random.uniform(-0.321, 0.0322)
+        octaves_max = random.uniform(0.1, 0.123)
+        print("x(")
+    silence_duration = 100
+    silence_export = AudioSegment.silent(duration=silence_duration)
     newaudio = full_sentence_audio.set_frame_rate(48000)
-    octaves = random.uniform(0.322, 0.666)
+    octaves = random.uniform(octaves_min, octaves_max)
     new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
     highpitch_sentence = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
     highpitch_sentence = highpitch_sentence.set_frame_rate(22050)
     highpitch_sentence = highpitch_sentence.set_channels(1)
+    highpitch_sentence = silence_export + highpitch_sentence + silence_export
+
     # export kaldi
+
     # highpitch_sentence.export("./mycorpus/data/train/" + speaker_id + "_" + utt_id + ".wav", format="wav")
     # export taco
     highpitch_sentence.export("./taco/" "LJ" + speaker_id + "_" + utt_id + ".wav", format="wav")
@@ -595,32 +630,15 @@ np.savetxt(r'./mycorpus/data/train/utt2spk', df2[['utt_id', 'speaker_id']].value
 
 # spk2utt # right now blank line at end of file
 np.savetxt(r'./mycorpus/data/train/spk2utt', df2[['speaker_id', 'utt_id']].values, fmt='%s')
-# !!! to do later:
+# maybe do this later:
 # make dictionary
 # iterate over items in df
 # count amount of unique speaker_ids
 # check if speaker_id is in last 3 characters of utt_id
 # if it is, map that utt_id to the corresponding speaker id key in dict
 # write dict to file
-# but for now do this junk:
-'''
-utt_ids = []
-for column in df2[['utt_id']]:
-    columnSeriesObj = df2[column]
-    utt_ids.append(str(columnSeriesObj.values))
-utt_ids = str(utt_ids).replace('[', '').replace(']', '').replace("'", '').replace('"', '')
+# but for now do this:
 
-f = open('./mycorpus/data/train/spk2utt', 'w')
-L = "001 " + utt_ids
-f.writelines(L)
-
-f = open('./mycorpus/data/train/spk2utt', 'r')
-line = f.readlines()
-line = str(line).replace('\\n', '').replace("['", '').replace("']", '').replace('\\', '')
-
-f = open('./mycorpus/data/train/spk2utt', 'w')
-f.writelines(line)
-'''
 # wav.scp
 np.savetxt(r'./mycorpus/data/train/wav.scp', df2[['file_id', 'kaldi_wav_path']].values, fmt='%s')
 
@@ -686,7 +704,7 @@ with open('./mycorpus/data/local/lang/lexicon.txt', 'r') as original:
 with open('./mycorpus/data/local/lang/lexicon.txt', 'w') as modified:
     modified.write("OOV OOV\n" + "<unk> UNK\n" + data)
 '''
-print(df2)
+# print(df2)
 
 ####################################################################################
 # T O R C H R N N / \ / \ / \ / \ U N U S E D / \ / \ / \ / \ / \ / \ / \ / \ / \ / \

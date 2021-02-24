@@ -187,6 +187,32 @@ oz_syllable_mapping = {
     'z': ["zh", "zom"]
 }
 
+weight_mapping = {
+    "a": [1, 2, 1, 2, 2, 2, 2, 3, 2, 2, 2],  # 11
+    "c": [1, 2],
+    "d": [1, 2, 2, 1],
+    "e": [2, 3, 2],
+    "f": [1, 2, 2, 3, 2],
+    "g": [3, 2, 2, 2],
+    "h": [1, 2, 2, 2, 2, 1, 2, 2],  # 8
+    "i": [2, 3, 3, 2, 2, 3, 2],
+    "k": [1, 2, 2, 1],
+    "l": [1, 2, 2],
+    "m": [1, 1, 1, 2],
+    "n": [2, 2, 1],
+    "o": [2, 2, 3, 3, 2, 2, 2, 1, 2, 3, 3, 2, 2],  # 13
+    "p": [1, 2, 2],
+    "q": [1, 2],
+    "r": [1, 2, 2],
+    "s": [1, 2, 3, 3, 3, 3, 3, 3, 2, 2, 2],  # 11
+    "t": [1, 2, 2, 1],
+    "u": [1, 2, 2],
+    "v": [1, 2, 3, 2, 3],
+    "w": [1],
+    "y": [1],
+    "z": [2, 1]
+}
+
 oz_phoneme_mapping = {
     'izhai': ["IY", "ZH", "AA", "Y"],
     'ozkavosh': ["UH", "ZH", "K", "AA", "V", "UH", "SH"],
@@ -334,31 +360,7 @@ oz_phoneme_mapping = {
 ####################################################
 #    (alphabet:oz_sylls) : rand pick probability   #
 ####################################################
-weight_mapping = {
-    "a": [1, 2, 1, 2, 2, 2, 2, 3, 2, 2, 2, 2],  # 9
-    "c": [1, 2],
-    "d": [1, 2, 2, 1],
-    "e": [2, 3, 2],
-    "f": [1, 2, 2, 3, 2],
-    "g": [3, 2, 2, 2],
-    "h": [1, 2, 2, 2, 2, 1, 2, 2],  # 8
-    "i": [2, 3, 3, 2, 2, 3, 2],
-    "k": [1, 2, 2, 1],
-    "l": [1, 2, 2],
-    "m": [1, 1, 1, 2],
-    "n": [2, 2, 1],
-    "o": [2, 2, 3, 3, 2, 2, 2, 1, 2, 3, 3, 2],  # 13
-    "p": [1, 2, 2],
-    "q": [1, 2],
-    "r": [1, 2, 2],
-    "s": [1, 2, 3, 3, 3, 3, 3, 3, 2, 2, 2],
-    "t": [1, 2, 2, 1],
-    "u": [1, 2, 2],
-    "v": [1, 2, 3, 2, 3],
-    "w": [1],
-    "y": [1],
-    "z": [2, 1]
-}
+
 ####################################################
 #  letters don't appear in the wiki translations   #
 ####################################################
@@ -491,6 +493,7 @@ for lines in tqdm(input_text):
             for chars in start_chars:
                 char_map = oz_syllable_mapping.get(chars)
                 weights_map = weight_mapping.get(chars)
+                print(chars)
                 oz_syllable_pick = str(random.choices(population=char_map, weights=weights_map, k=1))
                 # create clean string for syllable list
                 oz_syllable_pick = str(re.sub(r'\W+', '', oz_syllable_pick))

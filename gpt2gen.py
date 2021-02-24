@@ -2,10 +2,9 @@ from transformers import pipeline
 '''
 # Allocate a pipeline for sentiment-analysis
 classifier = pipeline('sentiment-analysis')
-a = classifier('To Bogeys darkling crypt')
-print(a)
+result = classifier('To Bogeys darkling crypt')
+print(result)
 
-result = a
 index = result[0]
 dict = index
 score = dict['score']

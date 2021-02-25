@@ -532,7 +532,7 @@ for lines in tqdm(input_text):
     oz_sentence = separator.join(oz_sentence)
     oz_transcription = str(oz_sentence)
     oz_transcription = oz_transcription.replace(',', '')
-
+    print(oz_sentence)
     oz_sentence = []
     delete_tempwords()
 
@@ -561,11 +561,9 @@ for lines in tqdm(input_text):
     new_sample_rate = int(newaudio.frame_rate * (1.5 ** octaves))
     highpitch_sentence = newaudio._spawn(newaudio.raw_data, overrides={'frame_rate': new_sample_rate})
     highpitch_sentence = highpitch_sentence.set_frame_rate(22050)
-    highpitch_sentence = highpitch_sentence.set_channels(1)
     highpitch_sentence = silence_export + highpitch_sentence + silence_export
-
+    highpitch_sentence = highpitch_sentence.set_channels(1)
     # export kaldi
-
     # highpitch_sentence.export("./mycorpus/data/train/" + speaker_id + "_" + utt_id + ".wav", format="wav")
     # export taco
     highpitch_sentence.export("./taco/" "LJ" + speaker_id + "_" + utt_id + ".wav", format="wav")
